@@ -38,6 +38,168 @@ const allControlSignals = [
   "regWriteSignal"
 ];
 
+const signalNamesByHotspot = {
+  regDstSignal: ["RegDst"],
+  branchSignal: ["Branch", "Branch/BNE"],
+  memReadSignal: ["MemRead"],
+  memToRegSignal: ["MemtoReg"],
+  aluOpSignal: ["ALUOp"],
+  memWriteSignal: ["MemWrite"],
+  aluSrcSignal: ["ALUSrc"],
+  regWriteSignal: ["RegWrite"],
+  pcSrcSignal: ["PCSrc"],
+  zeroSignal: ["Zero"]
+};
+
+const diagramElements = {
+  pc: {
+    name: "PC",
+    role: "Registro",
+    description: "Mantiene l'indirizzo dell'istruzione corrente e riceve il prossimo indirizzo.",
+    signals: ["PCSrc", "Next PC"],
+    valueIncludes: ["PC =", "PC <-", "Next PC"]
+  },
+  instructionMemory: {
+    name: "Memoria istruzioni",
+    role: "Memoria",
+    description: "Legge la parola istruzione indirizzata dal PC.",
+    valueIncludes: ["Instr =", "opcode =", "rs =", "rt =", "rd =", "imm =", "vett =", "loop offset"]
+  },
+  pcAdder: {
+    name: "Addizionatore PC+4",
+    role: "Addizionatore",
+    description: "Calcola l'indirizzo sequenziale dell'istruzione successiva.",
+    signals: ["Next PC"],
+    valueIncludes: ["PC + 4"]
+  },
+  pcSrcMux: {
+    name: "Mux PCSrc",
+    role: "Multiplexer",
+    description: "Sceglie tra PC+4 e il target di branch.",
+    signals: ["PCSrc", "Next PC"],
+    valueIncludes: ["PCSrc", "PC <-", "Target loop"]
+  },
+  controlUnit: {
+    name: "Control unit",
+    role: "Controllo",
+    description: "Decodifica l'opcode e genera i segnali che abilitano mux, memorie e registri.",
+    signals: "all",
+    valueIncludes: ["opcode ="]
+  },
+  registers: {
+    name: "Banco registri",
+    role: "Registro file",
+    description: "Legge gli operandi sorgente e, quando RegWrite e attivo, scrive il risultato.",
+    signals: ["RegWrite", "WriteRegister", "WriteData"],
+    valueIncludes: ["Read1", "Read2", "Base =", "Dato store", "WriteData", "WriteReg", "R1 <-", "R1 e R2"]
+  },
+  regDstMux: {
+    name: "Mux RegDst",
+    role: "Multiplexer",
+    description: "Sceglie quale campo dell'istruzione diventa il registro destinazione.",
+    signals: ["RegDst", "WriteRegister"],
+    valueIncludes: ["RegDst", "WriteReg"]
+  },
+  signExtend: {
+    name: "Sign extend",
+    role: "Estensione",
+    description: "Estende il campo immediato a 64 bit mantenendo il segno.",
+    valueIncludes: ["imm =", "vett =", "loop offset", "SignExt"]
+  },
+  aluSrcMux: {
+    name: "Mux ALUSrc",
+    role: "Multiplexer",
+    description: "Sceglie il secondo ingresso della ALU: registro letto oppure immediato esteso.",
+    signals: ["ALUSrc"],
+    valueIncludes: ["ALUSrc"]
+  },
+  aluControl: {
+    name: "ALU control",
+    role: "Controllo",
+    description: "Traduce ALUOp e funct nella operazione eseguita dalla ALU.",
+    signals: ["ALUOp", "ALUCtrl"],
+    valueIncludes: ["funct =", "ALUCtrl"]
+  },
+  alu: {
+    name: "ALU",
+    role: "Unita aritmetico-logica",
+    description: "Esegue somma, sottrazione o confronto in base al controllo ALU.",
+    signals: ["ALUCtrl", "Zero", "Effective address"],
+    valueIncludes: ["0x...", "Risultato", "Indirizzo", "R1 - R2", "Zero"]
+  },
+  dataMemory: {
+    name: "Memoria dati",
+    role: "Memoria",
+    description: "Legge o scrive dati quando MemRead o MemWrite sono abilitati.",
+    signals: ["MemRead", "MemWrite", "Memory data", "Mem[0x1020]"],
+    valueIncludes: ["MemRead", "MemWrite", "Dato letto", "Dato scritto", "Indirizzo", "Mem["]
+  },
+  memToRegMux: {
+    name: "Mux MemtoReg",
+    role: "Multiplexer",
+    description: "Sceglie il dato da riportare al banco registri: risultato ALU o dato di memoria.",
+    signals: ["MemtoReg", "WriteData"],
+    valueIncludes: ["MemtoReg", "WriteData"]
+  },
+  branchAdder: {
+    name: "Addizionatore branch",
+    role: "Addizionatore",
+    description: "Somma PC+4 con l'offset di branch gia shiftato.",
+    signals: ["Target"],
+    valueIncludes: ["offset<<2", "Target loop"]
+  },
+  shiftLeft: {
+    name: "Shift left 2",
+    role: "Shift",
+    description: "Shift dell'offset di branch per ottenere uno spiazzamento in byte.",
+    valueIncludes: ["offset<<2"]
+  },
+  branchAnd: {
+    name: "Logica branch",
+    role: "Controllo",
+    description: "Combina il controllo di branch con Zero per decidere se cambiare il PC.",
+    signals: ["Branch", "Branch/BNE", "Zero", "PCSrc"],
+    valueIncludes: ["BNECtrl", "Zero", "PCSrc"]
+  }
+};
+
+const wireNames = {
+  pcToInstructionMemory: "PC -> memoria istruzioni",
+  pcToAdder: "PC -> addizionatore PC+4",
+  adderToPcMux: "PC+4 -> mux PCSrc",
+  pcMuxToPc: "Mux PCSrc -> PC",
+  instructionToFields: "Istruzione -> campi",
+  rsToRegisters: "rs -> banco registri",
+  rtToRegisters: "rt -> banco registri",
+  rtToRegDstMux: "rt -> mux RegDst",
+  rdToRegDstMux: "rd -> mux RegDst",
+  regDstToWriteRegister: "Mux RegDst -> WriteRegister",
+  functToAluControl: "funct -> ALU control",
+  immediateToSignExtend: "immediato -> sign extend",
+  signExtendToAluSrc: "sign extend -> mux ALUSrc",
+  signExtendToShift: "sign extend -> shift left 2",
+  shiftToBranchAdder: "shift left 2 -> addizionatore branch",
+  pcPlus4ToBranchAdder: "PC+4 -> addizionatore branch",
+  branchAdderToPcMux: "target branch -> mux PCSrc",
+  readData1ToAlu: "ReadData1 -> ALU",
+  readData2ToAluSrc: "ReadData2 -> mux ALUSrc",
+  aluSrcToAlu: "Mux ALUSrc -> ALU",
+  aluResultToMemory: "Risultato ALU -> memoria dati",
+  aluResultToMemToReg: "Risultato ALU -> mux MemtoReg",
+  memToMemToReg: "Memoria dati -> mux MemtoReg",
+  readData2ToMemory: "ReadData2 -> memoria dati",
+  memToRegToRegisters: "Mux MemtoReg -> banco registri",
+  controlToRegDst: "Control unit -> RegDst",
+  controlToAluSrc: "Control unit -> ALUSrc",
+  controlToAluOp: "Control unit -> ALUOp",
+  controlToMemRead: "Control unit -> MemRead",
+  controlToMemWrite: "Control unit -> MemWrite",
+  controlToMemToReg: "Control unit -> MemtoReg",
+  controlToRegWrite: "Control unit -> RegWrite",
+  zeroToBranchAnd: "Zero -> logica branch",
+  branchToPcSrc: "Branch -> logica PCSrc"
+};
+
 function fetchPhase(demo) {
   return {
     code: "IF",
@@ -845,20 +1007,30 @@ const instructionTitle = document.querySelector("#instructionTitle");
 const encodingValue = document.querySelector("#encodingValue");
 const formatValue = document.querySelector("#formatValue");
 const initialValue = document.querySelector("#initialValue");
+const inspectTitle = document.querySelector("#inspectTitle");
+const inspectDescription = document.querySelector("#inspectDescription");
+const inspectState = document.querySelector("#inspectState");
 
 let currentDemo = demos[0];
 let currentPhase = 0;
+let selectedItem = null;
 
 function createHotspots() {
   Object.entries(hotspots).forEach(([key, box]) => {
-    const node = document.createElement("div");
+    const node = document.createElement("button");
+    node.type = "button";
     node.className = "hotspot";
     node.dataset.hotspot = key;
+    node.setAttribute("aria-label", getHotspotName(key));
     node.style.left = `${box.x}%`;
     node.style.top = `${box.y}%`;
     node.style.width = `${box.w}%`;
     node.style.height = `${box.h}%`;
     node.classList.toggle("is-oval", box.shape === "oval");
+    node.addEventListener("click", (event) => {
+      event.stopPropagation();
+      inspectItem({ kind: "hotspot", id: key });
+    });
     hotspotLayer.appendChild(node);
   });
 }
@@ -884,14 +1056,286 @@ function createPhaseTabs() {
   });
 }
 
+function readableKey(key) {
+  return key
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/^./, (letter) => letter.toUpperCase());
+}
+
+function getElementInfo(key) {
+  if (diagramElements[key]) {
+    return diagramElements[key];
+  }
+
+  if (signalNamesByHotspot[key]) {
+    const signalName = signalNamesByHotspot[key][0];
+    return {
+      name: signalName,
+      role: "Segnale di controllo",
+      description: `Linea di controllo ${signalName} prodotta dalla control unit.`,
+      signals: signalNamesByHotspot[key],
+      valueIncludes: signalNamesByHotspot[key]
+    };
+  }
+
+  return {
+    name: readableKey(key),
+    role: "Elemento datapath",
+    description: "Elemento del datapath MIPS64.",
+    valueIncludes: [readableKey(key)]
+  };
+}
+
+function getHotspotName(key) {
+  const info = getElementInfo(key);
+  return `${info.name}, ${info.role}`;
+}
+
+function signalMatches(actual, target) {
+  const actualLower = actual.toLowerCase();
+  const targetLower = target.toLowerCase();
+  return (
+    actualLower === targetLower ||
+    actualLower.startsWith(`${targetLower}/`) ||
+    targetLower.startsWith(`${actualLower}/`)
+  );
+}
+
+function getSignalEntries(phase, signals) {
+  if (signals === "all") {
+    return phase.signals || [];
+  }
+
+  if (!signals || signals.length === 0) {
+    return [];
+  }
+
+  return (phase.signals || []).filter(([name]) =>
+    signals.some((target) => signalMatches(name, target))
+  );
+}
+
+function getRelatedValues(phase, info) {
+  const tokens = info.valueIncludes || [];
+  if (tokens.length === 0) {
+    return [];
+  }
+
+  return (phase.values || [])
+    .filter((item) => tokens.some((token) => item.text.includes(token)))
+    .map((item) => item.text);
+}
+
+function getHotspotStatus(key, phase) {
+  const active = new Set([...(phase.active || []), ...(phase.controls || [])]);
+  const muted = new Set(phase.muted || []);
+  const write = new Set(phase.write || []);
+
+  if (write.has(key)) {
+    return "Scrittura attiva";
+  }
+
+  if (muted.has(key)) {
+    return "Presente ma disattivato in questa fase";
+  }
+
+  if (active.has(key)) {
+    return hotspots[key]?.kind === "control" ? "Segnale attivo" : "Attivo in questa fase";
+  }
+
+  return "Non evidenziato in questa fase";
+}
+
+function getWireType(id) {
+  const wire = Array.from(document.querySelectorAll(".wire")).find(
+    (node) => node.dataset.wire === id
+  );
+
+  if (!wire) {
+    return "Collegamento";
+  }
+
+  if (wire.classList.contains("control")) {
+    return "Controllo";
+  }
+
+  if (wire.classList.contains("write")) {
+    return "Write-back";
+  }
+
+  return "Dato";
+}
+
+function getWireStatus(id, phase) {
+  return (phase.wires || []).includes(id)
+    ? "Collegamento attivo in questa fase"
+    : "Collegamento non usato in questa fase";
+}
+
+function formatSignalEntries(entries) {
+  return entries.map(([name, value]) => `${name}=${value}`).join(", ");
+}
+
+function formatList(values) {
+  return [...new Set(values)].join(" | ");
+}
+
+function setInspection(title, description, rows) {
+  inspectTitle.textContent = title;
+  inspectDescription.textContent = description;
+  inspectState.innerHTML = "";
+
+  rows
+    .filter(([, value]) => value !== "")
+    .forEach(([label, value]) => {
+      const chip = document.createElement("span");
+      const chipLabel = document.createElement("b");
+      const chipValue = document.createElement("span");
+      chip.className = "inspect-chip";
+      chipLabel.textContent = label;
+      chipValue.textContent = value;
+      chip.append(chipLabel, chipValue);
+      inspectState.appendChild(chip);
+    });
+}
+
+function renderOverview() {
+  const phase = currentDemo.phases[currentPhase];
+  setInspection("Panoramica fase", phase.description, [
+    ["Istruzione", currentDemo.title],
+    ["Fase", `${phase.code} - ${phase.name}`],
+    ["Clock", `${currentPhase + 1}/${currentDemo.phases.length}`]
+  ]);
+}
+
+function describeHotspot(key) {
+  const phase = currentDemo.phases[currentPhase];
+  const info = getElementInfo(key);
+  const signals = getSignalEntries(phase, info.signals);
+  const values = getRelatedValues(phase, info);
+
+  setInspection(`${info.name} (${info.role})`, info.description, [
+    ["Stato", getHotspotStatus(key, phase)],
+    ["Fase", `${phase.code} - ${phase.name}`],
+    ["Segnali", formatSignalEntries(signals)],
+    ["Valori", formatList(values)]
+  ]);
+}
+
+function describeWire(id) {
+  const phase = currentDemo.phases[currentPhase];
+  const name = wireNames[id] || readableKey(id);
+  const type = getWireType(id);
+
+  setInspection(name, "Collegamento che trasporta dati o segnali tra due blocchi del datapath.", [
+    ["Tipo", type],
+    ["Stato", getWireStatus(id, phase)],
+    ["Fase", `${phase.code} - ${phase.name}`]
+  ]);
+}
+
+function describeValue(index) {
+  const phase = currentDemo.phases[currentPhase];
+  const value = (phase.values || [])[Number(index)];
+
+  if (!value) {
+    selectedItem = null;
+    renderOverview();
+    return;
+  }
+
+  const type = value.kind === "control" ? "Segnale" : value.kind === "write" ? "Scrittura" : "Dato";
+
+  setInspection("Valore visualizzato", "Valore calcolato, selezionato o propagato durante la fase corrente.", [
+    ["Tipo", type],
+    ["Stato", "Visibile in questa fase"],
+    ["Fase", `${phase.code} - ${phase.name}`],
+    ["Valore", value.text]
+  ]);
+}
+
+function updateSelectedStyles() {
+  document.querySelectorAll(".hotspot").forEach((node) => {
+    node.classList.toggle(
+      "is-selected",
+      selectedItem?.kind === "hotspot" && selectedItem.id === node.dataset.hotspot
+    );
+  });
+
+  document.querySelectorAll(".wire").forEach((node) => {
+    node.classList.toggle(
+      "is-selected",
+      selectedItem?.kind === "wire" && selectedItem.id === node.dataset.wire
+    );
+  });
+
+  document.querySelectorAll(".value-label").forEach((node) => {
+    node.classList.toggle(
+      "is-selected",
+      selectedItem?.kind === "value" && selectedItem.id === node.dataset.valueIndex
+    );
+  });
+}
+
+function renderInspection() {
+  if (!selectedItem) {
+    renderOverview();
+    updateSelectedStyles();
+    return;
+  }
+
+  if (selectedItem.kind === "hotspot") {
+    describeHotspot(selectedItem.id);
+  } else if (selectedItem.kind === "wire") {
+    describeWire(selectedItem.id);
+  } else if (selectedItem.kind === "value") {
+    describeValue(selectedItem.id);
+  }
+
+  updateSelectedStyles();
+}
+
+function inspectItem(item) {
+  selectedItem = item;
+  renderInspection();
+}
+
+function setupWires() {
+  document.querySelectorAll(".wire").forEach((wire) => {
+    wire.setAttribute("role", "button");
+    wire.setAttribute("tabindex", "-1");
+    wire.setAttribute("aria-label", wireNames[wire.dataset.wire] || readableKey(wire.dataset.wire));
+
+    wire.addEventListener("click", (event) => {
+      if (!wire.classList.contains("is-active")) {
+        return;
+      }
+
+      event.stopPropagation();
+      inspectItem({ kind: "wire", id: wire.dataset.wire });
+    });
+
+    wire.addEventListener("keydown", (event) => {
+      if ((event.key === "Enter" || event.key === " ") && wire.classList.contains("is-active")) {
+        event.preventDefault();
+        inspectItem({ kind: "wire", id: wire.dataset.wire });
+      }
+    });
+  });
+}
+
 function setDemo(id) {
   currentDemo = demos.find((demo) => demo.id === id) || demos[0];
   currentPhase = 0;
+  selectedItem = null;
   renderPhase();
 }
 
 function setPhase(index) {
   currentPhase = (index + currentDemo.phases.length) % currentDemo.phases.length;
+  if (selectedItem?.kind === "value") {
+    selectedItem = null;
+  }
   renderPhase();
 }
 
@@ -914,10 +1358,14 @@ function renderPhase() {
     node.classList.toggle("is-muted", muted.has(key));
     node.classList.toggle("is-control", isActive && hotspots[key]?.kind === "control");
     node.classList.toggle("is-write", isActive && write.has(key));
+    node.setAttribute("aria-pressed", selectedItem?.kind === "hotspot" && selectedItem.id === key ? "true" : "false");
   });
 
   document.querySelectorAll(".wire").forEach((wire) => {
-    wire.classList.toggle("is-active", (phase.wires || []).includes(wire.dataset.wire));
+    const isActive = (phase.wires || []).includes(wire.dataset.wire);
+    wire.classList.toggle("is-active", isActive);
+    wire.setAttribute("tabindex", isActive ? "0" : "-1");
+    wire.setAttribute("aria-disabled", isActive ? "false" : "true");
   });
 
   document.querySelectorAll(".phase-tab").forEach((tab, index) => {
@@ -925,12 +1373,19 @@ function renderPhase() {
   });
 
   valueLayer.innerHTML = "";
-  phase.values.forEach((item) => {
-    const label = document.createElement("div");
+  phase.values.forEach((item, index) => {
+    const label = document.createElement("button");
+    label.type = "button";
     label.className = `value-label ${item.kind || ""}`.trim();
+    label.dataset.valueIndex = String(index);
+    label.setAttribute("aria-label", `Valore: ${item.text}`);
     label.textContent = item.text;
     label.style.left = `${item.x}%`;
     label.style.top = `${item.y}%`;
+    label.addEventListener("click", (event) => {
+      event.stopPropagation();
+      inspectItem({ kind: "value", id: String(index) });
+    });
     valueLayer.appendChild(label);
   });
 
@@ -954,6 +1409,8 @@ function renderPhase() {
     item.textContent = text;
     traceList.appendChild(item);
   });
+
+  renderInspection();
 }
 
 function advance() {
@@ -965,15 +1422,15 @@ document.querySelector("#nextBtn").addEventListener("click", advance);
 document.querySelector("#resetBtn").addEventListener("click", () => setPhase(0));
 instructionSelect.addEventListener("change", (event) => setDemo(event.target.value));
 
-diagramStage.addEventListener("click", advance);
-diagramStage.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    advance();
+diagramStage.addEventListener("click", (event) => {
+  if (event.target === diagramStage || event.target.tagName === "IMG") {
+    selectedItem = null;
+    renderInspection();
   }
 });
 
 createHotspots();
 createInstructionOptions();
 createPhaseTabs();
+setupWires();
 renderPhase();

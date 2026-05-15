@@ -47,9 +47,9 @@
 
       <section class="workspace">
         <div class="diagram-shell">
-          <div class="diagram-stage" id="diagramStage" role="button" tabindex="0" aria-label="Datapath MIPS64">
+          <div class="diagram-stage" id="diagramStage" role="group" aria-label="Datapath MIPS64">
             <img src="pipeline_diagram.png" alt="Schema datapath MIPS64" />
-            <svg class="wire-layer" id="wireLayer" viewBox="0 0 1792 1386" preserveAspectRatio="none" aria-hidden="true">
+            <svg class="wire-layer" id="wireLayer" viewBox="0 0 1792 1386" preserveAspectRatio="none" aria-label="Collegamenti del datapath">
               <defs>
                 <marker id="arrowData" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M 0 0 L 10 5 L 0 10 z" fill="#f08a24" />
@@ -96,8 +96,8 @@
               <path class="wire control" data-wire="zeroToBranchAnd" d="M1337 840 L1354 840 L1354 432 L1376 432" />
               <path class="wire control" data-wire="branchToPcSrc" d="M764 432 L1376 432" />
             </svg>
-            <div class="hotspot-layer" id="hotspotLayer" aria-hidden="true"></div>
-            <div class="value-layer" id="valueLayer" aria-hidden="true"></div>
+            <div class="hotspot-layer" id="hotspotLayer"></div>
+            <div class="value-layer" id="valueLayer"></div>
           </div>
         </div>
 
@@ -129,6 +129,13 @@
           <section>
             <h3>Micro-operazioni</h3>
             <ol class="trace-list" id="traceList"></ol>
+          </section>
+
+          <section class="inspection">
+            <h3>Elemento</h3>
+            <p class="inspect-title" id="inspectTitle">Panoramica fase</p>
+            <p class="inspect-description" id="inspectDescription"></p>
+            <div class="inspect-state" id="inspectState"></div>
           </section>
         </aside>
       </section>

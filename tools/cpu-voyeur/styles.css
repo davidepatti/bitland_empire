@@ -131,7 +131,9 @@ h1 {
 
 .icon-button:focus-visible,
 .phase-tab:focus-visible,
-.diagram-stage:focus-visible {
+.hotspot:focus-visible,
+.value-label:focus-visible,
+.wire:focus-visible {
   outline: 3px solid rgba(14, 159, 154, 0.28);
   outline-offset: 3px;
 }
@@ -232,7 +234,6 @@ h1 {
   border-radius: 8px;
   background: white;
   box-shadow: var(--shadow);
-  cursor: pointer;
 }
 
 .diagram-stage img {
@@ -256,6 +257,7 @@ h1 {
 .wire {
   fill: none;
   opacity: 0;
+  pointer-events: none;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 8;
@@ -281,7 +283,14 @@ h1 {
 
 .wire.is-active {
   opacity: 0.86;
+  cursor: help;
+  pointer-events: stroke;
   filter: drop-shadow(0 0 5px rgba(240, 138, 36, 0.65));
+}
+
+.wire.is-selected {
+  opacity: 1;
+  stroke-width: 12;
 }
 
 .wire.control.is-active {
@@ -294,13 +303,24 @@ h1 {
 
 .hotspot {
   position: absolute;
+  padding: 0;
   border: 3px solid transparent;
   border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: help;
   opacity: 0;
+  pointer-events: auto;
   transition:
     opacity 180ms ease,
     box-shadow 180ms ease,
     background 180ms ease;
+}
+
+.hotspot:hover {
+  opacity: 1;
+  border-color: rgba(122, 135, 148, 0.6);
+  background: rgba(122, 135, 148, 0.06);
 }
 
 .hotspot.is-oval {
@@ -339,7 +359,16 @@ h1 {
   box-shadow: 0 0 0 3px rgba(122, 135, 148, 0.15);
 }
 
+.hotspot.is-selected {
+  opacity: 1;
+  border-color: var(--ink);
+  box-shadow:
+    0 0 0 3px rgba(29, 32, 40, 0.18),
+    0 0 22px rgba(29, 32, 40, 0.28);
+}
+
 .value-label {
+  appearance: none;
   position: absolute;
   max-width: min(210px, 22vw);
   padding: 6px 8px;
@@ -350,9 +379,20 @@ h1 {
   font-size: clamp(0.62rem, 0.86vw, 0.84rem);
   font-weight: 850;
   line-height: 1.15;
+  text-align: left;
   box-shadow: 0 10px 22px rgba(35, 28, 14, 0.15);
   transform: translate(-50%, -50%);
   overflow-wrap: anywhere;
+  cursor: help;
+  pointer-events: auto;
+}
+
+.value-label:hover,
+.value-label.is-selected {
+  border-color: var(--ink);
+  box-shadow:
+    0 0 0 3px rgba(29, 32, 40, 0.12),
+    0 10px 22px rgba(35, 28, 14, 0.15);
 }
 
 .value-label::before {
@@ -456,6 +496,53 @@ h1 {
 .trace-list li {
   color: #353944;
   line-height: 1.36;
+}
+
+.inspection {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e5ded1;
+}
+
+.inspect-title {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.inspect-description {
+  margin: 0 0 10px;
+  color: var(--muted);
+  line-height: 1.38;
+}
+
+.inspect-state {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.inspect-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  min-height: 28px;
+  max-width: 100%;
+  padding: 5px 8px;
+  border: 1px solid rgba(29, 32, 40, 0.12);
+  border-radius: 8px;
+  background: #faf7ef;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.inspect-chip b {
+  color: var(--control);
+}
+
+.inspect-chip span {
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 1040px) {
