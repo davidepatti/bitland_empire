@@ -61,7 +61,19 @@ npm run dist
 
 rm -rf "$PROJECT_DIR/release"
 mkdir -p "$PROJECT_DIR/release"
-find "$STAGE_DIR/release" -maxdepth 1 -type f -exec cp -p {} "$PROJECT_DIR/release/" \;
+find "$STAGE_DIR/release" -maxdepth 1 -type f \( \
+  -name "*.dmg" -o \
+  -name "*.zip" -o \
+  -name "*.tar.gz" -o \
+  -name "*.blockmap" \
+\) -exec cp -p {} "$PROJECT_DIR/release/" \;
+
+(
+  cd "$PROJECT_DIR/release"
+  find . -maxdepth 1 -type f ! -name "SHA256SUMS.txt" -print0 \
+    | sort -z \
+    | xargs -0 shasum -a 256 > SHA256SUMS.txt
+)
 
 echo
 echo "Packages written to:"

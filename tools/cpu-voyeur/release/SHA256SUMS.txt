@@ -1,0 +1,6 @@
+cbc72bfa4e8ae227775faf4120cab3991ea66c567e75ce783056b354dd20aea3  ./CPU Voyeur-1.0.0-linux-x64.tar.gz
+2b5ae4b43c60b44b314687d2d8ca93132f6d22dc632833be9bc9b68bba9e26e1  ./CPU Voyeur-1.0.0-mac-arm64.dmg
+acefbde8e861be7694e4d82472dbf29d6727b114839fbe140636116c3cb5cc23  ./CPU Voyeur-1.0.0-mac-arm64.dmg.blockmap
+4a210359e5174f61484281fa502fbb6de7a4f26de9bf891deffcaceea5a77d11  ./CPU Voyeur-1.0.0-mac-arm64.zip
+de98fdf172bf53faa07602aede1d8478630c741e05e3f4ef150d2b59c3000101  ./CPU Voyeur-1.0.0-mac-arm64.zip.blockmap
+95385bbeab0021571196d2779e1e2b653a27ce197d63ced15d022fc81579307f  ./CPU Voyeur-1.0.0-win-x64.zip

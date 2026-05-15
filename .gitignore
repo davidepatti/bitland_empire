@@ -1,5 +1,11 @@
 .DS_Store
 **/node_modules/
 **/release/
+!tools/cpu-voyeur/release/
+!tools/cpu-voyeur/release/*.dmg
+!tools/cpu-voyeur/release/*.zip
+!tools/cpu-voyeur/release/*.tar.gz
+!tools/cpu-voyeur/release/*.blockmap
+!tools/cpu-voyeur/release/SHA256SUMS.txt
 **/.cache/
 **/npm-debug.log*
