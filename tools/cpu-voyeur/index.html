@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CPU Voyeur</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div class="title-block">
+          <p class="eyebrow">MIPS64 datapath</p>
+          <h1 id="instructionTitle">DADD R1,R2,R3</h1>
+        </div>
+
+        <label class="instruction-picker">
+          <span>Istruzione</span>
+          <select id="instructionSelect" aria-label="Seleziona istruzione"></select>
+        </label>
+
+        <div class="cycle-controls" aria-label="Controlli ciclo">
+          <button class="icon-button" id="prevBtn" type="button" aria-label="Ciclo precedente" title="Ciclo precedente">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M15 6l-6 6 6 6" />
+            </svg>
+          </button>
+          <div class="cycle-readout" aria-live="polite">
+            <span id="clockLabel">Clock 1/5</span>
+            <strong id="phaseCode">IF</strong>
+          </div>
+          <button class="icon-button primary" id="nextBtn" type="button" aria-label="Ciclo successivo" title="Ciclo successivo">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </button>
+          <button class="icon-button" id="resetBtn" type="button" aria-label="Reset" title="Reset">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12a8 8 0 1 0 2.34-5.66" />
+              <path d="M4 4v6h6" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <nav class="phase-strip" id="phaseStrip" aria-label="Fasi pipeline"></nav>
+
+      <section class="workspace">
+        <div class="diagram-shell">
+          <div class="diagram-stage" id="diagramStage" role="button" tabindex="0" aria-label="Datapath MIPS64">
+            <img src="pipeline_diagram.png" alt="Schema datapath MIPS64" />
+            <svg class="wire-layer" id="wireLayer" viewBox="0 0 1792 1386" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <marker id="arrowData" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#f08a24" />
+                </marker>
+                <marker id="arrowControl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e9f9a" />
+                </marker>
+                <marker id="arrowWrite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#6d5bd0" />
+                </marker>
+              </defs>
+              <path class="wire data" data-wire="pcToInstructionMemory" d="M118 762 L166 762" />
+              <path class="wire data" data-wire="pcToAdder" d="M118 762 L132 762 L132 124 L257 124" />
+              <path class="wire data" data-wire="adderToPcMux" d="M365 200 L980 200 L980 132 L1440 132" />
+              <path class="wire data" data-wire="pcMuxToPc" d="M1498 202 L1532 202 L1532 24 L28 24 L28 762 L56 762" />
+              <path class="wire data" data-wire="instructionToFields" d="M356 838 L386 838 L386 515 M386 515 L626 515 M386 742 L716 742 M386 834 L716 834 M386 966 L650 966 M386 1173 L820 1173" />
+              <path class="wire data" data-wire="rsToRegisters" d="M386 742 L716 742" />
+              <path class="wire data" data-wire="rtToRegisters" d="M386 834 L716 834" />
+              <path class="wire data" data-wire="rtToRegDstMux" d="M565 834 L565 900 L650 900" />
+              <path class="wire data" data-wire="rdToRegDstMux" d="M386 966 L650 966" />
+              <path class="wire data" data-wire="regDstToWriteRegister" d="M708 948 L718 948" />
+              <path class="wire data" data-wire="functToAluControl" d="M718 1320 L1084 1320 L1084 1194" />
+              <path class="wire data" data-wire="immediateToSignExtend" d="M386 1173 L820 1173" />
+              <path class="wire data" data-wire="signExtendToAluSrc" d="M918 1173 L1018 1173 L1018 1006 L1051 1006" />
+              <path class="wire data" data-wire="signExtendToShift" d="M918 1173 L1022 1173 L1022 360 L1042 360" />
+              <path class="wire data" data-wire="shiftToBranchAdder" d="M1125 360 L1180 360" />
+              <path class="wire data" data-wire="pcPlus4ToBranchAdder" d="M980 200 L980 180 L1180 180" />
+              <path class="wire data" data-wire="branchAdderToPcMux" d="M1354 216 L1440 216" />
+              <path class="wire data" data-wire="readData1ToAlu" d="M972 784 L1154 784" />
+              <path class="wire data" data-wire="readData2ToAluSrc" d="M972 932 L1051 932" />
+              <path class="wire data" data-wire="aluSrcToAlu" d="M1106 932 L1154 932" />
+              <path class="wire data" data-wire="aluResultToMemory" d="M1336 904 L1385 904" />
+              <path class="wire data" data-wire="aluResultToMemToReg" d="M1336 904 L1662 904" />
+              <path class="wire data" data-wire="memToMemToReg" d="M1606 904 L1662 904" />
+              <path class="wire data" data-wire="readData2ToMemory" d="M972 932 L1004 932 L1004 1080 L1385 1080" />
+              <path class="wire write" data-wire="memToRegToRegisters" d="M1719 936 L1740 936 L1740 1346 L686 1346 L686 1005 L718 1005" />
+              <path class="wire control" data-wire="controlToRegDst" d="M764 424 L786 424 L786 858 L679 858" />
+              <path class="wire control" data-wire="controlToAluSrc" d="M764 637 L1088 637 L1088 834" />
+              <path class="wire control" data-wire="controlToAluOp" d="M764 552 L1004 552 L1004 1194 L1084 1194" />
+              <path class="wire control" data-wire="controlToMemRead" d="M764 476 L1488 476 L1488 814" />
+              <path class="wire control" data-wire="controlToMemWrite" d="M764 598 L1004 598 L1004 1080 L1385 1080" />
+              <path class="wire control" data-wire="controlToMemToReg" d="M764 516 L1688 516 L1688 848" />
+              <path class="wire control" data-wire="controlToRegWrite" d="M764 676 L842 676 L842 696" />
+              <path class="wire control" data-wire="zeroToBranchAnd" d="M1337 840 L1354 840 L1354 432 L1376 432" />
+              <path class="wire control" data-wire="branchToPcSrc" d="M764 432 L1376 432" />
+            </svg>
+            <div class="hotspot-layer" id="hotspotLayer" aria-hidden="true"></div>
+            <div class="value-layer" id="valueLayer" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <aside class="phase-panel" aria-live="polite">
+          <p class="phase-name" id="phaseName">Instruction Fetch</p>
+          <h2 id="phaseTitle">Preleva l'istruzione</h2>
+          <p class="phase-description" id="phaseDescription"></p>
+
+          <div class="microstate">
+            <div>
+              <span>Istruzione</span>
+              <strong id="encodingValue">0x0043082C</strong>
+            </div>
+            <div>
+              <span>Formato</span>
+              <strong id="formatValue">R-type</strong>
+            </div>
+            <div>
+              <span>Valori iniziali</span>
+              <strong id="initialValue">R2 = 0x0000000000000007, R3 = 0x0000000000000005</strong>
+            </div>
+          </div>
+
+          <section>
+            <h3>Segnali</h3>
+            <div class="signal-list" id="signalList"></div>
+          </section>
+
+          <section>
+            <h3>Micro-operazioni</h3>
+            <ol class="trace-list" id="traceList"></ol>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
