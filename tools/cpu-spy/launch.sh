@@ -36,7 +36,7 @@ done
 
 URL="http://${HOST}:${PORT}/index.html"
 
-echo "Starting MIPS64 DADD demo"
+echo "Starting CPU Spy demo"
 echo "URL: $URL"
 echo "Press Ctrl-C to stop."
 

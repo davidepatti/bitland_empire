@@ -1,5 +1,5 @@
 {
-  "name": "cpu-voyeur",
+  "name": "cpu-spy",
   "version": "1.0.0",
   "description": "Clickable MIPS64 pipeline/datapath instruction demo.",
   "main": "electron-main.js",
@@ -15,8 +15,8 @@
     "dist:linux": "electron-builder --linux --x64"
   },
   "build": {
-    "appId": "it.bitland.cpuvoyeur",
-    "productName": "CPU Voyeur",
+    "appId": "it.bitland.cpuspy",
+    "productName": "CPU Spy",
     "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
     "directories": {
       "output": "release"

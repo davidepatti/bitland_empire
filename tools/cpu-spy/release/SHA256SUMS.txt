@@ -1,0 +1,6 @@
+6de7cd106b27644409d2dfa22c5e2e47fa934c9b5db7b1efedb0b195469166a9  ./CPU Spy-1.0.0-linux-x64.tar.gz
+d389f5f25a51256673be1822cce6bac0a11a627b7c811f63558b27c654981f4f  ./CPU Spy-1.0.0-mac-arm64.dmg
+674c738d8b4cfc34fc61f22432eb4a0ddb31999d76c241dfa6af3d0ddf666334  ./CPU Spy-1.0.0-mac-arm64.dmg.blockmap
+b3ebe2d146393445647af2bc41ed90c1f959098cc3b67c3fd2525bd9bb729b4e  ./CPU Spy-1.0.0-mac-arm64.zip
+047e5d5030ee1f70d7a4fe0d049465b95ef5eee4e86dfce3cd51fc29c973e5f9  ./CPU Spy-1.0.0-mac-arm64.zip.blockmap
+8958dd39309004ce8daa35415832b70cd1cdf14c9f2f1528384f789186f9876f  ./CPU Spy-1.0.0-win-x64.zip

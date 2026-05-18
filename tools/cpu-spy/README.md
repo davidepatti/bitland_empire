@@ -1,4 +1,4 @@
-# CPU Voyeur
+# CPU Spy
 
 Clickable MIPS64 datapath demo for stepping through instruction execution cycle by cycle.
 

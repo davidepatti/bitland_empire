@@ -7,7 +7,7 @@ function createWindow() {
     height: 860,
     minWidth: 1024,
     minHeight: 700,
-    title: "CPU Voyeur",
+    title: "CPU Spy",
     backgroundColor: "#f6f4ef",
     autoHideMenuBar: true,
     webPreferences: {
