@@ -27,6 +27,18 @@ npm run start:qmc-sim
 Build desktop packages:
 
 ```bash
+npm run package:all
+```
+
+Or run the script directly:
+
+```bash
+./build-electron-apps.sh
+```
+
+Build one tool:
+
+```bash
 npm run package:cpu-spy
 npm run package:qmc-sim
 ```

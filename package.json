@@ -6,14 +6,14 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "check": "node --check scripts/electron/main.js && node --check scripts/electron/after-pack.js && node --check scripts/electron/package-tool.js && node scripts/electron/package-tool.js tools/cpu-spy --dry-run && node scripts/electron/package-tool.js tools/qmc-sim --dry-run && node --check tools/cpu-spy/app.js && node --check tools/qmc-sim/app.js && bash -n tools/cpu-spy/launch.sh && zsh -n 'tools/qmc-sim/Launch qmc-sim.command'",
+    "check": "node --check scripts/electron/main.js && node --check scripts/electron/after-pack.js && node --check scripts/electron/package-tool.js && node scripts/electron/package-tool.js tools/cpu-spy --dry-run && node scripts/electron/package-tool.js tools/qmc-sim --dry-run && node --check tools/cpu-spy/app.js && node --check tools/qmc-sim/app.js && bash -n build-electron-apps.sh && bash -n tools/cpu-spy/launch.sh && zsh -n 'tools/qmc-sim/Launch qmc-sim.command'",
     "electron:start": "electron scripts/electron/main.js",
     "electron:package": "node scripts/electron/package-tool.js",
     "start:cpu-spy": "npm run electron:start -- tools/cpu-spy",
     "start:qmc-sim": "npm run electron:start -- tools/qmc-sim",
     "package:cpu-spy": "npm run electron:package -- tools/cpu-spy",
     "package:qmc-sim": "npm run electron:package -- tools/qmc-sim",
-    "package:all": "npm run package:cpu-spy && npm run package:qmc-sim"
+    "package:all": "./build-electron-apps.sh"
   },
   "devDependencies": {
     "electron": "^39.2.4",

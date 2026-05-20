@@ -16,6 +16,7 @@ From the repository root:
 ```bash
 npm run start:cpu-spy
 npm run start:qmc-sim
+npm run package:all
 npm run package:cpu-spy
 npm run package:qmc-sim
 ```
