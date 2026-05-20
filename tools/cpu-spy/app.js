@@ -1002,7 +1002,7 @@ const infoTopics = {
       ["Author", "Davide Patti"],
       ["Email", "xedivad@gmail.com"],
       ["License", "MIT License"],
-      ["Repository", "bitland_empire"]
+      ["Repository", "github.com/davidepatti/bitland_empire", "https://github.com/davidepatti/bitland_empire"]
     ]
   },
   instruction: {
@@ -1096,14 +1096,18 @@ function renderInfoBody(topic) {
   if (topic.facts) {
     const list = document.createElement("dl");
     list.className = "info-facts";
-    topic.facts.forEach(([label, value]) => {
+    topic.facts.forEach(([label, value, href]) => {
       const term = document.createElement("dt");
       const detail = document.createElement("dd");
       term.textContent = label;
-      if (label === "Email") {
+      if (href || label === "Email") {
         const link = document.createElement("a");
-        link.href = `mailto:${value}`;
+        link.href = href || `mailto:${value}`;
         link.textContent = value;
+        if (href) {
+          link.target = "_blank";
+          link.rel = "noopener";
+        }
         detail.appendChild(link);
       } else {
         detail.textContent = value;

@@ -400,6 +400,35 @@ tr:last-child td {
   color: #74241e;
 }
 
+.solution-message {
+  display: grid;
+  gap: 10px;
+}
+
+.solution-sections {
+  display: grid;
+  gap: 10px;
+}
+
+.solution-section {
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 8px 10px;
+}
+
+.solution-section h3 {
+  margin: 0 0 6px;
+  font-size: 0.86rem;
+}
+
+.solution-section ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 20px;
+}
+
 .selected-box {
   display: none;
   background: #fff8ea;

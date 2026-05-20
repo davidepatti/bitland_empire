@@ -31,6 +31,7 @@ const translations = {
     simplificationGuesses: "Simplification guesses",
     resetChart: "Reset chart",
     checkStatus: "Check status",
+    revealSolution: "Reveal solution",
     finish: "Finish",
     simplificationType: "Simplification type",
     essential: "Essential",
@@ -98,6 +99,15 @@ const translations = {
     allCovered: "All minterms are covered. The selected implicants already form a complete minimized expression.",
     noSimplifications: "No essential implicant, row dominance, or column dominance remains. The remaining coverage choice needs a final selection method.",
     noMoreAlert: "No more chart simplifications are available.",
+    revealAllCovered: "All minterms are already covered.",
+    revealNoMoves: "No essential implicant, row dominance, or column dominance is currently available.",
+    revealIntro: "Valid table simplifications available now:",
+    revealEssentialTitle: "Essential implicants",
+    revealRowTitle: "Row dominance",
+    revealColumnTitle: "Column dominance",
+    revealEssentialItem: ({ row, cols }) => `${row} is essential; it is the only row covering ${cols}.`,
+    revealRowItem: ({ remove, dominator, cols }) => `Remove ${remove}; ${dominator} covers every active minterm covered by ${remove} (${cols}).`,
+    revealColumnItem: ({ remove, strict, rows }) => `Remove m${remove}; m${strict} is stricter because every row covering it also covers m${remove} (${rows}).`,
     essentialCandidate: ({ count }) => `${count} essential candidate${count === 1 ? "" : "s"}`,
     rowMove: ({ count }) => `${count} row dominance move${count === 1 ? "" : "s"}`,
     columnMove: ({ count }) => `${count} column dominance move${count === 1 ? "" : "s"}`,
@@ -144,6 +154,7 @@ const translations = {
     simplificationGuesses: "Tentativi di semplificazione",
     resetChart: "Reimposta tabella",
     checkStatus: "Controlla stato",
+    revealSolution: "Rivela soluzione",
     finish: "Concludi",
     simplificationType: "Tipo di semplificazione",
     essential: "Essenziale",
@@ -211,6 +222,15 @@ const translations = {
     allCovered: "Tutti i mintermini sono coperti. Gli implicanti selezionati formano già un'espressione minimizzata completa.",
     noSimplifications: "Non resta alcun implicante essenziale, né dominanza di riga o di colonna. La copertura rimanente richiede un metodo di scelta finale.",
     noMoreAlert: "Non sono disponibili altre semplificazioni della tabella.",
+    revealAllCovered: "Tutti i mintermini sono già coperti.",
+    revealNoMoves: "Al momento non sono disponibili implicanti essenziali, dominanze di riga o dominanze di colonna.",
+    revealIntro: "Semplificazioni valide disponibili ora:",
+    revealEssentialTitle: "Implicanti essenziali",
+    revealRowTitle: "Dominanza di riga",
+    revealColumnTitle: "Dominanza di colonna",
+    revealEssentialItem: ({ row, cols }) => `${row} è essenziale; è l'unica riga che copre ${cols}.`,
+    revealRowItem: ({ remove, dominator, cols }) => `Elimina ${remove}; ${dominator} copre tutti i mintermini attivi coperti da ${remove} (${cols}).`,
+    revealColumnItem: ({ remove, strict, rows }) => `Elimina m${remove}; m${strict} è più vincolante perché ogni riga che la copre copre anche m${remove} (${rows}).`,
     essentialCandidate: ({ count }) => `${count} candidat${count === 1 ? "o" : "i"} essenziale${count === 1 ? "" : "i"}`,
     rowMove: ({ count }) => `${count} moss${count === 1 ? "a" : "e"} di dominanza di riga`,
     columnMove: ({ count }) => `${count} moss${count === 1 ? "a" : "e"} di dominanza di colonna`,
@@ -244,7 +264,7 @@ const infoTopics = {
         ["Author", "Davide Patti"],
         ["Email", "xedivad@gmail.com"],
         ["License", "MIT License"],
-        ["Repository", "bitland_empire"]
+        ["Repository", "github.com/davidepatti/bitland_empire", "https://github.com/davidepatti/bitland_empire"]
       ]
     },
     truth: {
@@ -280,7 +300,7 @@ const infoTopics = {
         ["Autore", "Davide Patti"],
         ["Email", "xedivad@gmail.com"],
         ["Licenza", "MIT License"],
-        ["Repository", "bitland_empire"]
+        ["Repository", "github.com/davidepatti/bitland_empire", "https://github.com/davidepatti/bitland_empire"]
       ]
     },
     truth: {
@@ -347,6 +367,7 @@ const els = {
   applyGuess: document.getElementById("applyGuess"),
   resetChart: document.getElementById("resetChart"),
   checkStatus: document.getElementById("checkStatus"),
+  revealSolution: document.getElementById("revealSolution"),
   finishCoverage: document.getElementById("finishCoverage"),
   messageBox: document.getElementById("messageBox"),
   selectedBox: document.getElementById("selectedBox"),
@@ -416,14 +437,18 @@ function renderInfoBody(topic) {
   if (topic.facts) {
     const list = document.createElement("dl");
     list.className = "info-facts";
-    topic.facts.forEach(([label, value]) => {
+    topic.facts.forEach(([label, value, href]) => {
       const term = document.createElement("dt");
       const detail = document.createElement("dd");
       term.textContent = label;
-      if (value.includes("@")) {
+      if (href || value.includes("@")) {
         const link = document.createElement("a");
-        link.href = `mailto:${value}`;
+        link.href = href || `mailto:${value}`;
         link.textContent = value;
+        if (href) {
+          link.target = "_blank";
+          link.rel = "noopener";
+        }
         detail.appendChild(link);
       } else {
         detail.textContent = value;
@@ -560,6 +585,7 @@ function bindEvents() {
     showMessage(t("chartReset"), "neutral");
   });
   els.checkStatus.addEventListener("click", reportChartStatus);
+  els.revealSolution.addEventListener("click", revealSolution);
   els.finishCoverage.addEventListener("click", finishCoverage);
 }
 
@@ -1263,6 +1289,70 @@ function reportChartStatus() {
   showMessage(t("validSimplification", { hints: hints.join(", ") }), "neutral");
 }
 
+function revealSolution() {
+  if (!state.chart) return;
+  const report = findAvailableSimplifications();
+  els.messageBox.classList.remove("good", "bad");
+  els.messageBox.classList.add("solution-message");
+
+  if (state.chart.activeCols.size === 0) {
+    els.messageBox.textContent = t("revealAllCovered");
+    return;
+  }
+
+  if (!report.any) {
+    els.messageBox.textContent = t("revealNoMoves");
+    return;
+  }
+
+  const sections = [];
+  if (report.essential.length) {
+    sections.push(solutionSection(
+      t("revealEssentialTitle"),
+      report.essential.map(rowId => t("revealEssentialItem", {
+        row: rowId,
+        cols: essentialColumnsForRow(rowId).map(col => `m${col}`).join(", ")
+      }))
+    ));
+  }
+  if (report.row.length) {
+    sections.push(solutionSection(
+      t("revealRowTitle"),
+      report.row.map(([removeId, dominatorId]) => t("revealRowItem", {
+        remove: removeId,
+        dominator: dominatorId,
+        cols: activeCoverage(removeId).map(col => `m${col}`).join(", ")
+      }))
+    ));
+  }
+  if (report.column.length) {
+    sections.push(solutionSection(
+      t("revealColumnTitle"),
+      report.column.map(([removeCol, strictCol]) => t("revealColumnItem", {
+        remove: removeCol,
+        strict: strictCol,
+        rows: coveringRows(strictCol).join(", ")
+      }))
+    ));
+  }
+
+  els.messageBox.innerHTML = `
+    <strong>${escapeHtml(t("revealIntro"))}</strong>
+    <div class="solution-sections">${sections.join("")}</div>
+  `;
+}
+
+function solutionSection(title, items) {
+  return `
+    <section class="solution-section">
+      <h3>${escapeHtml(title)}</h3>
+      <ul>
+        ${items.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
+      </ul>
+    </section>
+  `;
+}
+
 function finishCoverage() {
   if (!state.chart) return;
   if (state.chart.activeCols.size > 0) {
@@ -1427,6 +1517,9 @@ function findAvailableSimplifications() {
       const dominatorCovers = activeCoverage(dominatorId);
       if (!removeCovers.length) return;
       if (isSubset(removeCovers, dominatorCovers)) {
+        if (sameSet(removeCovers, dominatorCovers) && literalCount(primeById(dominatorId).pattern) > literalCount(primeById(removeId).pattern)) {
+          return;
+        }
         row.push([removeId, dominatorId]);
       }
     });
@@ -1486,7 +1579,7 @@ function historyText(entry) {
 
 function showMessage(text, type) {
   els.messageBox.textContent = text;
-  els.messageBox.classList.remove("good", "bad");
+  els.messageBox.classList.remove("good", "bad", "solution-message");
   if (type === "good") els.messageBox.classList.add("good");
   if (type === "bad") els.messageBox.classList.add("bad");
 }
