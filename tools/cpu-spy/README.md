@@ -10,15 +10,19 @@ Clickable MIPS64 datapath demo for stepping through instruction execution cycle 
 
 ## Electron development
 
+From the repository root:
+
 ```bash
 npm install
-npm start
+npm run start:cpu-spy
 ```
 
 ## Build desktop packages
 
+From the repository root:
+
 ```bash
-./scripts/package-electron.sh
+npm run package:cpu-spy
 ```
 
-The packaging script builds from the current source into a clean temporary staging directory, then writes final artifacts to `release/`.
+Electron metadata for this tool lives in `tool.json`. The shared packager writes final artifacts to `tools/cpu-spy/release/`.

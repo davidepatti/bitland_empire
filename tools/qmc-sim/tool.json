@@ -1,0 +1,24 @@
+{
+  "slug": "qmc-sim",
+  "version": "1.0.0",
+  "productName": "qmc-sim",
+  "appId": "it.bitland.qmcsim",
+  "description": "Quine-McCluskey logic minimization simulator.",
+  "author": "PIPELINESIM",
+  "license": "UNLICENSED",
+  "entry": "index.html",
+  "webAssets": [
+    "index.html",
+    "styles.css",
+    "app.js"
+  ],
+  "electron": {
+    "width": 1480,
+    "height": 920,
+    "minWidth": 1024,
+    "minHeight": 700,
+    "backgroundColor": "#f5f7f4",
+    "macCategory": "public.app-category.education",
+    "linuxCategory": "Education"
+  }
+}

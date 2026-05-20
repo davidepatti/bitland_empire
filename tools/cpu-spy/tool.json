@@ -1,0 +1,25 @@
+{
+  "slug": "cpu-spy",
+  "version": "1.0.0",
+  "productName": "CPU Spy",
+  "appId": "it.bitland.cpuspy",
+  "description": "Clickable MIPS64 pipeline/datapath instruction demo.",
+  "author": "PIPELINESIM",
+  "license": "UNLICENSED",
+  "entry": "index.html",
+  "webAssets": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "pipeline_diagram.png"
+  ],
+  "electron": {
+    "width": 1360,
+    "height": 860,
+    "minWidth": 1024,
+    "minHeight": 700,
+    "backgroundColor": "#f6f4ef",
+    "macCategory": "public.app-category.education",
+    "linuxCategory": "Education"
+  }
+}
