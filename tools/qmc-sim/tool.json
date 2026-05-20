@@ -5,7 +5,7 @@
   "appId": "it.bitland.qmcsim",
   "description": "Quine-McCluskey logic minimization simulator.",
   "author": "PIPELINESIM",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "entry": "index.html",
   "webAssets": [
     "index.html",

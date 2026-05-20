@@ -991,6 +991,71 @@ demos.forEach((demo) => {
   demo.phases = [fetchPhase(demo), ...phaseDefinitions[demo.id]];
 });
 
+const infoTopics = {
+  about: {
+    title: "About CPU Spy",
+    paragraphs: [
+      "CPU Spy is a local teaching tool for inspecting how MIPS64 instructions move through the datapath, control lines, and write-back path.",
+      "It runs entirely in the browser or Electron app; no simulation data is sent anywhere."
+    ],
+    facts: [
+      ["Author", "Davide Patti"],
+      ["Email", "xedivad@gmail.com"],
+      ["License", "MIT License"],
+      ["Repository", "bitland_empire"]
+    ]
+  },
+  instruction: {
+    title: "Istruzione",
+    paragraphs: [
+      "Scegli l'istruzione MIPS64 da simulare. Il datapath, i segnali e le micro-operazioni vengono ricalcolati partendo dal primo clock.",
+      "Usa questo controllo per confrontare istruzioni R-type, immediati, load/store e branch."
+    ]
+  },
+  phases: {
+    title: "Fasi pipeline",
+    paragraphs: [
+      "Ogni pulsante rappresenta un ciclo della simulazione. Clicca una fase per saltare direttamente a quel punto.",
+      "Le frecce nella barra superiore avanzano o tornano indietro di un clock; Reset riporta la simulazione alla fase IF."
+    ]
+  },
+  diagram: {
+    title: "Datapath",
+    paragraphs: [
+      "Il diagramma evidenzia blocchi, segnali e collegamenti usati nella fase corrente.",
+      "Clicca un blocco, una linea evidenziata o una etichetta di valore per vedere il suo ruolo e i valori rilevanti nel pannello Elemento."
+    ]
+  },
+  phasePanel: {
+    title: "Fase corrente",
+    paragraphs: [
+      "Questo pannello descrive cosa avviene nel clock selezionato: nome della fase, istruzione codificata, formato e valori iniziali.",
+      "Leggilo insieme al datapath: i colori sullo schema indicano quali parti sono attive mentre il testo spiega perche."
+    ]
+  },
+  signals: {
+    title: "Segnali",
+    paragraphs: [
+      "Qui trovi i segnali di controllo o stato importanti per la fase corrente.",
+      "Valori come RegWrite, MemRead, ALUSrc o PCSrc spiegano quali mux, registri e memorie sono abilitati."
+    ]
+  },
+  trace: {
+    title: "Micro-operazioni",
+    paragraphs: [
+      "La lista scompone la fase in piccoli passi operativi.",
+      "Seguila dall'alto verso il basso per collegare il comportamento logico dell'istruzione al percorso evidenziato nel datapath."
+    ]
+  },
+  inspection: {
+    title: "Elemento",
+    paragraphs: [
+      "Questa area cambia quando selezioni un blocco, un collegamento o un valore nel diagramma.",
+      "Usala per capire se l'elemento e attivo, quali segnali lo controllano e quali valori sta trasportando nella fase corrente."
+    ]
+  }
+};
+
 const hotspotLayer = document.querySelector("#hotspotLayer");
 const valueLayer = document.querySelector("#valueLayer");
 const phaseStrip = document.querySelector("#phaseStrip");
@@ -1010,10 +1075,75 @@ const initialValue = document.querySelector("#initialValue");
 const inspectTitle = document.querySelector("#inspectTitle");
 const inspectDescription = document.querySelector("#inspectDescription");
 const inspectState = document.querySelector("#inspectState");
+const infoModal = document.querySelector("#infoModal");
+const infoModalTitle = document.querySelector("#infoModalTitle");
+const infoModalBody = document.querySelector("#infoModalBody");
 
 let currentDemo = demos[0];
 let currentPhase = 0;
 let selectedItem = null;
+let lastInfoTrigger = null;
+
+function renderInfoBody(topic) {
+  infoModalBody.innerHTML = "";
+
+  topic.paragraphs.forEach((text) => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    infoModalBody.appendChild(paragraph);
+  });
+
+  if (topic.facts) {
+    const list = document.createElement("dl");
+    list.className = "info-facts";
+    topic.facts.forEach(([label, value]) => {
+      const term = document.createElement("dt");
+      const detail = document.createElement("dd");
+      term.textContent = label;
+      if (label === "Email") {
+        const link = document.createElement("a");
+        link.href = `mailto:${value}`;
+        link.textContent = value;
+        detail.appendChild(link);
+      } else {
+        detail.textContent = value;
+      }
+      list.append(term, detail);
+    });
+    infoModalBody.appendChild(list);
+  }
+}
+
+function openInfo(topicKey, trigger) {
+  const topic = infoTopics[topicKey];
+  if (!topic) return;
+  lastInfoTrigger = trigger;
+  infoModalTitle.textContent = topic.title;
+  renderInfoBody(topic);
+  infoModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
+  infoModal.querySelector(".modal-close").focus();
+}
+
+function closeInfo() {
+  infoModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+  if (lastInfoTrigger) lastInfoTrigger.focus();
+}
+
+function bindInfoButtons() {
+  document.querySelectorAll("[data-help]").forEach((button) => {
+    button.addEventListener("click", () => openInfo(button.dataset.help, button));
+  });
+  infoModal.querySelectorAll("[data-modal-close]").forEach((button) => {
+    button.addEventListener("click", closeInfo);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !infoModal.classList.contains("hidden")) {
+      closeInfo();
+    }
+  });
+}
 
 function createHotspots() {
   Object.entries(hotspots).forEach(([key, box]) => {
@@ -1433,4 +1563,5 @@ createHotspots();
 createInstructionOptions();
 createPhaseTabs();
 setupWires();
+bindInfoButtons();
 renderPhase();

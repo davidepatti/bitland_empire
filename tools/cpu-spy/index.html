@@ -14,10 +14,13 @@
           <h1 id="instructionTitle">DADD R1,R2,R3</h1>
         </div>
 
-        <label class="instruction-picker">
-          <span>Istruzione</span>
+        <div class="instruction-picker">
+          <span>
+            Istruzione
+            <button class="help-button inline" type="button" data-help="instruction" aria-label="Aiuto istruzione" title="Aiuto istruzione">?</button>
+          </span>
           <select id="instructionSelect" aria-label="Seleziona istruzione"></select>
-        </label>
+        </div>
 
         <div class="cycle-controls" aria-label="Controlli ciclo">
           <button class="icon-button" id="prevBtn" type="button" aria-label="Ciclo precedente" title="Ciclo precedente">
@@ -40,13 +43,19 @@
               <path d="M4 4v6h6" />
             </svg>
           </button>
+          <button class="icon-button about-button" type="button" data-help="about" aria-label="About CPU Spy" title="About CPU Spy">i</button>
         </div>
       </header>
 
+      <div class="section-head phase-strip-head">
+        <span>Fasi pipeline</span>
+        <button class="help-button" type="button" data-help="phases" aria-label="Aiuto fasi pipeline" title="Aiuto fasi pipeline">?</button>
+      </div>
       <nav class="phase-strip" id="phaseStrip" aria-label="Fasi pipeline"></nav>
 
       <section class="workspace">
         <div class="diagram-shell">
+          <button class="help-button floating" type="button" data-help="diagram" aria-label="Aiuto datapath" title="Aiuto datapath">?</button>
           <div class="diagram-stage" id="diagramStage" role="group" aria-label="Datapath MIPS64">
             <img src="pipeline_diagram.png" alt="Schema datapath MIPS64" />
             <svg class="wire-layer" id="wireLayer" viewBox="0 0 1792 1386" preserveAspectRatio="none" aria-label="Collegamenti del datapath">
@@ -102,8 +111,13 @@
         </div>
 
         <aside class="phase-panel" aria-live="polite">
-          <p class="phase-name" id="phaseName">Instruction Fetch</p>
-          <h2 id="phaseTitle">Preleva l'istruzione</h2>
+          <div class="panel-title-row">
+            <div>
+              <p class="phase-name" id="phaseName">Instruction Fetch</p>
+              <h2 id="phaseTitle">Preleva l'istruzione</h2>
+            </div>
+            <button class="help-button" type="button" data-help="phasePanel" aria-label="Aiuto fase corrente" title="Aiuto fase corrente">?</button>
+          </div>
           <p class="phase-description" id="phaseDescription"></p>
 
           <div class="microstate">
@@ -122,17 +136,26 @@
           </div>
 
           <section>
-            <h3>Segnali</h3>
+            <div class="section-title-row">
+              <h3>Segnali</h3>
+              <button class="help-button" type="button" data-help="signals" aria-label="Aiuto segnali" title="Aiuto segnali">?</button>
+            </div>
             <div class="signal-list" id="signalList"></div>
           </section>
 
           <section>
-            <h3>Micro-operazioni</h3>
+            <div class="section-title-row">
+              <h3>Micro-operazioni</h3>
+              <button class="help-button" type="button" data-help="trace" aria-label="Aiuto micro-operazioni" title="Aiuto micro-operazioni">?</button>
+            </div>
             <ol class="trace-list" id="traceList"></ol>
           </section>
 
           <section class="inspection">
-            <h3>Elemento</h3>
+            <div class="section-title-row">
+              <h3>Elemento</h3>
+              <button class="help-button" type="button" data-help="inspection" aria-label="Aiuto elemento" title="Aiuto elemento">?</button>
+            </div>
             <p class="inspect-title" id="inspectTitle">Panoramica fase</p>
             <p class="inspect-description" id="inspectDescription"></p>
             <div class="inspect-state" id="inspectState"></div>
@@ -140,6 +163,15 @@
         </aside>
       </section>
     </main>
+
+    <div class="info-modal hidden" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+      <div class="info-backdrop" data-modal-close></div>
+      <section class="info-card">
+        <button class="modal-close" type="button" data-modal-close aria-label="Chiudi">×</button>
+        <h2 id="infoModalTitle"></h2>
+        <div id="infoModalBody" class="info-body"></div>
+      </section>
+    </div>
 
     <script src="app.js"></script>
   </body>

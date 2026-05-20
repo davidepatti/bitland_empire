@@ -92,7 +92,8 @@ select {
 .bit-controls,
 .fill-controls,
 .guess-bar,
-.step-controls {
+.step-controls,
+.section-title-row {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -119,6 +120,10 @@ select {
 .panel-head {
   justify-content: space-between;
   margin-bottom: 14px;
+}
+
+.section-title-row {
+  gap: 8px;
 }
 
 .chart-panel {
@@ -248,6 +253,28 @@ select {
 
 .button.ghost {
   background: var(--surface-2);
+}
+
+.help-button {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.help-button:hover,
+.modal-close:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
 }
 
 .button:disabled,
@@ -656,6 +683,95 @@ tr:last-child td {
 
 .hidden {
   display: none !important;
+}
+
+.info-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.info-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 32, 27, 0.42);
+}
+
+.info-card {
+  position: relative;
+  z-index: 1;
+  width: min(520px, 100%);
+  max-height: min(82vh, 680px);
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(23, 32, 27, 0.26);
+  padding: 22px;
+}
+
+.info-card h2 {
+  margin: 0 36px 12px 0;
+  font-size: 1.22rem;
+}
+
+.info-body {
+  display: grid;
+  gap: 10px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.info-body p {
+  margin: 0;
+}
+
+.info-facts {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 7px 12px;
+  margin: 6px 0 0;
+  color: var(--ink);
+}
+
+.info-facts dt {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.info-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.info-facts a {
+  color: var(--accent);
+  font-weight: 850;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+body.modal-open {
+  overflow: hidden;
 }
 
 @media (max-width: 920px) {

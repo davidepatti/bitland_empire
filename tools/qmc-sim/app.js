@@ -37,6 +37,11 @@ const translations = {
     rowDominance: "Row dominance",
     columnDominance: "Column dominance",
     applyGuess: "Apply guess",
+    about: "About",
+    close: "Close",
+    truthHelpLabel: "Help for output values",
+    methodHelpLabel: "Help for combining implicants",
+    chartHelpLabel: "Help for simplification guesses",
     noChartYet: "No chart yet.",
     truthTableCleared: "Truth table cleared.",
     allOutputsSet: ({ value }) => `All outputs set to ${value}.`,
@@ -145,6 +150,11 @@ const translations = {
     rowDominance: "Dominanza di riga",
     columnDominance: "Dominanza di colonna",
     applyGuess: "Applica scelta",
+    about: "Info",
+    close: "Chiudi",
+    truthHelpLabel: "Aiuto per i valori di uscita",
+    methodHelpLabel: "Aiuto per la combinazione degli implicanti",
+    chartHelpLabel: "Aiuto per i tentativi di semplificazione",
     noChartYet: "Nessuna tabella ancora.",
     truthTableCleared: "Tabella di verità pulita.",
     allOutputsSet: ({ value }) => `Tutte le uscite impostate a ${value}.`,
@@ -222,6 +232,81 @@ const translations = {
   }
 };
 
+const infoTopics = {
+  en: {
+    about: {
+      title: "About qmc-sim",
+      paragraphs: [
+        "qmc-sim is a local teaching tool for practicing Quine-McCluskey logic minimization from truth table entry through prime implicant chart reduction.",
+        "It runs entirely in the browser or Electron app; no truth tables or exercises are sent anywhere."
+      ],
+      facts: [
+        ["Author", "Davide Patti"],
+        ["Email", "xedivad@gmail.com"],
+        ["License", "MIT License"],
+        ["Repository", "bitland_empire"]
+      ]
+    },
+    truth: {
+      title: "Output values",
+      paragraphs: [
+        "Choose the number of input bits, then mark each minterm output as 0, 1, or X for don't-care.",
+        "You can also paste an output vector using 0, 1, X, or - and press Load. Use Example when you want a ready-made exercise."
+      ]
+    },
+    method: {
+      title: "Combining implicants",
+      paragraphs: [
+        "After the truth table is ready, press Build method to run the Quine-McCluskey grouping passes.",
+        "Use the step arrows to inspect each pass: which implicants combine, which ones become prime, and how the result evolves."
+      ]
+    },
+    chart: {
+      title: "Simplification guesses",
+      paragraphs: [
+        "Use the prime implicant chart to practice the final covering stage.",
+        "Select Essential, Row dominance, or Column dominance, then click the row or column candidates and Apply guess. Check status reports any simplification still available, while Finish completes the remaining cover when appropriate."
+      ]
+    }
+  },
+  it: {
+    about: {
+      title: "Info su qmc-sim",
+      paragraphs: [
+        "qmc-sim e uno strumento didattico locale per esercitarsi con la minimizzazione di Quine-McCluskey, dalla tabella di verita alla riduzione della tabella degli implicanti primi.",
+        "Funziona interamente nel browser o nell'app Electron; tabelle di verita ed esercizi non vengono inviati da nessuna parte."
+      ],
+      facts: [
+        ["Autore", "Davide Patti"],
+        ["Email", "xedivad@gmail.com"],
+        ["Licenza", "MIT License"],
+        ["Repository", "bitland_empire"]
+      ]
+    },
+    truth: {
+      title: "Valori di uscita",
+      paragraphs: [
+        "Scegli il numero di bit di input, poi imposta ogni mintermine a 0, 1 oppure X per i don't-care.",
+        "Puoi anche incollare un vettore di uscita con 0, 1, X o - e premere Carica. Usa Esempio quando vuoi partire da un esercizio gia pronto."
+      ]
+    },
+    method: {
+      title: "Combinazione degli implicanti",
+      paragraphs: [
+        "Quando la tabella e pronta, premi Costruisci metodo per eseguire i passaggi di raggruppamento di Quine-McCluskey.",
+        "Usa le frecce per osservare ogni passo: quali implicanti si combinano, quali diventano primi e come evolve il risultato."
+      ]
+    },
+    chart: {
+      title: "Tentativi di semplificazione",
+      paragraphs: [
+        "Usa la tabella degli implicanti primi per esercitarti nella fase finale di copertura.",
+        "Scegli Essenziale, Dominanza di riga o Dominanza di colonna, poi clicca righe o colonne candidate e premi Applica scelta. Controlla stato segnala le semplificazioni ancora disponibili, mentre Concludi completa la copertura rimanente quando possibile."
+      ]
+    }
+  }
+};
+
 const state = {
   language: getInitialLanguage(),
   bits: 3,
@@ -237,6 +322,7 @@ const state = {
 };
 
 const els = {
+  aboutButton: document.getElementById("aboutButton"),
   languageSelect: document.getElementById("languageSelect"),
   bitCount: document.getElementById("bitCount"),
   applyBits: document.getElementById("applyBits"),
@@ -265,8 +351,13 @@ const els = {
   messageBox: document.getElementById("messageBox"),
   selectedBox: document.getElementById("selectedBox"),
   chartWrap: document.getElementById("chartWrap"),
-  finalBox: document.getElementById("finalBox")
+  finalBox: document.getElementById("finalBox"),
+  infoModal: document.getElementById("infoModal"),
+  infoModalTitle: document.getElementById("infoModalTitle"),
+  infoModalBody: document.getElementById("infoModalBody")
 };
+
+let lastInfoTrigger = null;
 
 function getInitialLanguage() {
   try {
@@ -308,6 +399,56 @@ function setLanguage(language) {
   }
   applyTranslations();
   renderCurrentLanguageState();
+}
+
+function currentInfoTopic(key) {
+  return infoTopics[state.language][key] || infoTopics.en[key];
+}
+
+function renderInfoBody(topic) {
+  els.infoModalBody.innerHTML = "";
+  topic.paragraphs.forEach(text => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    els.infoModalBody.appendChild(paragraph);
+  });
+
+  if (topic.facts) {
+    const list = document.createElement("dl");
+    list.className = "info-facts";
+    topic.facts.forEach(([label, value]) => {
+      const term = document.createElement("dt");
+      const detail = document.createElement("dd");
+      term.textContent = label;
+      if (value.includes("@")) {
+        const link = document.createElement("a");
+        link.href = `mailto:${value}`;
+        link.textContent = value;
+        detail.appendChild(link);
+      } else {
+        detail.textContent = value;
+      }
+      list.append(term, detail);
+    });
+    els.infoModalBody.appendChild(list);
+  }
+}
+
+function openInfo(topicKey, trigger) {
+  const topic = currentInfoTopic(topicKey);
+  if (!topic) return;
+  lastInfoTrigger = trigger;
+  els.infoModalTitle.textContent = topic.title;
+  renderInfoBody(topic);
+  els.infoModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
+  els.infoModal.querySelector(".modal-close").focus();
+}
+
+function closeInfo() {
+  els.infoModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+  if (lastInfoTrigger) lastInfoTrigger.focus();
 }
 
 function renderCurrentLanguageState() {
@@ -353,6 +494,19 @@ function init() {
 }
 
 function bindEvents() {
+  els.aboutButton.addEventListener("click", () => openInfo("about", els.aboutButton));
+  document.querySelectorAll("[data-help]").forEach(button => {
+    button.addEventListener("click", () => openInfo(button.dataset.help, button));
+  });
+  els.infoModal.querySelectorAll("[data-modal-close]").forEach(button => {
+    button.addEventListener("click", closeInfo);
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !els.infoModal.classList.contains("hidden")) {
+      closeInfo();
+    }
+  });
+
   els.languageSelect.addEventListener("change", () => {
     setLanguage(els.languageSelect.value);
   });

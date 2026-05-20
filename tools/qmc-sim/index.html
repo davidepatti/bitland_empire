@@ -21,6 +21,7 @@
               <option value="it">Italiano</option>
             </select>
           </label>
+          <button id="aboutButton" class="button ghost" type="button" data-icon="i" data-i18n="about">About</button>
         </div>
       </header>
 
@@ -29,7 +30,10 @@
           <div class="panel-head">
             <div>
               <p class="eyebrow" data-i18n="truthTable">Truth table</p>
-              <h2 id="truthTableTitle" data-i18n="outputValues">Output values</h2>
+              <div class="section-title-row">
+                <h2 id="truthTableTitle" data-i18n="outputValues">Output values</h2>
+                <button class="help-button" type="button" data-help="truth" aria-label="Help for output values" title="Help for output values" data-i18n-attr="aria-label:truthHelpLabel;title:truthHelpLabel">?</button>
+              </div>
             </div>
             <div class="button-row compact">
               <button id="clearTable" class="button ghost" type="button" data-icon="⌫" data-i18n="clear">Clear</button>
@@ -77,7 +81,10 @@
           <div class="panel-head">
             <div>
               <p class="eyebrow" data-i18n="qmcProgression">QMC progression</p>
-              <h2 id="methodTitle" data-i18n="combiningImplicants">Combining implicants</h2>
+              <div class="section-title-row">
+                <h2 id="methodTitle" data-i18n="combiningImplicants">Combining implicants</h2>
+                <button class="help-button" type="button" data-help="method" aria-label="Help for combining implicants" title="Help for combining implicants" data-i18n-attr="aria-label:methodHelpLabel;title:methodHelpLabel">?</button>
+              </div>
             </div>
             <button id="buildQmc" class="button primary" type="button" data-icon="⇄" data-i18n="buildMethod">Build method</button>
           </div>
@@ -106,7 +113,10 @@
         <div class="panel-head chart-head">
           <div>
             <p class="eyebrow" data-i18n="primeImplicantChart">Prime implicant chart</p>
-            <h2 id="chartTitle" data-i18n="simplificationGuesses">Simplification guesses</h2>
+            <div class="section-title-row">
+              <h2 id="chartTitle" data-i18n="simplificationGuesses">Simplification guesses</h2>
+              <button class="help-button" type="button" data-help="chart" aria-label="Help for simplification guesses" title="Help for simplification guesses" data-i18n-attr="aria-label:chartHelpLabel;title:chartHelpLabel">?</button>
+            </div>
           </div>
           <div class="button-row compact">
             <button id="resetChart" class="button ghost" type="button" data-icon="↺" data-i18n="resetChart">Reset chart</button>
@@ -132,6 +142,15 @@
         <div id="finalBox" class="final-box hidden"></div>
       </section>
     </main>
+
+    <div class="info-modal hidden" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+      <div class="info-backdrop" data-modal-close></div>
+      <section class="info-card">
+        <button class="modal-close" type="button" data-modal-close aria-label="Close" data-i18n-attr="aria-label:close">×</button>
+        <h2 id="infoModalTitle"></h2>
+        <div id="infoModalBody" class="info-body"></div>
+      </section>
+    </div>
 
     <script src="app.js"></script>
   </body>

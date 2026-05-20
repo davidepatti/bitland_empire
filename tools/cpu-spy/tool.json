@@ -5,7 +5,7 @@
   "appId": "it.bitland.cpuspy",
   "description": "Clickable MIPS64 pipeline/datapath instruction demo.",
   "author": "PIPELINESIM",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "entry": "index.html",
   "webAssets": [
     "index.html",

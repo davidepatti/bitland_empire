@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Shared Electron tooling for Bitland Empire teaching tools.",
   "author": "PIPELINESIM",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "check": "node --check scripts/electron/main.js && node --check scripts/electron/after-pack.js && node --check scripts/electron/package-tool.js && node scripts/electron/package-tool.js tools/cpu-spy --dry-run && node scripts/electron/package-tool.js tools/qmc-sim --dry-run && node --check tools/cpu-spy/app.js && node --check tools/qmc-sim/app.js && bash -n build-electron-apps.sh && bash -n tools/cpu-spy/launch.sh && zsh -n 'tools/qmc-sim/Launch qmc-sim.command'",
