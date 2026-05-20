@@ -40,8 +40,34 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function lockedElectronVersion() {
+  const lockPath = path.join(repoRoot, "package-lock.json");
+  if (fs.existsSync(lockPath)) {
+    const lock = readJson(lockPath);
+    const locked = lock.packages && lock.packages["node_modules/electron"];
+    if (locked && locked.version) return locked.version;
+  }
+
+  const installedPackage = path.join(repoRoot, "node_modules", "electron", "package.json");
+  if (fs.existsSync(installedPackage)) {
+    return readJson(installedPackage).version;
+  }
+
+  return null;
+}
+
+function rootDevDependencies() {
+  const dependencies = { ...readJson(path.join(repoRoot, "package.json")).devDependencies };
+  const exactElectronVersion = lockedElectronVersion();
+  if (exactElectronVersion) {
+    dependencies.electron = exactElectronVersion;
+  }
+  return dependencies;
+}
+
 function packageJsonFor(tool) {
   const electron = tool.electron || {};
+  const exactElectronVersion = electron.electronVersion || lockedElectronVersion();
   return {
     name: tool.slug,
     version: tool.version || "1.0.0",
@@ -53,6 +79,7 @@ function packageJsonFor(tool) {
     build: {
       appId: tool.appId,
       productName: tool.productName,
+      ...(exactElectronVersion ? { electronVersion: exactElectronVersion } : {}),
       artifactName: electron.artifactName || "${productName}-${version}-${os}-${arch}.${ext}",
       directories: {
         output: "release"
@@ -96,7 +123,7 @@ function packageJsonFor(tool) {
         ]
       }
     },
-    devDependencies: readJson(path.join(repoRoot, "package.json")).devDependencies
+    devDependencies: rootDevDependencies()
   };
 }
 
