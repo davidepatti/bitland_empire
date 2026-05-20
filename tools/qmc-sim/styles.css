@@ -197,6 +197,41 @@ select {
   transition: transform 120ms ease, background 120ms ease, border-color 120ms ease, color 120ms ease;
 }
 
+.button[data-icon],
+.mode-button[data-icon] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.button[data-icon]::before,
+.mode-button[data-icon]::before {
+  content: attr(data-icon);
+  display: inline-grid;
+  place-items: center;
+  width: 1.12rem;
+  height: 1.12rem;
+  flex: 0 0 auto;
+  border: 1px solid rgba(23, 32, 27, 0.22);
+  border-radius: 5px;
+  color: currentColor;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0.88;
+}
+
+.button.primary[data-icon]::before {
+  border-color: rgba(255, 255, 255, 0.48);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.button.ghost[data-icon]::before,
+.mode-button[data-icon]::before {
+  background: rgba(255, 255, 255, 0.72);
+}
+
 .button:hover,
 .icon-button:hover,
 .mode-button:hover,
@@ -508,6 +543,7 @@ tr:last-child td {
   border-radius: 6px;
   background: transparent;
   white-space: nowrap;
+  padding-inline: 10px 12px;
 }
 
 .mode-button.active {

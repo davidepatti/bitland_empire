@@ -32,8 +32,8 @@
               <h2 id="truthTableTitle" data-i18n="outputValues">Output values</h2>
             </div>
             <div class="button-row compact">
-              <button id="clearTable" class="button ghost" type="button" data-i18n="clear">Clear</button>
-              <button id="loadExample" class="button ghost" type="button" data-i18n="example">Example</button>
+              <button id="clearTable" class="button ghost" type="button" data-icon="⌫" data-i18n="clear">Clear</button>
+              <button id="loadExample" class="button ghost" type="button" data-icon="★" data-i18n="example">Example</button>
             </div>
           </div>
 
@@ -43,11 +43,11 @@
                 <span data-i18n="inputBits">Input bits</span>
                 <input id="bitCount" type="number" min="1" max="6" value="3">
               </label>
-              <button id="applyBits" class="button primary" type="button" data-i18n="apply">Apply</button>
+              <button id="applyBits" class="button primary" type="button" data-icon="✓" data-i18n="apply">Apply</button>
             </div>
             <div class="fill-controls" aria-label="Apply all outputs" data-i18n-attr="aria-label:applyAllOutputs">
-              <button id="fillZeros" class="button ghost" type="button" data-i18n="applyAllZero">All 0</button>
-              <button id="fillOnes" class="button ghost" type="button" data-i18n="applyAllOne">All 1</button>
+              <button id="fillZeros" class="button ghost" type="button" data-icon="0" data-i18n="applyAllZero">All 0</button>
+              <button id="fillOnes" class="button ghost" type="button" data-icon="1" data-i18n="applyAllOne">All 1</button>
             </div>
           </div>
 
@@ -56,7 +56,7 @@
               <span data-i18n="outputVector">Output vector</span>
               <input id="vectorInput" type="text" spellcheck="false" autocomplete="off">
             </label>
-            <button id="loadVector" class="button" type="button" data-i18n="load">Load</button>
+            <button id="loadVector" class="button" type="button" data-icon="↵" data-i18n="load">Load</button>
           </div>
 
           <div class="table-wrap">
@@ -79,7 +79,7 @@
               <p class="eyebrow" data-i18n="qmcProgression">QMC progression</p>
               <h2 id="methodTitle" data-i18n="combiningImplicants">Combining implicants</h2>
             </div>
-            <button id="buildQmc" class="button primary" type="button" data-i18n="buildMethod">Build method</button>
+            <button id="buildQmc" class="button primary" type="button" data-icon="⇄" data-i18n="buildMethod">Build method</button>
           </div>
 
           <div id="statusLine" class="status-line" data-i18n="initialStatus">Enter a truth table, then build the method.</div>
@@ -109,20 +109,20 @@
             <h2 id="chartTitle" data-i18n="simplificationGuesses">Simplification guesses</h2>
           </div>
           <div class="button-row compact">
-            <button id="resetChart" class="button ghost" type="button" data-i18n="resetChart">Reset chart</button>
-            <button id="checkStatus" class="button" type="button" data-i18n="checkStatus">Check status</button>
-            <button id="finishCoverage" class="button primary" type="button" data-i18n="finish">Finish</button>
+            <button id="resetChart" class="button ghost" type="button" data-icon="↺" data-i18n="resetChart">Reset chart</button>
+            <button id="checkStatus" class="button" type="button" data-icon="?" data-i18n="checkStatus">Check status</button>
+            <button id="finishCoverage" class="button primary" type="button" data-icon="✓" data-i18n="finish">Finish</button>
           </div>
         </div>
 
         <div class="guess-bar">
           <div class="segmented" role="tablist" aria-label="Simplification type" data-i18n-attr="aria-label:simplificationType">
-            <button class="mode-button active" data-mode="essential" type="button" data-i18n="essential">Essential</button>
-            <button class="mode-button" data-mode="row" type="button" data-i18n="rowDominance">Row dominance</button>
-            <button class="mode-button" data-mode="column" type="button" data-i18n="columnDominance">Column dominance</button>
+            <button class="mode-button active" data-mode="essential" type="button" data-icon="!" data-i18n="essential">Essential</button>
+            <button class="mode-button" data-mode="row" type="button" data-icon="≡" data-i18n="rowDominance">Row dominance</button>
+            <button class="mode-button" data-mode="column" type="button" data-icon="∥" data-i18n="columnDominance">Column dominance</button>
           </div>
           <div id="selectionText" class="selection-text" data-i18n="selectionEssentialEmpty">Select one implicant row.</div>
-          <button id="applyGuess" class="button primary" type="button" data-i18n="applyGuess">Apply guess</button>
+          <button id="applyGuess" class="button primary" type="button" data-icon="✓" data-i18n="applyGuess">Apply guess</button>
         </div>
 
         <div id="messageBox" class="message-box" data-i18n="noChartYet">No chart yet.</div>
