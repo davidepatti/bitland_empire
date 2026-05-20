@@ -8,4 +8,5 @@
 !tools/cpu-spy/release/*.blockmap
 !tools/cpu-spy/release/SHA256SUMS.txt
 **/.cache/
+**/.playwright-cli/
 **/npm-debug.log*
