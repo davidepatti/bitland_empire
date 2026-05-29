@@ -135,7 +135,6 @@ h1 {
 .icon-button:focus-visible,
 .phase-tab:focus-visible,
 .hotspot:focus-visible,
-.value-label:focus-visible,
 .wire:focus-visible {
   outline: 3px solid rgba(14, 159, 154, 0.28);
   outline-offset: 3px;
@@ -369,116 +368,56 @@ h1 {
 }
 
 .hotspot {
-  position: absolute;
-  padding: 0;
-  border: 3px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: inherit;
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 3px;
+  vector-effect: non-scaling-stroke;
   cursor: help;
   opacity: 0;
-  pointer-events: auto;
+  pointer-events: all;
   transition:
     opacity 180ms ease,
-    box-shadow 180ms ease,
-    background 180ms ease;
+    fill 180ms ease,
+    filter 180ms ease,
+    stroke 180ms ease;
 }
 
 .hotspot:hover {
   opacity: 1;
-  border-color: rgba(122, 135, 148, 0.6);
-  background: rgba(122, 135, 148, 0.06);
-}
-
-.hotspot.is-oval {
-  border-radius: 999px;
+  fill: rgba(122, 135, 148, 0.06);
+  stroke: rgba(122, 135, 148, 0.6);
 }
 
 .hotspot.is-active {
   opacity: 1;
-  border-color: var(--data);
-  background: rgba(240, 138, 36, 0.12);
-  box-shadow:
-    0 0 0 3px rgba(240, 138, 36, 0.2),
-    0 0 20px rgba(240, 138, 36, 0.35);
+  fill: rgba(240, 138, 36, 0.12);
+  stroke: var(--data);
+  filter: drop-shadow(0 0 5px rgba(240, 138, 36, 0.45));
 }
 
 .hotspot.is-control {
-  border-color: var(--control);
-  background: rgba(14, 159, 154, 0.12);
-  box-shadow:
-    0 0 0 3px rgba(14, 159, 154, 0.18),
-    0 0 18px rgba(14, 159, 154, 0.3);
+  fill: rgba(14, 159, 154, 0.12);
+  stroke: var(--control);
+  filter: drop-shadow(0 0 5px rgba(14, 159, 154, 0.38));
 }
 
 .hotspot.is-write {
-  border-color: var(--write);
-  background: rgba(109, 91, 208, 0.12);
-  box-shadow:
-    0 0 0 3px rgba(109, 91, 208, 0.18),
-    0 0 18px rgba(109, 91, 208, 0.3);
+  fill: rgba(109, 91, 208, 0.12);
+  stroke: var(--write);
+  filter: drop-shadow(0 0 5px rgba(109, 91, 208, 0.38));
 }
 
 .hotspot.is-muted {
-  border-color: var(--quiet);
-  border-style: dashed;
-  background: rgba(122, 135, 148, 0.09);
-  box-shadow: 0 0 0 3px rgba(122, 135, 148, 0.15);
+  fill: rgba(122, 135, 148, 0.09);
+  stroke: var(--quiet);
+  stroke-dasharray: 7 5;
+  filter: drop-shadow(0 0 4px rgba(122, 135, 148, 0.28));
 }
 
 .hotspot.is-selected {
   opacity: 1;
-  border-color: var(--ink);
-  box-shadow:
-    0 0 0 3px rgba(29, 32, 40, 0.18),
-    0 0 22px rgba(29, 32, 40, 0.28);
-}
-
-.value-label {
-  appearance: none;
-  position: absolute;
-  max-width: min(210px, 22vw);
-  padding: 6px 8px;
-  border: 1px solid rgba(29, 32, 40, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 254, 250, 0.96);
-  color: var(--ink);
-  font-size: clamp(0.62rem, 0.86vw, 0.84rem);
-  font-weight: 850;
-  line-height: 1.15;
-  text-align: left;
-  box-shadow: 0 10px 22px rgba(35, 28, 14, 0.15);
-  transform: translate(-50%, -50%);
-  overflow-wrap: anywhere;
-  cursor: help;
-  pointer-events: auto;
-}
-
-.value-label:hover,
-.value-label.is-selected {
-  border-color: var(--ink);
-  box-shadow:
-    0 0 0 3px rgba(29, 32, 40, 0.12),
-    0 10px 22px rgba(35, 28, 14, 0.15);
-}
-
-.value-label::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 5px;
-  border-radius: 50%;
-  background: var(--data);
-  vertical-align: 1px;
-}
-
-.value-label.control::before {
-  background: var(--control);
-}
-
-.value-label.write::before {
-  background: var(--write);
+  stroke: var(--ink);
+  filter: drop-shadow(0 0 6px rgba(29, 32, 40, 0.34));
 }
 
 .phase-panel {
@@ -805,8 +744,4 @@ body.modal-open {
     display: none;
   }
 
-  .value-label {
-    max-width: 112px;
-    padding: 4px 5px;
-  }
 }

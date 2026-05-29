@@ -1,12 +1,7 @@
 .DS_Store
 **/node_modules/
 **/release/
-!tools/cpu-spy/release/
-!tools/cpu-spy/release/*.dmg
-!tools/cpu-spy/release/*.zip
-!tools/cpu-spy/release/*.tar.gz
-!tools/cpu-spy/release/*.blockmap
-!tools/cpu-spy/release/SHA256SUMS.txt
 **/.cache/
 **/.playwright-cli/
 **/npm-debug.log*
+/private/

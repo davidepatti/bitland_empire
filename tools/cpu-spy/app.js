@@ -1,30 +1,33 @@
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+// Hotspot coordinates live in the natural pixel space of pipeline_diagram.png.
 const hotspots = {
-  pc: { x: 3.0, y: 47.8, w: 3.8, h: 14.2 },
-  instructionMemory: { x: 9.3, y: 52.1, w: 10.7, h: 19.7 },
-  pcAdder: { x: 14.4, y: 5.8, w: 6.0, h: 17.7 },
-  pcSrcMux: { x: 80.5, y: 7.6, w: 3.3, h: 14.3 },
-  controlUnit: { x: 31.8, y: 24.7, w: 11.0, h: 24.7, kind: "control", shape: "oval" },
-  registers: { x: 40.1, y: 50.3, w: 14.1, h: 26.7 },
-  regDstMux: { x: 36.3, y: 62.0, w: 3.2, h: 12.0 },
-  signExtend: { x: 45.6, y: 74.2, w: 6.7, h: 11.9, shape: "oval" },
-  aluSrcMux: { x: 58.7, y: 60.1, w: 3.1, h: 13.7 },
-  aluControl: { x: 60.2, y: 79.2, w: 7.8, h: 13.7, kind: "control", shape: "oval" },
-  alu: { x: 64.4, y: 54.6, w: 10.2, h: 17.8 },
-  dataMemory: { x: 77.3, y: 58.7, w: 12.4, h: 21.4 },
-  memToRegMux: { x: 92.8, y: 61.0, w: 3.2, h: 13.0 },
-  branchAdder: { x: 65.9, y: 11.2, w: 10.0, h: 18.0 },
-  shiftLeft: { x: 58.7, y: 23.2, w: 5.6, h: 8.9, shape: "oval" },
-  branchAnd: { x: 76.7, y: 28.3, w: 4.7, h: 5.8, kind: "control" },
-  regDstSignal: { x: 43.2, y: 25.8, w: 7.3, h: 3.0, kind: "control" },
-  branchSignal: { x: 43.2, y: 28.8, w: 7.2, h: 3.0, kind: "control" },
-  memReadSignal: { x: 43.2, y: 31.8, w: 8.4, h: 3.0, kind: "control" },
-  memToRegSignal: { x: 43.2, y: 34.8, w: 9.0, h: 3.0, kind: "control" },
-  aluOpSignal: { x: 43.2, y: 37.6, w: 6.8, h: 2.9, kind: "control" },
-  memWriteSignal: { x: 43.2, y: 40.4, w: 8.8, h: 3.0, kind: "control" },
-  aluSrcSignal: { x: 43.2, y: 43.2, w: 7.6, h: 3.0, kind: "control" },
-  regWriteSignal: { x: 43.2, y: 46.0, w: 8.2, h: 3.0, kind: "control" },
-  pcSrcSignal: { x: 83.0, y: 23.1, w: 6.0, h: 3.0, kind: "control" },
-  zeroSignal: { x: 69.7, y: 57.8, w: 4.6, h: 3.2, kind: "control" }
+  pc: { x: 56, y: 665, w: 66, h: 196 },
+  instructionMemory: { x: 166, y: 722, w: 192, h: 274 },
+  pcAdder: { x: 258, y: 80, w: 108, h: 248 },
+  pcSrcMux: { x: 1444, y: 104, w: 58, h: 200 },
+  controlUnit: { x: 626, y: 350, w: 138, h: 334, kind: "control", shape: "oval" },
+  registers: { x: 718, y: 698, w: 253, h: 370 },
+  regDstMux: { x: 650, y: 844, w: 60, h: 184 },
+  signExtend: { x: 812, y: 1084, w: 126, h: 184, shape: "oval" },
+  aluSrcMux: { x: 1052, y: 846, w: 58, h: 184 },
+  aluControl: { x: 1080, y: 1098, w: 138, h: 202, kind: "control", shape: "oval" },
+  alu: { x: 1154, y: 758, w: 184, h: 244 },
+  dataMemory: { x: 1385, y: 812, w: 224, h: 324 },
+  memToRegMux: { x: 1664, y: 846, w: 58, h: 184 },
+  branchAdder: { x: 1180, y: 154, w: 180, h: 248 },
+  shiftLeft: { x: 1052, y: 292, w: 102, h: 134, shape: "oval" },
+  branchAnd: { x: 1375, y: 360, w: 86, h: 94, kind: "control" },
+  regDstSignal: { x: 773, y: 356, w: 136, h: 40, kind: "control" },
+  branchSignal: { x: 773, y: 398, w: 134, h: 40, kind: "control" },
+  memReadSignal: { x: 773, y: 440, w: 158, h: 40, kind: "control" },
+  memToRegSignal: { x: 773, y: 482, w: 170, h: 40, kind: "control" },
+  aluOpSignal: { x: 773, y: 524, w: 130, h: 40, kind: "control" },
+  memWriteSignal: { x: 773, y: 566, w: 166, h: 40, kind: "control" },
+  aluSrcSignal: { x: 773, y: 608, w: 146, h: 40, kind: "control" },
+  regWriteSignal: { x: 773, y: 650, w: 154, h: 40, kind: "control" },
+  pcSrcSignal: { x: 1486, y: 318, w: 118, h: 48, kind: "control" },
+  zeroSignal: { x: 1244, y: 796, w: 92, h: 52, kind: "control" }
 };
 
 const allControlSignals = [
@@ -374,10 +377,10 @@ const phaseDefinitions = {
       ],
       values: [
         { text: "ALU result = 0x...000C", x: 76.0, y: 63.0 },
-        { text: "MemRead = 0", x: 82.7, y: 56.0, kind: "control" },
+        { text: "MemRead = 0", x: 80.8, y: 55.5, kind: "control" },
         { text: "MemWrite = 0", x: 82.7, y: 79.2, kind: "control" },
         { text: "Branch = 0, PCSrc = 0", x: 84.5, y: 27.5, kind: "control" },
-        { text: "MemtoReg = 0", x: 93.5, y: 57.1, kind: "control" }
+        { text: "MemtoReg = 0", x: 91.0, y: 52.4, kind: "control" }
       ],
       signals: [
         ["MemRead", "0"],
@@ -521,9 +524,9 @@ const phaseDefinitions = {
       ],
       values: [
         { text: "ALU result = 0x...0017", x: 76.0, y: 63.0 },
-        { text: "MemRead = 0", x: 82.7, y: 56.0, kind: "control" },
+        { text: "MemRead = 0", x: 80.8, y: 55.5, kind: "control" },
         { text: "MemWrite = 0", x: 82.7, y: 79.2, kind: "control" },
-        { text: "MemtoReg = 0", x: 93.5, y: 57.1, kind: "control" }
+        { text: "MemtoReg = 0", x: 91.0, y: 52.4, kind: "control" }
       ],
       signals: [
         ["MemRead", "0"],
@@ -629,7 +632,7 @@ const phaseDefinitions = {
       ],
       values: [
         { text: "ALUSrc=1 => vett", x: 60.5, y: 70.4, kind: "control" },
-        { text: "ALUCtrl = ADD", x: 64.4, y: 78.0, kind: "control" },
+        { text: "ALUCtrl = ADD", x: 64.0, y: 88.6, kind: "control" },
         { text: "0x...1000 + 0x...0020", x: 68.4, y: 51.4 },
         { text: "Indirizzo = 0x...1020", x: 79.0, y: 65.0 }
       ],
@@ -661,10 +664,10 @@ const phaseDefinitions = {
         "controlToMemToReg"
       ],
       values: [
-        { text: "Indirizzo = 0x...1020", x: 78.5, y: 63.0 },
-        { text: "MemRead = 1", x: 82.7, y: 56.0, kind: "control" },
-        { text: "Dato letto = 0x1122334455667788", x: 91.2, y: 65.0 },
-        { text: "MemtoReg = 1", x: 93.5, y: 57.1, kind: "control" }
+        { text: "Indirizzo = 0x...1020", x: 75.5, y: 63.0 },
+        { text: "MemRead = 1", x: 80.6, y: 55.5, kind: "control" },
+        { text: "Dato letto = 0x1122334455667788", x: 84.5, y: 68.0 },
+        { text: "MemtoReg = 1", x: 91.0, y: 52.4, kind: "control" }
       ],
       signals: [
         ["MemRead", "1"],
@@ -771,7 +774,7 @@ const phaseDefinitions = {
         { text: "ALUCtrl = ADD", x: 64.4, y: 78.0, kind: "control" },
         { text: "0x...1000 + 0x...0020", x: 68.4, y: 51.4 },
         { text: "Indirizzo = 0x...1020", x: 79.0, y: 65.0 },
-        { text: "Dato R1 pronto per MEM", x: 72.2, y: 78.0 }
+        { text: "Dato R1 pronto per MEM", x: 82.0, y: 75.0 }
       ],
       signals: [
         ["ALUOp", "00"],
@@ -797,8 +800,8 @@ const phaseDefinitions = {
       wires: ["aluResultToMemory", "readData2ToMemory", "controlToMemWrite", "controlToMemRead"],
       values: [
         { text: "Indirizzo = 0x...1020", x: 78.5, y: 63.0 },
-        { text: "Dato scritto = 0xAABBCCDDEEFF0011", x: 82.0, y: 76.5, kind: "write" },
-        { text: "MemWrite = 1", x: 82.7, y: 79.2, kind: "control" },
+        { text: "Dato scritto = 0xAABBCCDDEEFF0011", x: 79.8, y: 75.2, kind: "write" },
+        { text: "MemWrite = 1", x: 86.8, y: 83.2, kind: "control" },
         { text: "MemRead = 0", x: 82.7, y: 56.0, kind: "control" }
       ],
       signals: [
@@ -1151,19 +1154,41 @@ function bindInfoButtons() {
 
 function createHotspots() {
   Object.entries(hotspots).forEach(([key, box]) => {
-    const node = document.createElement("button");
-    node.type = "button";
-    node.className = "hotspot";
+    const node =
+      box.shape === "oval"
+        ? document.createElementNS(SVG_NS, "ellipse")
+        : document.createElementNS(SVG_NS, "rect");
+
+    node.setAttribute("class", "hotspot");
     node.dataset.hotspot = key;
+    node.setAttribute("role", "button");
+    node.setAttribute("tabindex", "0");
+    node.setAttribute("focusable", "true");
     node.setAttribute("aria-label", getHotspotName(key));
-    node.style.left = `${box.x}%`;
-    node.style.top = `${box.y}%`;
-    node.style.width = `${box.w}%`;
-    node.style.height = `${box.h}%`;
-    node.classList.toggle("is-oval", box.shape === "oval");
+
+    if (box.shape === "oval") {
+      node.setAttribute("cx", box.x + box.w / 2);
+      node.setAttribute("cy", box.y + box.h / 2);
+      node.setAttribute("rx", box.w / 2);
+      node.setAttribute("ry", box.h / 2);
+    } else {
+      node.setAttribute("x", box.x);
+      node.setAttribute("y", box.y);
+      node.setAttribute("width", box.w);
+      node.setAttribute("height", box.h);
+      node.setAttribute("rx", "8");
+      node.setAttribute("ry", "8");
+    }
+
     node.addEventListener("click", (event) => {
       event.stopPropagation();
       inspectItem({ kind: "hotspot", id: key });
+    });
+    node.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        inspectItem({ kind: "hotspot", id: key });
+      }
     });
     hotspotLayer.appendChild(node);
   });
@@ -1368,26 +1393,6 @@ function describeWire(id) {
   ]);
 }
 
-function describeValue(index) {
-  const phase = currentDemo.phases[currentPhase];
-  const value = (phase.values || [])[Number(index)];
-
-  if (!value) {
-    selectedItem = null;
-    renderOverview();
-    return;
-  }
-
-  const type = value.kind === "control" ? "Segnale" : value.kind === "write" ? "Scrittura" : "Dato";
-
-  setInspection("Valore visualizzato", "Valore calcolato, selezionato o propagato durante la fase corrente.", [
-    ["Tipo", type],
-    ["Stato", "Visibile in questa fase"],
-    ["Fase", `${phase.code} - ${phase.name}`],
-    ["Valore", value.text]
-  ]);
-}
-
 function updateSelectedStyles() {
   document.querySelectorAll(".hotspot").forEach((node) => {
     node.classList.toggle(
@@ -1400,13 +1405,6 @@ function updateSelectedStyles() {
     node.classList.toggle(
       "is-selected",
       selectedItem?.kind === "wire" && selectedItem.id === node.dataset.wire
-    );
-  });
-
-  document.querySelectorAll(".value-label").forEach((node) => {
-    node.classList.toggle(
-      "is-selected",
-      selectedItem?.kind === "value" && selectedItem.id === node.dataset.valueIndex
     );
   });
 }
@@ -1422,8 +1420,6 @@ function renderInspection() {
     describeHotspot(selectedItem.id);
   } else if (selectedItem.kind === "wire") {
     describeWire(selectedItem.id);
-  } else if (selectedItem.kind === "value") {
-    describeValue(selectedItem.id);
   }
 
   updateSelectedStyles();
@@ -1467,9 +1463,6 @@ function setDemo(id) {
 
 function setPhase(index) {
   currentPhase = (index + currentDemo.phases.length) % currentDemo.phases.length;
-  if (selectedItem?.kind === "value") {
-    selectedItem = null;
-  }
   renderPhase();
 }
 
@@ -1507,21 +1500,6 @@ function renderPhase() {
   });
 
   valueLayer.innerHTML = "";
-  phase.values.forEach((item, index) => {
-    const label = document.createElement("button");
-    label.type = "button";
-    label.className = `value-label ${item.kind || ""}`.trim();
-    label.dataset.valueIndex = String(index);
-    label.setAttribute("aria-label", `Valore: ${item.text}`);
-    label.textContent = item.text;
-    label.style.left = `${item.x}%`;
-    label.style.top = `${item.y}%`;
-    label.addEventListener("click", (event) => {
-      event.stopPropagation();
-      inspectItem({ kind: "value", id: String(index) });
-    });
-    valueLayer.appendChild(label);
-  });
 
   clockLabel.textContent = `Clock ${currentPhase + 1}/${currentDemo.phases.length}`;
   phaseCode.textContent = phase.code;

@@ -14,6 +14,11 @@ if [[ ! -x "node_modules/.bin/electron-builder" ]]; then
   npm install
 fi
 
+DEFAULT_QMC_PUBLIC_KEY="$ROOT_DIR/private/qmc-public.pem"
+if [[ -z "${QMC_SIM_UNLOCK_PUBLIC_KEY:-}" && -f "$DEFAULT_QMC_PUBLIC_KEY" ]]; then
+  export QMC_SIM_UNLOCK_PUBLIC_KEY="$DEFAULT_QMC_PUBLIC_KEY"
+fi
+
 TOOL_CONFIGS=()
 while IFS= read -r config; do
   TOOL_CONFIGS+=("$config")

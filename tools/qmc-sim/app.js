@@ -38,12 +38,23 @@ const translations = {
     rowDominance: "Row dominance",
     columnDominance: "Column dominance",
     applyGuess: "Apply guess",
+    tutorial: "Tutorial",
     about: "About",
     close: "Close",
     truthHelpLabel: "Help for output values",
     methodHelpLabel: "Help for combining implicants",
     chartHelpLabel: "Help for simplification guesses",
     noChartYet: "No chart yet.",
+    examGuardTitle: "Unlock qmc-sim",
+    examGuardBody: "This desktop copy must be unlocked on this computer before it can run.",
+    examGuardRequestCode: "Computer code",
+    examGuardUnlockCode: "Unlock code",
+    examGuardUnlock: "Unlock",
+    examGuardChecking: "Checking unlock status...",
+    examGuardUnconfigured: "This exam build is missing its public unlock key.",
+    examGuardUnlocked: "Unlocked for this computer.",
+    examGuardActivatedFor: ({ student }) => `Unlocked for ${student}.`,
+    examGuardEnterCode: "Paste the unlock code supplied by the instructor.",
     truthTableCleared: "Truth table cleared.",
     allOutputsSet: ({ value }) => `All outputs set to ${value}.`,
     bitsSelected: ({ bits }) => `${bits} input bit${bits === 1 ? "" : "s"} selected.`,
@@ -161,12 +172,23 @@ const translations = {
     rowDominance: "Dominanza di riga",
     columnDominance: "Dominanza di colonna",
     applyGuess: "Applica scelta",
+    tutorial: "Tutorial",
     about: "Info",
     close: "Chiudi",
     truthHelpLabel: "Aiuto per i valori di uscita",
     methodHelpLabel: "Aiuto per la combinazione degli implicanti",
     chartHelpLabel: "Aiuto per i tentativi di semplificazione",
     noChartYet: "Nessuna tabella ancora.",
+    examGuardTitle: "Sblocca qmc-sim",
+    examGuardBody: "Questa copia desktop deve essere sbloccata su questo computer prima di poter essere usata.",
+    examGuardRequestCode: "Codice computer",
+    examGuardUnlockCode: "Codice di sblocco",
+    examGuardUnlock: "Sblocca",
+    examGuardChecking: "Controllo dello sblocco...",
+    examGuardUnconfigured: "A questa build d'esame manca la chiave pubblica di sblocco.",
+    examGuardUnlocked: "Sbloccato per questo computer.",
+    examGuardActivatedFor: ({ student }) => `Sbloccato per ${student}.`,
+    examGuardEnterCode: "Incolla il codice di sblocco fornito dal docente.",
     truthTableCleared: "Tabella di verità pulita.",
     allOutputsSet: ({ value }) => `Tutte le uscite impostate a ${value}.`,
     bitsSelected: ({ bits }) => `${bits} bit di input selezionat${bits === 1 ? "o" : "i"}.`,
@@ -267,6 +289,39 @@ const infoTopics = {
         ["Repository", "github.com/davidepatti/bitland_empire", "https://github.com/davidepatti/bitland_empire"]
       ]
     },
+    tutorial: {
+      title: "Tutorial",
+      paragraphs: [
+        "Use this flow when you want to complete an exercise from the truth table to the minimized expression."
+      ],
+      steps: [
+        {
+          visual: "truth",
+          title: "1. Prepare the truth table",
+          body: "Choose the number of input bits, then mark every output as 0, 1, or X. You can also load an output vector or the example exercise."
+        },
+        {
+          visual: "build",
+          title: "2. Build the QMC progression",
+          body: "Press Build method to group minterms and don't-cares by the number of ones and generate the first combination pass."
+        },
+        {
+          visual: "passes",
+          title: "3. Inspect each pass",
+          body: "Use the previous and next arrows to review which implicants combine, which ones stop combining, and which prime implicants have been found."
+        },
+        {
+          visual: "chart",
+          title: "4. Reduce the prime implicant chart",
+          body: "Choose Essential, Row dominance, or Column dominance. Click the required row or column candidates, then apply the guess."
+        },
+        {
+          visual: "finish",
+          title: "5. Finish the cover",
+          body: "Check the status until no table simplification remains, then Finish to see the final cover and the minimized expression."
+        }
+      ]
+    },
     truth: {
       title: "Output values",
       paragraphs: [
@@ -301,6 +356,39 @@ const infoTopics = {
         ["Email", "xedivad@gmail.com"],
         ["Licenza", "MIT License"],
         ["Repository", "github.com/davidepatti/bitland_empire", "https://github.com/davidepatti/bitland_empire"]
+      ]
+    },
+    tutorial: {
+      title: "Tutorial",
+      paragraphs: [
+        "Segui questo flusso per completare un esercizio dalla tabella di verita fino all'espressione minimizzata."
+      ],
+      steps: [
+        {
+          visual: "truth",
+          title: "1. Prepara la tabella di verita",
+          body: "Scegli il numero di bit di input, poi imposta ogni uscita a 0, 1 oppure X. Puoi anche caricare un vettore di uscita o l'esempio."
+        },
+        {
+          visual: "build",
+          title: "2. Costruisci la progressione QMC",
+          body: "Premi Costruisci metodo per raggruppare mintermini e don't-care in base al numero di uni e generare il primo passo di combinazione."
+        },
+        {
+          visual: "passes",
+          title: "3. Osserva ogni passo",
+          body: "Usa le frecce precedente e successivo per controllare quali implicanti si combinano, quali si fermano e quali implicanti primi sono stati trovati."
+        },
+        {
+          visual: "chart",
+          title: "4. Riduci la tabella degli implicanti primi",
+          body: "Scegli Essenziale, Dominanza di riga o Dominanza di colonna. Clicca le righe o colonne richieste, poi applica la scelta."
+        },
+        {
+          visual: "finish",
+          title: "5. Concludi la copertura",
+          body: "Controlla lo stato finche non resta alcuna semplificazione della tabella, poi premi Concludi per vedere la copertura finale e l'espressione minimizzata."
+        }
       ]
     },
     truth: {
@@ -338,10 +426,23 @@ const state = {
   selectedCols: [],
   chart: null,
   alertedNoMore: false,
-  lastFinal: null
+  lastFinal: null,
+  examGuard: {
+    ready: false,
+    available: false,
+    enabled: false,
+    configured: false,
+    locked: false,
+    watermarkEnabled: false,
+    watermarkSeed: "browser",
+    requestCode: "",
+    error: "",
+    activation: null
+  }
 };
 
 const els = {
+  tutorialButton: document.getElementById("tutorialButton"),
   aboutButton: document.getElementById("aboutButton"),
   languageSelect: document.getElementById("languageSelect"),
   bitCount: document.getElementById("bitCount"),
@@ -419,6 +520,7 @@ function setLanguage(language) {
     // Storage is optional; the selector still works for this session.
   }
   applyTranslations();
+  renderExamGuard();
   renderCurrentLanguageState();
 }
 
@@ -457,12 +559,112 @@ function renderInfoBody(topic) {
     });
     els.infoModalBody.appendChild(list);
   }
+
+  if (topic.steps) {
+    const steps = document.createElement("div");
+    steps.className = "tutorial-steps";
+    topic.steps.forEach(step => {
+      const article = document.createElement("article");
+      article.className = "tutorial-step";
+
+      const shot = document.createElement("div");
+      shot.className = `tutorial-screenshot tutorial-screenshot-${step.visual}`;
+      shot.setAttribute("aria-hidden", "true");
+      shot.innerHTML = tutorialVisual(step.visual);
+
+      const copy = document.createElement("div");
+      copy.className = "tutorial-copy";
+      const title = document.createElement("h3");
+      const body = document.createElement("p");
+      title.textContent = step.title;
+      body.textContent = step.body;
+      copy.append(title, body);
+
+      article.append(shot, copy);
+      steps.appendChild(article);
+    });
+    els.infoModalBody.appendChild(steps);
+  }
+}
+
+function tutorialVisual(type) {
+  const labels = {
+    truth: t("truthTable"),
+    bits: t("inputBits"),
+    vector: t("outputVector"),
+    build: t("buildMethod"),
+    pass: t("passTitle", { index: 1 }),
+    combinations: t("successfulCombinations"),
+    primes: t("primeSoFar"),
+    chart: t("primeImplicantChart"),
+    essential: t("essential"),
+    row: t("rowDominance"),
+    column: t("columnDominance"),
+    apply: t("applyGuess"),
+    status: t("checkStatus"),
+    finish: t("finish"),
+    final: t("finalCoverage")
+  };
+
+  if (type === "truth") {
+    return `
+      <div class="shot-bar"><span>${escapeHtml(labels.truth)}</span><span>${escapeHtml(labels.bits)}: 3</span></div>
+      <div class="shot-field"><span>${escapeHtml(labels.vector)}</span><strong>0110X001</strong></div>
+      <div class="shot-table">
+        <span>m0</span><span>000</span><strong>0</strong>
+        <span>m1</span><span>001</span><strong class="shot-good">1</strong>
+        <span>m2</span><span>010</span><strong class="shot-good">1</strong>
+        <span>m3</span><span>011</span><strong class="shot-warn">X</strong>
+      </div>
+    `;
+  }
+
+  if (type === "build") {
+    return `
+      <div class="shot-bar"><span>${escapeHtml(labels.build)}</span><span>QMC</span></div>
+      <div class="shot-groups">
+        <div><b>0</b><span class="pattern">000</span><small>{0}</small></div>
+        <div><b>1</b><span class="pattern">001</span><small>{1}</small></div>
+        <div><b>2</b><span class="pattern">011</span><small>{3}</small></div>
+      </div>
+      <div class="shot-arrow-row"><span class="pattern">001</span><b>+</b><span class="pattern">011</span><b>=</b><span class="pattern">0-1</span></div>
+    `;
+  }
+
+  if (type === "passes") {
+    return `
+      <div class="shot-nav"><span>‹</span><strong>${escapeHtml(labels.pass)}</strong><span>›</span></div>
+      <div class="shot-card"><b>${escapeHtml(labels.combinations)}</b><span><span class="pattern">01-</span> + <span class="pattern">11-</span> = <span class="pattern">-1-</span></span></div>
+      <div class="shot-card"><b>${escapeHtml(labels.primes)}</b><span>P1 <span class="pattern">0-1</span></span><span>P2 <span class="pattern">-10</span></span></div>
+    `;
+  }
+
+  if (type === "chart") {
+    return `
+      <div class="shot-tabs"><span class="active">${escapeHtml(labels.essential)}</span><span>${escapeHtml(labels.row)}</span><span>${escapeHtml(labels.column)}</span></div>
+      <div class="shot-chart">
+        <span></span><b>m1</b><b>m2</b><b>m5</b>
+        <b>P1</b><i>x</i><i></i><i>x</i>
+        <b>P2</b><i></i><i>x</i><i>x</i>
+        <b>P3</b><i>x</i><i>x</i><i></i>
+      </div>
+      <div class="shot-cta">${escapeHtml(labels.apply)}</div>
+    `;
+  }
+
+  return `
+    <div class="shot-bar"><span>${escapeHtml(labels.final)}</span><span>${escapeHtml(labels.finish)}</span></div>
+    <div class="shot-status">${escapeHtml(labels.status)}: OK</div>
+    <div class="shot-result"><span>F =</span><strong>A'C + BC'</strong></div>
+    <div class="shot-history"><span>P1</span><span>P3</span><span>P4</span></div>
+  `;
 }
 
 function openInfo(topicKey, trigger) {
   const topic = currentInfoTopic(topicKey);
   if (!topic) return;
   lastInfoTrigger = trigger;
+  els.infoModal.querySelector(".info-card").classList.toggle("tutorial-card", Boolean(topic.steps));
   els.infoModalTitle.textContent = topic.title;
   renderInfoBody(topic);
   els.infoModal.classList.remove("hidden");
@@ -516,9 +718,157 @@ function init() {
   applyTranslations();
   renderTruthTable();
   updateVectorInput();
+  initExamGuard();
+}
+
+function hasExamGuardApi() {
+  return Boolean(window.qmcExamGuard && typeof window.qmcExamGuard.getStatus === "function");
+}
+
+function initExamGuard() {
+  if (!hasExamGuardApi()) {
+    applyExamGuardStatus({
+      ready: true,
+      available: false,
+      enabled: false,
+      locked: false,
+      watermarkEnabled: false,
+      watermarkSeed: "browser"
+    });
+    return;
+  }
+
+  applyExamGuardStatus({
+    ready: false,
+    available: true,
+    enabled: true,
+    configured: false,
+    locked: true,
+    watermarkEnabled: false,
+    watermarkSeed: "pending",
+    error: ""
+  });
+
+  window.qmcExamGuard.getStatus()
+    .then(status => applyExamGuardStatus(status))
+    .catch(error => {
+      applyExamGuardStatus({
+        ready: true,
+        available: true,
+        enabled: true,
+        configured: false,
+        locked: true,
+        watermarkEnabled: false,
+        error: error.message || String(error)
+      });
+    });
+}
+
+function applyExamGuardStatus(status) {
+  const next = {
+    ...state.examGuard,
+    ...status,
+    ready: status.ready !== false,
+    error: status.error || "",
+    activation: status.activation || null
+  };
+  next.watermarkSeed = next.watermarkSeed || next.requestCode || "browser";
+  state.examGuard = next;
+  document.body.classList.toggle("exam-guard-locked", Boolean(next.available && next.enabled && next.locked));
+  renderExamGuard();
+}
+
+function ensureExamGuardOverlay() {
+  let overlay = document.getElementById("examGuardOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "examGuardOverlay";
+    overlay.className = "exam-guard-overlay hidden";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    document.body.appendChild(overlay);
+  }
+  return overlay;
+}
+
+function renderExamGuard() {
+  const overlay = ensureExamGuardOverlay();
+  const guard = state.examGuard;
+  const visible = Boolean(guard.available && guard.enabled && guard.locked);
+  overlay.classList.toggle("hidden", !visible);
+  document.body.classList.toggle("exam-guard-locked", visible);
+
+  if (!visible) {
+    overlay.innerHTML = "";
+    return;
+  }
+
+  const pending = !guard.ready;
+  const message = pending
+    ? t("examGuardChecking")
+    : guard.configured ? t("examGuardBody") : t("examGuardUnconfigured");
+  const requestCode = guard.requestCode || "...";
+  const inputDisabled = pending || !guard.configured ? " disabled" : "";
+  const error = guard.error ? `<p class="exam-guard-error">${escapeHtml(guard.error)}</p>` : "";
+
+  overlay.innerHTML = `
+    <section class="exam-guard-card" aria-labelledby="examGuardTitle">
+      <p class="eyebrow">${escapeHtml(t("logicMinimization"))}</p>
+      <h2 id="examGuardTitle">${escapeHtml(t("examGuardTitle"))}</h2>
+      <p>${escapeHtml(message)}</p>
+      <label class="field exam-code-field">
+        <span>${escapeHtml(t("examGuardRequestCode"))}</span>
+        <code>${escapeHtml(requestCode)}</code>
+      </label>
+      <label class="field">
+        <span>${escapeHtml(t("examGuardUnlockCode"))}</span>
+        <input id="examUnlockCode" type="text" spellcheck="false" autocomplete="off"${inputDisabled}>
+      </label>
+      <div class="button-row compact">
+        <button id="examUnlockButton" class="button primary" type="button" data-icon="✓"${inputDisabled}>${escapeHtml(t("examGuardUnlock"))}</button>
+      </div>
+      ${error}
+    </section>
+  `;
+
+  const input = document.getElementById("examUnlockCode");
+  const button = document.getElementById("examUnlockButton");
+  if (input && !input.disabled) {
+    input.addEventListener("keydown", event => {
+      if (event.key === "Enter") activateExamGuard();
+    });
+    input.focus();
+  }
+  if (button && !button.disabled) {
+    button.addEventListener("click", activateExamGuard);
+  }
+}
+
+async function activateExamGuard() {
+  const input = document.getElementById("examUnlockCode");
+  const code = input ? input.value.trim() : "";
+  if (!code) {
+    applyExamGuardStatus({ ...state.examGuard, error: t("examGuardEnterCode") });
+    return;
+  }
+
+  try {
+    const result = await window.qmcExamGuard.activate(code);
+    if (result.ok) {
+      applyExamGuardStatus(result.status);
+    } else {
+      applyExamGuardStatus({
+        ...(result.status || state.examGuard),
+        error: result.error || (result.status && result.status.error) || ""
+      });
+    }
+  } catch (error) {
+    applyExamGuardStatus({ ...state.examGuard, error: error.message || String(error) });
+  }
 }
 
 function bindEvents() {
+  els.tutorialButton.addEventListener("click", () => openInfo("tutorial", els.tutorialButton));
   els.aboutButton.addEventListener("click", () => openInfo("about", els.aboutButton));
   document.querySelectorAll("[data-help]").forEach(button => {
     button.addEventListener("click", () => openInfo(button.dataset.help, button));
@@ -1307,18 +1657,20 @@ function revealSolution() {
 
   const sections = [];
   if (report.essential.length) {
+    const rows = watermarkedOrder(report.essential, "reveal-essential", rowId => rowId);
     sections.push(solutionSection(
       t("revealEssentialTitle"),
-      report.essential.map(rowId => t("revealEssentialItem", {
+      rows.map(rowId => t("revealEssentialItem", {
         row: rowId,
         cols: essentialColumnsForRow(rowId).map(col => `m${col}`).join(", ")
       }))
     ));
   }
   if (report.row.length) {
+    const moves = watermarkedOrder(report.row, "reveal-row", ([removeId, dominatorId]) => `${removeId}:${dominatorId}`);
     sections.push(solutionSection(
       t("revealRowTitle"),
-      report.row.map(([removeId, dominatorId]) => t("revealRowItem", {
+      moves.map(([removeId, dominatorId]) => t("revealRowItem", {
         remove: removeId,
         dominator: dominatorId,
         cols: activeCoverage(removeId).map(col => `m${col}`).join(", ")
@@ -1326,9 +1678,10 @@ function revealSolution() {
     ));
   }
   if (report.column.length) {
+    const moves = watermarkedOrder(report.column, "reveal-column", ([removeCol, strictCol]) => `${removeCol}:${strictCol}`);
     sections.push(solutionSection(
       t("revealColumnTitle"),
-      report.column.map(([removeCol, strictCol]) => t("revealColumnItem", {
+      moves.map(([removeCol, strictCol]) => t("revealColumnItem", {
         remove: removeCol,
         strict: strictCol,
         rows: coveringRows(strictCol).join(", ")
@@ -1338,6 +1691,7 @@ function revealSolution() {
 
   els.messageBox.innerHTML = `
     <strong>${escapeHtml(t("revealIntro"))}</strong>
+    ${examTrace("reveal")}
     <div class="solution-sections">${sections.join("")}</div>
   `;
 }
@@ -1351,6 +1705,56 @@ function solutionSection(title, items) {
       </ul>
     </section>
   `;
+}
+
+function watermarkActive() {
+  return Boolean(state.examGuard.watermarkEnabled && state.examGuard.watermarkSeed && !state.examGuard.locked);
+}
+
+function exerciseSignature() {
+  return `${state.bits}:${state.outputs.join("")}`;
+}
+
+function textHash(text) {
+  let hash = 2166136261;
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function watermarkRank(context, key) {
+  if (!watermarkActive()) return 0;
+  return textHash(`${state.examGuard.watermarkSeed}|${exerciseSignature()}|${context}|${key}`);
+}
+
+function watermarkedOrder(items, context, keyFn) {
+  const copy = [...items];
+  if (!watermarkActive()) return copy;
+  return copy.sort((left, right) => {
+    const leftKey = String(keyFn(left));
+    const rightKey = String(keyFn(right));
+    return watermarkRank(context, leftKey) - watermarkRank(context, rightKey) || leftKey.localeCompare(rightKey);
+  });
+}
+
+function orderPrimesForExpression(primes, context) {
+  return watermarkedOrder(primes, `expression-${context}`, prime => `${prime.id}:${prime.pattern}:${prime.expression}`);
+}
+
+function examTraceCode(context) {
+  if (!watermarkActive()) return "";
+  return textHash(`${state.examGuard.watermarkSeed}|${exerciseSignature()}|trace:${context}`)
+    .toString(36)
+    .toUpperCase()
+    .padStart(7, "0")
+    .slice(-7);
+}
+
+function examTrace(context) {
+  const code = examTraceCode(context);
+  return code ? `<span class="exam-trace" data-qmc-trace="${escapeHtml(code)}" aria-hidden="true"></span>` : "";
 }
 
 function finishCoverage() {
@@ -1375,7 +1779,7 @@ function finishCoverage() {
 function renderFinal(final) {
   state.lastFinal = final;
   const chosenIds = final.rows;
-  const primes = chosenIds.map(primeById).filter(Boolean);
+  const primes = orderPrimesForExpression(chosenIds.map(primeById).filter(Boolean), final.kind);
   const expression = primes.length ? primes.map(prime => prime.expression).join(" + ") : "0";
   const history = state.chart.history.length
     ? state.chart.history.map(item => `<div class="petrick-line">${escapeHtml(historyText(item))}</div>`).join("")
@@ -1404,6 +1808,7 @@ function renderFinal(final) {
   els.finalBox.classList.remove("hidden");
   els.finalBox.innerHTML = `
     <h3>${t("finalCoverage")}</h3>
+    ${examTrace(`final-${final.kind}`)}
     ${body}
     <h3>${t("appliedChartMoves")}</h3>
     <div class="petrick-list">${history}</div>
@@ -1466,7 +1871,13 @@ function petrickSolve(activeCols) {
 
   const sorted = products
     .map(product => Array.from(product).sort())
-    .sort((a, b) => productCost(a) - productCost(b) || a.join("").localeCompare(b.join("")));
+    .sort((a, b) => {
+      const left = a.join("");
+      const right = b.join("");
+      return productCost(a) - productCost(b)
+        || watermarkRank("petrick-product", left) - watermarkRank("petrick-product", right)
+        || left.localeCompare(right);
+    });
 
   const best = sorted[0] || [];
   steps.push(t("minimumProduct", { product: best.join("") || "1" }));

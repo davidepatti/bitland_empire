@@ -12,6 +12,15 @@
     "styles.css",
     "app.js"
   ],
+  "examIntegrity": {
+    "enabled": true,
+    "watermark": true,
+    "requestPrefix": "QMC",
+    "requestCodeLength": 20,
+    "publicKeyEnv": "QMC_SIM_UNLOCK_PUBLIC_KEY",
+    "publicKeyFile": "../../private/qmc-public.pem",
+    "lockWhenUnconfigured": true
+  },
   "electron": {
     "width": 1480,
     "height": 920,

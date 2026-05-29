@@ -8,6 +8,7 @@ const path = require("node:path");
 
 const repoRoot = path.resolve(__dirname, "..", "..");
 const sharedMain = path.join(__dirname, "main.js");
+const sharedPreload = path.join(__dirname, "preload.js");
 const sharedAfterPack = path.join(__dirname, "after-pack.js");
 const electronBuilderBin = path.join(repoRoot, "node_modules", ".bin", process.platform === "win32" ? "electron-builder.cmd" : "electron-builder");
 
@@ -38,6 +39,46 @@ function removePath(target) {
 
 function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function normalizeKeyText(value) {
+  return String(value || "").replace(/\\n/g, "\n").trim();
+}
+
+function resolveTextOrFile(value, baseDir) {
+  if (!value) return "";
+  const normalized = normalizeKeyText(value);
+  if (normalized.includes("BEGIN PUBLIC KEY")) return normalized;
+
+  const filePath = path.isAbsolute(normalized) ? normalized : path.join(baseDir, normalized);
+  if (fs.existsSync(filePath)) {
+    return fs.readFileSync(filePath, "utf8").trim();
+  }
+
+  return "";
+}
+
+function materializeToolConfig(tool, toolDir, options = {}) {
+  const packagedTool = JSON.parse(JSON.stringify(tool));
+  const guard = packagedTool.examIntegrity;
+  if (!guard || guard.enabled !== true) return packagedTool;
+
+  const publicKey = guard.publicKeyEnv && process.env[guard.publicKeyEnv]
+    ? resolveTextOrFile(process.env[guard.publicKeyEnv], process.cwd())
+    : resolveTextOrFile(guard.publicKey || guard.publicKeyFile, toolDir);
+
+  if (publicKey) {
+    guard.publicKey = publicKey;
+    delete guard.publicKeyFile;
+  } else if (!options.dryRun && guard.lockWhenUnconfigured === true) {
+    throw new Error([
+      `Exam integrity is enabled for ${tool.slug}, but no public key was found.`,
+      `Create it once with: node scripts/electron/qmc-exam-code.js keygen --public private/qmc-public.pem --private private/qmc-private.pem`,
+      `Then run the normal build command again.`
+    ].join("\n"));
+  }
+
+  return packagedTool;
 }
 
 function lockedElectronVersion() {
@@ -87,6 +128,7 @@ function packageJsonFor(tool) {
       files: [
         ...(tool.webAssets || []),
         "main.js",
+        "preload.js",
         "tool.json",
         "package.json"
       ],
@@ -167,6 +209,7 @@ const toolDir = path.resolve(repoRoot, toolArg);
 const toolConfigPath = path.join(toolDir, "tool.json");
 const tool = readJson(toolConfigPath);
 validateTool(tool, toolConfigPath);
+const packagedTool = materializeToolConfig(tool, toolDir, { dryRun });
 const buildRoot = fs.mkdtempSync(path.join(os.tmpdir(), `${tool.slug}-build-`));
 const stageDir = path.join(buildRoot, "source");
 const targetArgs = builderArgs.length ? builderArgs : ["--mac", "--win", "--linux"];
@@ -183,9 +226,10 @@ try {
   }
 
   copyPath(sharedMain, path.join(stageDir, "main.js"));
+  copyPath(sharedPreload, path.join(stageDir, "preload.js"));
   copyPath(sharedAfterPack, path.join(stageDir, "after-pack.js"));
-  copyPath(toolConfigPath, path.join(stageDir, "tool.json"));
-  writeJson(path.join(stageDir, "package.json"), packageJsonFor(tool));
+  writeJson(path.join(stageDir, "tool.json"), packagedTool);
+  writeJson(path.join(stageDir, "package.json"), packageJsonFor(packagedTool));
 
   if (dryRun) {
     console.log(`Validated Electron package staging for ${tool.slug}.`);
