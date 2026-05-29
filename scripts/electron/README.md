@@ -18,9 +18,11 @@ npm run start:hub
 npm run start:hub:web
 npm run start:cpu-spy
 npm run start:qmc-sim
+npm run start:karnaugh
 npm run package:hub
 npm run package:cpu-spy
 npm run package:qmc-sim
+npm run package:karnaugh
 ```
 
 `npm run package:hub` and `./build-electron-hub.sh` build the guarded hub package. `npm run package:all` and `./build-electron-apps.sh` are compatibility aliases that also build only the hub.

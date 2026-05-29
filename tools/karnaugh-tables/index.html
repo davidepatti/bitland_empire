@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Karnaugh Tables</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Logic minimization</p>
+          <h1>Karnaugh Tables</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="newExercise" class="button primary" type="button" data-icon="+">New table</button>
+          <button id="revealSolution" class="button ghost" type="button" data-icon="!">Reveal</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <section class="panel setup-panel" aria-labelledby="setupTitle">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Exercise</p>
+              <h2 id="setupTitle">Random table</h2>
+            </div>
+          </div>
+
+          <div class="config-grid">
+            <label class="field">
+              <span>Variables</span>
+              <select id="variableCount">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4" selected>4</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Difficulty</span>
+              <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </label>
+          </div>
+
+          <section class="problem-card" aria-labelledby="problemTitle">
+            <h3 id="problemTitle">Task</h3>
+            <p id="problemText" class="problem-text"></p>
+          </section>
+
+          <div class="button-row">
+            <button id="addGroup" class="button primary" type="button" data-icon="+">Add group</button>
+            <button id="clearSelection" class="button ghost" type="button" data-icon="x">Clear selection</button>
+            <button id="checkCover" class="button" type="button" data-icon="✓">Check groups</button>
+          </div>
+
+          <div id="messageBox" class="message-box">Select a legal group of 1 cells, then add it.</div>
+        </section>
+
+        <section class="panel map-panel" aria-labelledby="mapTitle">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">K-map</p>
+              <h2 id="mapTitle">Generated table</h2>
+            </div>
+            <div id="mapLegend" class="map-legend"></div>
+          </div>
+          <div id="kmap" class="kmap-wrap"></div>
+        </section>
+      </section>
+
+      <section class="results-grid">
+        <section class="panel" aria-labelledby="groupsTitle">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">Grouping</p>
+              <h2 id="groupsTitle">Your groups</h2>
+            </div>
+            <button id="clearGroups" class="button ghost" type="button" data-icon="x">Clear groups</button>
+          </div>
+          <div id="groupList" class="group-list"></div>
+        </section>
+
+        <section class="panel" aria-labelledby="expressionTitle">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">Result</p>
+              <h2 id="expressionTitle">Coverage check</h2>
+            </div>
+          </div>
+          <div id="expressionBox" class="expression-box"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

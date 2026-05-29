@@ -24,6 +24,12 @@
       "accent": "#d98b1f"
     },
     {
+      "dir": "../tools/karnaugh-tables",
+      "shortName": "KMAP",
+      "category": "Logic minimization",
+      "accent": "#2f6f55"
+    },
+    {
       "dir": "../tools/seq-circuits",
       "shortName": "FSM",
       "category": "Sequential logic",

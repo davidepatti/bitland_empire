@@ -39,10 +39,46 @@ const els = {
   referenceExcitationTable: document.querySelector("#referenceExcitationTable"),
   computedExcitationTable: document.querySelector("#computedExcitationTable"),
   logicEquations: document.querySelector("#logicEquations"),
-  logicSourceTable: document.querySelector("#logicSourceTable")
+  logicSourceTable: document.querySelector("#logicSourceTable"),
+  nextStepCard: document.querySelector("#nextStepCard"),
+  workflowSteps: Array.from(document.querySelectorAll("[data-step-target]")),
+  workflowPanels: Array.from(document.querySelectorAll("[data-workflow-panel]"))
 };
 
 void languageKey;
+
+const workflowCopy = {
+  setupPanel: {
+    complete: "Applied",
+    current: "Check values",
+    pending: "Structure"
+  },
+  diagramPanel: {
+    complete: "Applied",
+    current: "Apply graph",
+    pending: "Graph"
+  },
+  stateTablePanel: {
+    complete: "Generated",
+    pending: "State rows"
+  },
+  minimizationPanel: {
+    complete: "Generated",
+    pending: "Paull-Unger"
+  },
+  transitionPanel: {
+    complete: "Generated",
+    pending: "Transitions"
+  },
+  excitationPanel: {
+    complete: "Generated",
+    pending: "Flip-flops"
+  },
+  logicPanel: {
+    complete: "Generated",
+    pending: "Equations"
+  }
+};
 
 let machine = exampleMachine();
 let graphDraft = null;
@@ -60,8 +96,9 @@ init();
 function init() {
   writeControlsFromMachine(machine);
   renderEditor();
-  analyzeCurrent();
+  bindWorkflowGuide();
   bindGraphControls();
+  analyzeCurrent();
 
   els.applyStructure.addEventListener("click", () => {
     applyStructureFromControls();
@@ -113,6 +150,78 @@ function bindGraphControls() {
   document.addEventListener("pointermove", handleGraphPointerMove);
   document.addEventListener("pointerup", handleGraphPointerUp);
   document.addEventListener("keydown", handleGraphKeydown);
+}
+
+function bindWorkflowGuide() {
+  for (const step of els.workflowSteps) {
+    step.addEventListener("click", () => {
+      const target = document.getElementById(step.dataset.stepTarget);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+}
+
+function updateWorkflowGuide() {
+  if (!els.nextStepCard || !els.workflowSteps.length) return;
+  const strict = readEditorStrict();
+  const hasErrors = strict.errors.length > 0;
+  const pendingGraph = Boolean(graphDirty);
+  const currentTarget = hasErrors ? "setupPanel" : pendingGraph ? "diagramPanel" : null;
+
+  for (const step of els.workflowSteps) {
+    const target = step.dataset.stepTarget;
+    const status = step.querySelector(".step-status");
+    const state = workflowStepState(target, currentTarget, hasErrors, pendingGraph);
+    step.classList.remove("done", "current", "pending");
+    step.classList.add(state);
+    if (state === "current") {
+      step.setAttribute("aria-current", "step");
+    } else {
+      step.removeAttribute("aria-current");
+    }
+    if (status) status.textContent = workflowStatusText(target, state);
+  }
+
+  for (const panel of els.workflowPanels) {
+    panel.classList.toggle("workflow-current", Boolean(currentTarget) && panel.id === currentTarget);
+  }
+
+  if (hasErrors) {
+    renderNextStepCard("Fix Step 1", strict.errors[0]);
+    return;
+  }
+
+  if (pendingGraph) {
+    renderNextStepCard("Apply Step 2", "Graph edits are staged. Apply the graph before using the generated tables.");
+    return;
+  }
+
+  renderNextStepCard("Sequence complete", "The generated tables and logic now follow the ordered path.");
+}
+
+function workflowStepState(target, currentTarget, hasErrors, pendingGraph) {
+  if (target === currentTarget) return "current";
+  if (hasErrors) return target === "setupPanel" ? "current" : "pending";
+  if (pendingGraph) {
+    return target === "setupPanel" ? "done" : "pending";
+  }
+  return "done";
+}
+
+function workflowStatusText(target, state) {
+  const copy = workflowCopy[target] || {};
+  if (state === "done") return copy.complete || "Done";
+  if (state === "current") return copy.current || "Current";
+  return copy.pending || "Waiting";
+}
+
+function renderNextStepCard(title, detail) {
+  els.nextStepCard.innerHTML = [
+    `<p class="eyebrow">Next</p>`,
+    `<h3>${escapeHtml(title)}</h3>`,
+    `<p>${escapeHtml(detail)}</p>`
+  ].join("");
 }
 
 function exampleMachine() {
@@ -338,6 +447,7 @@ function analyzeCurrent(message = "Exercise generated.") {
   const strict = readEditorStrict();
   if (strict.errors.length) {
     setMessage(els.inputMessage, strict.errors[0], "bad");
+    updateWorkflowGuide();
     return;
   }
 
@@ -352,6 +462,7 @@ function analyzeCurrent(message = "Exercise generated.") {
   renderExcitationSection(analysis);
   renderLogicSection(analysis);
   setMessage(els.inputMessage, message, "good");
+  updateWorkflowGuide();
 }
 
 function renderEditor() {
@@ -993,6 +1104,7 @@ function renderGraphEditor(message) {
   renderGraphInspector();
   updateGraphButtons();
   if (message) setGraphMessage(message, graphDirty ? "warn" : "good");
+  updateWorkflowGuide();
 }
 
 function renderStateDiagram(value) {

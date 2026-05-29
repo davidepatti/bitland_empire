@@ -1,0 +1,24 @@
+{
+  "slug": "karnaugh-tables",
+  "version": "1.0.0",
+  "productName": "Karnaugh Tables",
+  "appId": "it.bitland.karnaughtables",
+  "description": "Karnaugh-map exercise tool for generating random filled tables and practicing legal groupings.",
+  "author": "PIPELINESIM",
+  "license": "MIT",
+  "entry": "index.html",
+  "webAssets": [
+    "index.html",
+    "styles.css",
+    "app.js"
+  ],
+  "electron": {
+    "width": 1360,
+    "height": 900,
+    "minWidth": 1000,
+    "minHeight": 680,
+    "backgroundColor": "#f6f5ef",
+    "macCategory": "public.app-category.education",
+    "linuxCategory": "Education"
+  }
+}

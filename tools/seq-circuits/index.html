@@ -18,11 +18,70 @@
         </div>
       </header>
 
+      <section class="tutorial-strip" aria-labelledby="tutorialTitle">
+        <div class="tutorial-title">
+          <p class="eyebrow">Visual tutorial</p>
+          <h2 id="tutorialTitle">Complete the exercise in order</h2>
+        </div>
+        <nav class="workflow-rail" aria-label="Sequential circuit completion path">
+          <button class="workflow-step" type="button" data-step-target="setupPanel">
+            <span class="step-number">1</span>
+            <span class="step-copy">
+              <span class="step-title">Define</span>
+              <span class="step-status">Structure</span>
+            </span>
+          </button>
+          <button class="workflow-step" type="button" data-step-target="diagramPanel">
+            <span class="step-number">2</span>
+            <span class="step-copy">
+              <span class="step-title">Diagram</span>
+              <span class="step-status">Graph</span>
+            </span>
+          </button>
+          <button class="workflow-step" type="button" data-step-target="stateTablePanel">
+            <span class="step-number">3</span>
+            <span class="step-copy">
+              <span class="step-title">Table</span>
+              <span class="step-status">State rows</span>
+            </span>
+          </button>
+          <button class="workflow-step" type="button" data-step-target="minimizationPanel">
+            <span class="step-number">4</span>
+            <span class="step-copy">
+              <span class="step-title">Reduce</span>
+              <span class="step-status">Paull-Unger</span>
+            </span>
+          </button>
+          <button class="workflow-step" type="button" data-step-target="transitionPanel">
+            <span class="step-number">5</span>
+            <span class="step-copy">
+              <span class="step-title">Encode</span>
+              <span class="step-status">Transitions</span>
+            </span>
+          </button>
+          <button class="workflow-step" type="button" data-step-target="excitationPanel">
+            <span class="step-number">6</span>
+            <span class="step-copy">
+              <span class="step-title">Excite</span>
+              <span class="step-status">Flip-flops</span>
+            </span>
+          </button>
+          <button class="workflow-step" type="button" data-step-target="logicPanel">
+            <span class="step-number">7</span>
+            <span class="step-copy">
+              <span class="step-title">Logic</span>
+              <span class="step-status">Equations</span>
+            </span>
+          </button>
+        </nav>
+        <aside id="nextStepCard" class="next-step-card" aria-live="polite"></aside>
+      </section>
+
       <section class="workspace">
-        <section class="panel setup-panel" aria-labelledby="setupTitle">
+        <section id="setupPanel" class="panel setup-panel" aria-labelledby="setupTitle" data-workflow-panel>
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Exercise</p>
+              <p class="eyebrow">Step 1</p>
               <h2 id="setupTitle">Machine definition</h2>
             </div>
             <button id="applyStructure" class="button" type="button" data-icon="+">Apply structure</button>
@@ -76,10 +135,10 @@
           <div id="inputMessage" class="message-box">Ready.</div>
         </section>
 
-        <section class="panel diagram-panel" aria-labelledby="diagramTitle">
+        <section id="diagramPanel" class="panel diagram-panel" aria-labelledby="diagramTitle" data-workflow-panel>
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Step 1</p>
+              <p class="eyebrow">Step 2</p>
               <h2 id="diagramTitle">State diagram</h2>
             </div>
             <div class="button-row compact graph-toolbar">
@@ -99,20 +158,20 @@
       </section>
 
       <section id="results" class="results-grid">
-        <section class="panel step-panel" aria-labelledby="stateTableTitle">
+        <section id="stateTablePanel" class="panel step-panel" aria-labelledby="stateTableTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 2</p>
+              <p class="eyebrow">Step 3</p>
               <h2 id="stateTableTitle">State table</h2>
             </div>
           </div>
           <div id="stateTable" class="table-wrap"></div>
         </section>
 
-        <section class="panel step-panel" aria-labelledby="minimizationTitle">
+        <section id="minimizationPanel" class="panel step-panel" aria-labelledby="minimizationTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 3</p>
+              <p class="eyebrow">Step 4</p>
               <h2 id="minimizationTitle">Paull-Unger implication table</h2>
             </div>
           </div>
@@ -121,20 +180,20 @@
           <div id="equivalenceTable" class="table-wrap secondary-table"></div>
         </section>
 
-        <section class="panel step-panel" aria-labelledby="transitionTableTitle">
+        <section id="transitionPanel" class="panel step-panel" aria-labelledby="transitionTableTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 4</p>
+              <p class="eyebrow">Step 5</p>
               <h2 id="transitionTableTitle">Transition table</h2>
             </div>
           </div>
           <div id="transitionTable" class="table-wrap"></div>
         </section>
 
-        <section class="panel step-panel" aria-labelledby="excitationTitle">
+        <section id="excitationPanel" class="panel step-panel" aria-labelledby="excitationTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 5</p>
+              <p class="eyebrow">Step 6</p>
               <h2 id="excitationTitle">Excitation tables</h2>
             </div>
           </div>
@@ -143,10 +202,10 @@
           <div id="computedExcitationTable" class="table-wrap secondary-table"></div>
         </section>
 
-        <section class="panel step-panel full-span" aria-labelledby="logicTitle">
+        <section id="logicPanel" class="panel step-panel full-span" aria-labelledby="logicTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 6</p>
+              <p class="eyebrow">Step 7</p>
               <h2 id="logicTitle">Next-state and output logic</h2>
             </div>
           </div>
