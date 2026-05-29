@@ -1,0 +1,56 @@
+{
+  "slug": "bitland-empire",
+  "version": "1.0.0",
+  "productName": "Bitland Empire",
+  "appId": "it.bitland.empire",
+  "description": "Unified desktop hub for Bitland Empire teaching tools.",
+  "entry": "index.html",
+  "webAssets": [
+    "index.html",
+    "styles.css",
+    "app.js"
+  ],
+  "tools": [
+    {
+      "dir": "../tools/cpu-spy",
+      "shortName": "CPU",
+      "category": "Computer architecture",
+      "accent": "#116a67"
+    },
+    {
+      "dir": "../tools/qmc-sim",
+      "shortName": "QMC",
+      "category": "Logic minimization",
+      "accent": "#d98b1f"
+    },
+    {
+      "dir": "../tools/seq-circuits",
+      "shortName": "FSM",
+      "category": "Sequential logic",
+      "accent": "#3f67b1"
+    }
+  ],
+  "examIntegrity": {
+    "enabled": true,
+    "watermark": true,
+    "requestPrefix": "BIT",
+    "requestCodeLength": 20,
+    "unlockCodePrefix": "BIT1",
+    "acceptedUnlockCodePrefixes": [
+      "QMC1"
+    ],
+    "publicKeyEnv": "BITLAND_UNLOCK_PUBLIC_KEY",
+    "publicKeyFile": "../private/qmc-public.pem",
+    "lockWhenUnconfigured": true,
+    "activationFile": "bitland-empire-activation.json"
+  },
+  "electron": {
+    "width": 1180,
+    "height": 780,
+    "minWidth": 920,
+    "minHeight": 620,
+    "backgroundColor": "#f4f6f1",
+    "macCategory": "public.app-category.education",
+    "linuxCategory": "Education"
+  }
+}

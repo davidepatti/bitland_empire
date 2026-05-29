@@ -9,12 +9,12 @@ const path = require("node:path");
 function usage() {
   console.log(`Usage:
   node scripts/electron/qmc-exam-code.js keygen --public <public.pem> --private <private.pem>
-  node scripts/electron/qmc-exam-code.js unlock --private <private.pem> --student <id> --request <QMC-...> [--expires <iso-date>] [--seed <watermark-seed>]
+  node scripts/electron/qmc-exam-code.js unlock --private <private.pem> --student <id> --request <BIT-...> [--tool <slug>] [--code-prefix <prefix>] [--expires <iso-date>] [--seed <watermark-seed>]
 
 Examples:
   node scripts/electron/qmc-exam-code.js keygen --public private/qmc-public.pem --private private/qmc-private.pem
-  QMC_SIM_UNLOCK_PUBLIC_KEY=private/qmc-public.pem npm run package:qmc-sim
-  node scripts/electron/qmc-exam-code.js unlock --private private/qmc-private.pem --student s12345 --request QMC-ABCD-EFGH-JKLM-NPQR-STUV
+  BITLAND_UNLOCK_PUBLIC_KEY=private/qmc-public.pem npm run package:hub
+  node scripts/electron/qmc-exam-code.js unlock --private private/qmc-private.pem --student s12345 --request BIT-ABCD-EFGH-JKLM-NPQR-STUV
 `);
 }
 
@@ -82,10 +82,11 @@ function unlock(args) {
   const privatePath = requireArg(args, "private");
   const studentId = requireArg(args, "student");
   const requestCode = requireArg(args, "request").toUpperCase();
+  const codePrefix = args["code-prefix"] || "BIT1";
   const privateKey = fs.readFileSync(privatePath, "utf8");
   const payload = {
     v: 1,
-    tool: args.tool || "qmc-sim",
+    tool: args.tool || "bitland-empire",
     studentId,
     requestCode,
     issuedAt: new Date().toISOString(),
@@ -96,7 +97,7 @@ function unlock(args) {
 
   const payloadJson = JSON.stringify(payload);
   const signature = crypto.sign(null, Buffer.from(payloadJson), privateKey);
-  const code = `QMC1.${base64Url(payloadJson)}.${base64Url(signature)}`;
+  const code = `${codePrefix}.${base64Url(payloadJson)}.${base64Url(signature)}`;
 
   console.log(code);
   console.error(`Student: ${studentId}`);

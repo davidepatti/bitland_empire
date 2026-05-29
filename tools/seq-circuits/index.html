@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sequential Circuits</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>Sequential Circuits</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="loadExample" class="button ghost" type="button" data-icon="*">Example</button>
+          <button id="analyzeTop" class="button primary" type="button" data-icon=">">Analyze</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <section class="panel setup-panel" aria-labelledby="setupTitle">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Exercise</p>
+              <h2 id="setupTitle">Machine definition</h2>
+            </div>
+            <button id="applyStructure" class="button" type="button" data-icon="+">Apply structure</button>
+          </div>
+
+          <div class="config-grid">
+            <label class="field">
+              <span>FSM type</span>
+              <select id="fsmType">
+                <option value="mealy">Mealy</option>
+                <option value="moore">Moore</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Input bits</span>
+              <input id="inputBits" type="number" min="1" max="3" value="1">
+            </label>
+            <label class="field">
+              <span>Output bits</span>
+              <input id="outputBits" type="number" min="1" max="3" value="1">
+            </label>
+            <label class="field">
+              <span>Flip-flop</span>
+              <select id="flipFlopType">
+                <option value="D">D</option>
+                <option value="JK">JK</option>
+                <option value="T">T</option>
+                <option value="SR">SR</option>
+              </select>
+            </label>
+            <label class="field wide">
+              <span>States</span>
+              <input id="stateList" type="text" spellcheck="false" value="A, B, C, D">
+            </label>
+          </div>
+
+          <section id="mooreOutputSection" class="subsection hidden" aria-labelledby="mooreOutputTitle">
+            <div class="subsection-head">
+              <h3 id="mooreOutputTitle">Moore output table</h3>
+            </div>
+            <div id="mooreOutputTable" class="table-wrap"></div>
+          </section>
+
+          <section class="subsection" aria-labelledby="transitionEditorTitle">
+            <div class="subsection-head">
+              <h3 id="transitionEditorTitle">Transition editor table</h3>
+            </div>
+            <div id="transitionEditorTable" class="table-wrap"></div>
+          </section>
+
+          <div id="inputMessage" class="message-box">Ready.</div>
+        </section>
+
+        <section class="panel diagram-panel" aria-labelledby="diagramTitle">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Step 1</p>
+              <h2 id="diagramTitle">State diagram</h2>
+            </div>
+            <div class="button-row compact graph-toolbar">
+              <button id="graphUndo" class="button ghost icon-only" type="button" data-icon="<" title="Undo" aria-label="Undo"></button>
+              <button id="graphRedo" class="button ghost icon-only" type="button" data-icon=">" title="Redo" aria-label="Redo"></button>
+              <button id="graphAddState" class="button ghost" type="button" data-icon="+">State</button>
+              <button id="graphAddTransition" class="button ghost" type="button" data-icon="->">Transition</button>
+              <button id="graphAutoLayout" class="button ghost" type="button" data-icon="o">Layout</button>
+              <button id="graphDelete" class="button ghost" type="button" data-icon="x">Delete</button>
+              <button id="graphApply" class="button primary" type="button" data-icon="✓">Apply graph</button>
+            </div>
+          </div>
+          <div id="graphMessage" class="message-box graph-message">Graph draft ready.</div>
+          <div id="stateDiagram" class="diagram-stage" tabindex="0"></div>
+          <div id="graphInspector" class="graph-inspector"></div>
+        </section>
+      </section>
+
+      <section id="results" class="results-grid">
+        <section class="panel step-panel" aria-labelledby="stateTableTitle">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">Step 2</p>
+              <h2 id="stateTableTitle">State table</h2>
+            </div>
+          </div>
+          <div id="stateTable" class="table-wrap"></div>
+        </section>
+
+        <section class="panel step-panel" aria-labelledby="minimizationTitle">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">Step 3</p>
+              <h2 id="minimizationTitle">Paull-Unger implication table</h2>
+            </div>
+          </div>
+          <div id="implicationSummary" class="message-box"></div>
+          <div id="implicationTable" class="table-wrap"></div>
+          <div id="equivalenceTable" class="table-wrap secondary-table"></div>
+        </section>
+
+        <section class="panel step-panel" aria-labelledby="transitionTableTitle">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">Step 4</p>
+              <h2 id="transitionTableTitle">Transition table</h2>
+            </div>
+          </div>
+          <div id="transitionTable" class="table-wrap"></div>
+        </section>
+
+        <section class="panel step-panel" aria-labelledby="excitationTitle">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">Step 5</p>
+              <h2 id="excitationTitle">Excitation tables</h2>
+            </div>
+          </div>
+          <div id="excitationStatus" class="message-box"></div>
+          <div id="referenceExcitationTable" class="table-wrap"></div>
+          <div id="computedExcitationTable" class="table-wrap secondary-table"></div>
+        </section>
+
+        <section class="panel step-panel full-span" aria-labelledby="logicTitle">
+          <div class="panel-head compact-head">
+            <div>
+              <p class="eyebrow">Step 6</p>
+              <h2 id="logicTitle">Next-state and output logic</h2>
+            </div>
+          </div>
+          <div id="logicEquations" class="equation-grid"></div>
+          <div id="logicSourceTable" class="table-wrap secondary-table"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

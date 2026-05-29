@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bitland Empire</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="hub-shell">
+      <header class="hub-top">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">BE</div>
+          <div>
+            <p class="eyebrow">Teaching tools</p>
+            <h1>Bitland Empire</h1>
+          </div>
+        </div>
+        <div id="guardPill" class="status-pill">Checking</div>
+      </header>
+
+      <section id="unlockPanel" class="unlock-panel hidden" aria-labelledby="unlockTitle">
+        <div class="unlock-copy">
+          <p class="eyebrow">Exam unlock</p>
+          <h2 id="unlockTitle">Protected package</h2>
+          <p id="unlockMessage">This hub must be unlocked on this computer before the tools can run.</p>
+        </div>
+
+        <div class="unlock-form">
+          <label class="field code-field">
+            <span>Computer code</span>
+            <code id="requestCode">...</code>
+          </label>
+          <label class="field">
+            <span>Unlock code</span>
+            <input id="unlockCode" type="text" spellcheck="false" autocomplete="off">
+          </label>
+          <button id="unlockButton" class="button primary" type="button" data-icon=">">Unlock</button>
+          <p id="unlockError" class="unlock-error hidden"></p>
+        </div>
+      </section>
+
+      <section class="tools-band" aria-labelledby="toolsTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Launchpad</p>
+            <h2 id="toolsTitle">Tools</h2>
+          </div>
+          <p id="toolCount" class="tool-count"></p>
+        </div>
+        <div id="toolGrid" class="tool-grid"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

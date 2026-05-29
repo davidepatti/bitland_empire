@@ -3,10 +3,10 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PRIVATE_KEY="$ROOT_DIR/private/qmc-private.pem"
-STUDENT_ID="${QMC_SIM_STUDENT:-manual}"
+STUDENT_ID="${BITLAND_STUDENT:-${QMC_SIM_STUDENT:-manual}}"
 
 if [[ "$#" -ne 1 ]]; then
-  echo "Usage: ./unlock <QMC-computer-code>" >&2
+  echo "Usage: ./unlock <BIT-computer-code>" >&2
   exit 1
 fi
 
@@ -20,4 +20,5 @@ fi
 node "$ROOT_DIR/scripts/electron/qmc-exam-code.js" unlock \
   --private "$PRIVATE_KEY" \
   --student "$STUDENT_ID" \
+  --tool bitland-empire \
   --request "$1"

@@ -1,0 +1,24 @@
+{
+  "slug": "seq-circuits",
+  "version": "1.0.0",
+  "productName": "Sequential Circuits",
+  "appId": "it.bitland.seqcircuits",
+  "description": "Sequential-circuit exercise builder for finite-state machines and flip-flop logic.",
+  "author": "PIPELINESIM",
+  "license": "MIT",
+  "entry": "index.html",
+  "webAssets": [
+    "index.html",
+    "styles.css",
+    "app.js"
+  ],
+  "electron": {
+    "width": 1480,
+    "height": 940,
+    "minWidth": 1040,
+    "minHeight": 720,
+    "backgroundColor": "#f4f7fb",
+    "macCategory": "public.app-category.education",
+    "linuxCategory": "Education"
+  }
+}
