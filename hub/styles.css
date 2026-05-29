@@ -60,6 +60,13 @@ input {
   margin-bottom: 18px;
 }
 
+.hub-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
 .brand-lockup {
   display: flex;
   align-items: center;
@@ -330,6 +337,85 @@ h2 {
   margin-top: 18px;
 }
 
+.about-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.about-modal.hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 32, 27, 0.42);
+  backdrop-filter: blur(8px);
+}
+
+.about-card {
+  position: relative;
+  width: min(540px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.credit-list {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+}
+
+.credit-list div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.credit-list dt {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.credit-list dd {
+  margin: 0;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.credit-list a {
+  color: var(--accent);
+  font-weight: 900;
+}
+
 .toast {
   position: fixed;
   right: 18px;
@@ -350,6 +436,11 @@ h2 {
 @media (max-width: 860px) {
   .hub-top,
   .section-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hub-actions {
     align-items: stretch;
     flex-direction: column;
   }
@@ -380,6 +471,11 @@ h2 {
 
   .unlock-form {
     grid-template-columns: 1fr;
+  }
+
+  .credit-list div {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 
   h1 {

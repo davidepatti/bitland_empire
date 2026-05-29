@@ -16,7 +16,10 @@
             <h1>Bitland Empire</h1>
           </div>
         </div>
-        <div id="guardPill" class="status-pill">Checking</div>
+        <div class="hub-actions">
+          <button id="aboutButton" class="button" type="button" data-icon="i">About</button>
+          <div id="guardPill" class="status-pill">Checking</div>
+        </div>
       </header>
 
       <section id="unlockPanel" class="unlock-panel hidden" aria-labelledby="unlockTitle">
@@ -51,6 +54,37 @@
         <div id="toolGrid" class="tool-grid"></div>
       </section>
     </main>
+
+    <div id="aboutModal" class="about-modal hidden" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+      <div class="modal-backdrop" data-about-close></div>
+      <section class="about-card">
+        <button class="modal-close" type="button" data-about-close aria-label="Close">x</button>
+        <p class="eyebrow">Credits</p>
+        <h2 id="aboutTitle">About Bitland Empire</h2>
+        <dl class="credit-list">
+          <div>
+            <dt>Developed by</dt>
+            <dd>Davide Patti</dd>
+          </div>
+          <div>
+            <dt>Institution</dt>
+            <dd>University of Catania</dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:xedivad@gmail.com">xedivad@gmail.com</a></dd>
+          </div>
+          <div>
+            <dt>License</dt>
+            <dd><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noreferrer">MIT License</a></dd>
+          </div>
+          <div>
+            <dt>Repository</dt>
+            <dd><a href="https://github.com/davidepatti/bitland_empire" target="_blank" rel="noreferrer">github.com/davidepatti/bitland_empire</a></dd>
+          </div>
+        </dl>
+      </section>
+    </div>
 
     <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 

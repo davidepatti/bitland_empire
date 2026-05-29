@@ -13,6 +13,8 @@ const state = {
 };
 
 const els = {
+  aboutButton: document.getElementById("aboutButton"),
+  aboutModal: document.getElementById("aboutModal"),
   guardPill: document.getElementById("guardPill"),
   unlockPanel: document.getElementById("unlockPanel"),
   unlockMessage: document.getElementById("unlockMessage"),
@@ -59,6 +61,17 @@ function showToast(message) {
 function setUnlockError(message) {
   els.unlockError.textContent = message || "";
   els.unlockError.classList.toggle("hidden", !message);
+}
+
+function openAbout() {
+  els.aboutModal.classList.remove("hidden");
+  const closeButton = els.aboutModal.querySelector("[data-about-close]");
+  if (closeButton) closeButton.focus();
+}
+
+function closeAbout() {
+  els.aboutModal.classList.add("hidden");
+  els.aboutButton.focus();
 }
 
 function renderGuard() {
@@ -266,6 +279,15 @@ async function launchTool(slug) {
 els.unlockButton.addEventListener("click", activateGuard);
 els.unlockCode.addEventListener("keydown", event => {
   if (event.key === "Enter") activateGuard();
+});
+els.aboutButton.addEventListener("click", openAbout);
+els.aboutModal.querySelectorAll("[data-about-close]").forEach(element => {
+  element.addEventListener("click", closeAbout);
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && !els.aboutModal.classList.contains("hidden")) {
+    closeAbout();
+  }
 });
 
 loadHub().catch(error => {
