@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,42 +12,60 @@
         <div class="brand-lockup">
           <div class="brand-mark" aria-hidden="true">BE</div>
           <div>
-            <p class="eyebrow">Teaching tools</p>
+            <p class="eyebrow" data-i18n="brandEyebrow">Strumenti didattici</p>
             <h1>Bitland Empire</h1>
           </div>
         </div>
         <div class="hub-actions">
-          <button id="aboutButton" class="button" type="button" data-icon="i">About</button>
-          <div id="guardPill" class="status-pill">Checking</div>
+          <label class="field language-field">
+            <span data-i18n="language">Lingua</span>
+            <select id="languageSelect">
+              <option value="it">Italiano</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+          <button id="aboutButton" class="button" type="button" data-icon="i" data-i18n="about">Info</button>
+          <div id="guardPill" class="status-pill" data-i18n="checking">Controllo</div>
         </div>
       </header>
 
       <section id="unlockPanel" class="unlock-panel hidden" aria-labelledby="unlockTitle">
         <div class="unlock-copy">
-          <p class="eyebrow">Exam unlock</p>
-          <h2 id="unlockTitle">Protected package</h2>
-          <p id="unlockMessage">This hub must be unlocked on this computer before the tools can run.</p>
+          <p class="eyebrow" data-i18n="examUnlock">Sblocco esame</p>
+          <h2 id="unlockTitle" data-i18n="protectedPackage">Pacchetto protetto</h2>
+          <p id="unlockMessage">Questo hub deve essere sbloccato su questo computer prima di avviare gli strumenti.</p>
         </div>
 
         <div class="unlock-form">
           <label class="field code-field">
-            <span>Computer code</span>
+            <span data-i18n="computerCode">Codice computer</span>
             <code id="requestCode">...</code>
           </label>
           <label class="field">
-            <span>Unlock code</span>
+            <span data-i18n="unlockCode">Codice di sblocco</span>
             <input id="unlockCode" type="text" spellcheck="false" autocomplete="off">
           </label>
-          <button id="unlockButton" class="button primary" type="button" data-icon=">">Unlock</button>
+          <button id="unlockButton" class="button primary" type="button" data-icon=">" data-i18n="unlock">Sblocca</button>
           <p id="unlockError" class="unlock-error hidden"></p>
         </div>
+      </section>
+
+      <section class="learning-band" aria-labelledby="learningTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="learningEyebrow">Percorsi</p>
+            <h2 id="learningTitle" data-i18n="learningTitle">Percorsi consigliati</h2>
+          </div>
+          <p class="section-note" data-i18n="learningNote">Scegli un filo di studio e procedi da sinistra a destra.</p>
+        </div>
+        <div id="learningPaths" class="learning-grid"></div>
       </section>
 
       <section class="tools-band" aria-labelledby="toolsTitle">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Launchpad</p>
-            <h2 id="toolsTitle">Tools</h2>
+            <p class="eyebrow" data-i18n="launchpad">Avvio rapido</p>
+            <h2 id="toolsTitle" data-i18n="tools">Strumenti</h2>
           </div>
           <p id="toolCount" class="tool-count"></p>
         </div>
@@ -58,16 +76,16 @@
     <div id="aboutModal" class="about-modal hidden" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
       <div class="modal-backdrop" data-about-close></div>
       <section class="about-card">
-        <button class="modal-close" type="button" data-about-close aria-label="Close">x</button>
-        <p class="eyebrow">Credits</p>
-        <h2 id="aboutTitle">About Bitland Empire</h2>
+        <button class="modal-close" type="button" data-about-close aria-label="Chiudi" data-i18n-attr="aria-label:close">x</button>
+        <p class="eyebrow" data-i18n="credits">Crediti</p>
+        <h2 id="aboutTitle" data-i18n="aboutTitle">Info su Bitland Empire</h2>
         <dl class="credit-list">
           <div>
-            <dt>Developed by</dt>
+            <dt data-i18n="developedBy">Sviluppato da</dt>
             <dd>Davide Patti</dd>
           </div>
           <div>
-            <dt>Institution</dt>
+            <dt data-i18n="institution">Istituzione</dt>
             <dd>University of Catania</dd>
           </div>
           <div>
@@ -75,11 +93,11 @@
             <dd><a href="mailto:xedivad@gmail.com">xedivad@gmail.com</a></dd>
           </div>
           <div>
-            <dt>License</dt>
+            <dt data-i18n="license">Licenza</dt>
             <dd><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noreferrer">MIT License</a></dd>
           </div>
           <div>
-            <dt>Repository</dt>
+            <dt data-i18n="repository">Repository</dt>
             <dd><a href="https://github.com/davidepatti/bitland_empire" target="_blank" rel="noreferrer">github.com/davidepatti/bitland_empire</a></dd>
           </div>
         </dl>

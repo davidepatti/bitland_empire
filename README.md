@@ -36,6 +36,8 @@ You can also double-click `hub/Launch Bitland Empire.command` on macOS or run `h
 
 The hub bundles the tools' web assets into one Electron app for guarded releases. The exam unlock is checked only at the Electron hub level, so a successful unlock enables all bundled tools. Standalone tool launches and the browser hub remain outside the exam guard and are intended for local development, practice, or ordinary classroom use.
 
+Use `RELEASE.md` as the checklist for guarded builds, artifact verification, and publication notes.
+
 ## Exam integrity
 
 Create an instructor keypair once:
