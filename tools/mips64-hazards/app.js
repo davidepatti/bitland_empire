@@ -1458,7 +1458,7 @@ function renderQuizInspector(schedule, scenario, resolution) {
   els.inspector.innerHTML = `
     <section class="focus-box quiz-box">
       <h3>${state.selectedCycle === 0 ? escapeHtml(t("emptyPipeline")) : `${escapeHtml(t("clock"))} ${state.selectedCycle}`}</h3>
-      <p>${escapeHtml(t("quizIntro"))}</p>
+      <p class="quiz-alert">${escapeHtml(t("quizIntro"))}</p>
       <p class="quiz-question">${escapeHtml(t("quizQuestion"))}</p>
       ${choiceHtml}
       ${answered ? `<p class="quiz-result"><strong>${choices[selected] === correct ? escapeHtml(t("correct")) : escapeHtml(t("wrong"))}</strong> ${escapeHtml(t("correctAnswer"))}: ${escapeHtml(correct)}</p>` : ""}

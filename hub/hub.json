@@ -12,6 +12,24 @@
   ],
   "tools": [
     {
+      "dir": "../tools/karnaugh-tables",
+      "shortName": "KMAP",
+      "category": "Logic minimization",
+      "accent": "#2f6f55"
+    },
+    {
+      "dir": "../tools/qmc-sim",
+      "shortName": "QMC",
+      "category": "Logic minimization",
+      "accent": "#d98b1f"
+    },
+    {
+      "dir": "../tools/seq-circuits",
+      "shortName": "FSM",
+      "category": "Sequential logic",
+      "accent": "#3f67b1"
+    },
+    {
       "dir": "../tools/cpu-spy",
       "shortName": "CPU",
       "category": "Computer architecture",
@@ -22,24 +40,6 @@
       "shortName": "HAZ",
       "category": "Computer architecture",
       "accent": "#7c3aed"
-    },
-    {
-      "dir": "../tools/qmc-sim",
-      "shortName": "QMC",
-      "category": "Logic minimization",
-      "accent": "#d98b1f"
-    },
-    {
-      "dir": "../tools/karnaugh-tables",
-      "shortName": "KMAP",
-      "category": "Logic minimization",
-      "accent": "#2f6f55"
-    },
-    {
-      "dir": "../tools/seq-circuits",
-      "shortName": "FSM",
-      "category": "Sequential logic",
-      "accent": "#3f67b1"
     }
   ],
   "examIntegrity": {

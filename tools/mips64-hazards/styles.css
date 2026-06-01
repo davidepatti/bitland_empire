@@ -163,6 +163,18 @@ h2 {
   color: #fff;
 }
 
+#quizModeBtn {
+  border-color: var(--red);
+  background: var(--red);
+  color: #fff;
+}
+
+#quizModeBtn[aria-pressed="true"] {
+  border-color: #9f2822;
+  background: #9f2822;
+  color: #fff;
+}
+
 .field {
   display: grid;
   gap: 4px;
@@ -762,6 +774,11 @@ h2 {
   color: #434b55;
   font-size: 0.94rem;
   line-height: 1.44;
+}
+
+.focus-box p.quiz-alert {
+  color: var(--red);
+  font-weight: 850;
 }
 
 .status-list {

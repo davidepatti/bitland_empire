@@ -2743,6 +2743,7 @@ function renderPhase() {
   phaseName.textContent = phase.name;
   phaseTitle.textContent = localizeText(phase.title);
   phaseDescription.textContent = appState.quizMode ? t("quizHiddenDescription") : localizeText(phase.description);
+  phaseDescription.classList.toggle("quiz-alert", appState.quizMode);
   renderPhaseQuiz();
 
   signalList.innerHTML = "";
