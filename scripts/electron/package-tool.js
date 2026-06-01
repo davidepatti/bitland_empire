@@ -182,7 +182,7 @@ function validateTool(tool, configPath) {
 
 function writeChecksums(releaseDir) {
   const files = fs.readdirSync(releaseDir)
-    .filter(file => file !== "SHA256SUMS.txt")
+    .filter(file => file !== "SHA256SUMS.txt" && fs.statSync(path.join(releaseDir, file)).isFile())
     .sort();
   const lines = files.map(file => {
     const data = fs.readFileSync(path.join(releaseDir, file));

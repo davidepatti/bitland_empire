@@ -194,7 +194,7 @@ function packageJsonFor(hub) {
 
 function writeChecksums(releaseDir) {
   const files = fs.readdirSync(releaseDir)
-    .filter(file => file !== "SHA256SUMS.txt")
+    .filter(file => file !== "SHA256SUMS.txt" && fs.statSync(path.join(releaseDir, file)).isFile())
     .sort();
   const lines = files.map(file => {
     const data = fs.readFileSync(path.join(releaseDir, file));
@@ -294,7 +294,15 @@ try {
   const stagedRelease = path.join(stageDir, "release");
   const finalRelease = path.join(hubDir, "release");
   removePath(finalRelease);
-  copyPath(stagedRelease, finalRelease);
+  fs.mkdirSync(finalRelease, { recursive: true });
+
+  for (const file of fs.readdirSync(stagedRelease)) {
+    const source = path.join(stagedRelease, file);
+    if (fs.statSync(source).isFile()) {
+      copyPath(source, path.join(finalRelease, file));
+    }
+  }
+
   writeChecksums(finalRelease);
   console.log(`\nPackaged ${hub.productName} to ${finalRelease}`);
 } finally {
