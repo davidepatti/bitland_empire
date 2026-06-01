@@ -16,7 +16,29 @@ npm run check
 
 ## Build
 
-Build the guarded hub from the repository root:
+Preferred release command from the repository root:
+
+```bash
+npm run release:hub
+```
+
+This runs `npm run check`, builds the guarded hub, verifies `SHA256SUMS.txt`, writes `hub/release/GITHUB_RELEASE_BODY.md`, and prints the exact GitHub CLI upload command.
+
+To create a draft GitHub Release directly with the GitHub CLI:
+
+```bash
+npm run release:hub -- --github-draft
+```
+
+This direct upload mode requires `gh` to be installed and authenticated for the repository.
+
+To verify an already-built `hub/release/` folder without rebuilding:
+
+```bash
+npm run release:hub -- --skip-build
+```
+
+Manual guarded hub build, if needed:
 
 ```bash
 npm run package:hub

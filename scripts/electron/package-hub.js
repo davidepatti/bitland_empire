@@ -40,6 +40,10 @@ function removePath(target) {
   fs.rmSync(target, { recursive: true, force: true });
 }
 
+function isBuilderMetadata(file) {
+  return file === "builder-debug.yml" || file === "builder-effective-config.yaml";
+}
+
 function lockedElectronVersion() {
   const lockPath = path.join(repoRoot, "package-lock.json");
   if (fs.existsSync(lockPath)) {
@@ -298,7 +302,7 @@ try {
 
   for (const file of fs.readdirSync(stagedRelease)) {
     const source = path.join(stagedRelease, file);
-    if (fs.statSync(source).isFile()) {
+    if (fs.statSync(source).isFile() && !isBuilderMetadata(file)) {
       copyPath(source, path.join(finalRelease, file));
     }
   }

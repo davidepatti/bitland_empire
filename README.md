@@ -26,6 +26,12 @@ Build the self-contained hub package:
 npm run package:hub
 ```
 
+Prepare a guarded release, verify checksums, and generate GitHub Release notes:
+
+```bash
+npm run release:hub
+```
+
 Run the same hub in a browser, without Electron:
 
 ```bash
