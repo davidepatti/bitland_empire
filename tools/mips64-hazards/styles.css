@@ -334,11 +334,30 @@ h2 {
   padding: 16px;
 }
 
+.scenario-panel {
+  background:
+    linear-gradient(90deg, rgba(15, 118, 110, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(15, 118, 110, 0.08) 1px, transparent 1px),
+    rgba(255, 253, 248, 0.95);
+  background-size: 30px 30px, 30px 30px, auto;
+}
+
 .timeline-panel {
   display: grid;
   gap: 14px;
   padding: 16px;
   min-width: 0;
+  background:
+    linear-gradient(90deg, rgba(217, 119, 6, 0.11) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(15, 118, 110, 0.07), transparent 34%),
+    rgba(255, 253, 248, 0.95);
+  background-size: 82px 100%, auto, auto;
+}
+
+.inspector-panel {
+  background:
+    linear-gradient(135deg, rgba(217, 119, 6, 0.12), transparent 36%),
+    rgba(255, 253, 248, 0.95);
 }
 
 .panel-head,
@@ -1109,6 +1128,41 @@ h2 {
 
 body.modal-open {
   overflow: hidden;
+}
+
+.button[data-icon] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.button[data-icon]::before {
+  content: "";
+  width: 1.08rem;
+  height: 1.08rem;
+  flex: 0 0 auto;
+  background: var(--icon-color, currentColor);
+  opacity: 0.96;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.button.ghost[data-icon]::before {
+  --icon-color: var(--teal);
+}
+
+#quizModeBtn[data-icon]::before,
+.button[aria-pressed="true"][data-icon]::before {
+  --icon-color: currentColor;
+}
+
+[data-icon="quiz"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='4' width='14' height='18' rx='2'/%3E%3Cpath d='M9 4v4h6V4M8 13h8M8 17h5'/%3E%3C/svg%3E");
+}
+
+[data-icon="tutorial"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M10 8l6 4-6 4z' fill='black' stroke='none'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 1180px) {

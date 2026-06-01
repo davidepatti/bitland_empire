@@ -325,6 +325,16 @@ function localizedTool(tool) {
   };
 }
 
+function toolIconFor(slug) {
+  return {
+    "karnaugh-tables": "kmap",
+    "qmc-sim": "qmc",
+    "seq-circuits": "fsm",
+    "cpu-spy": "cpu",
+    "mips64-hazards": "hazard"
+  }[slug] || "launch";
+}
+
 function renderLearningPaths() {
   const locked = guardLocked();
   els.learningPaths.innerHTML = learningPaths.map(path => {
@@ -367,19 +377,20 @@ function renderTools() {
     const tool = localizedTool(rawTool);
     const accent = tool.accent || "#116a67";
     const shortName = tool.shortName || tool.productName.slice(0, 3).toUpperCase();
+    const icon = toolIconFor(tool.slug);
     const disabled = locked ? " disabled" : "";
     const lockedClass = locked ? " locked" : "";
     return `
       <article class="tool-card${lockedClass}" style="--tool-accent: ${escapeHtml(accent)}">
         <div class="tool-head">
-          <div class="tool-badge" aria-hidden="true">${escapeHtml(shortName)}</div>
+          <div class="tool-badge" data-tool-icon="${escapeHtml(icon)}" aria-hidden="true"><span>${escapeHtml(shortName)}</span></div>
           <div class="tool-title">
             <h3>${escapeHtml(tool.productName)}</h3>
             <p>${escapeHtml(tool.category || "Tool")}</p>
           </div>
         </div>
         <p class="tool-description">${escapeHtml(tool.description || "")}</p>
-        <button class="button primary" type="button" data-tool="${escapeHtml(tool.slug)}" data-icon=">" aria-label="${escapeHtml(`${t("launch")} ${tool.productName}`)}"${disabled}>${escapeHtml(t("launch"))}</button>
+        <button class="button primary" type="button" data-tool="${escapeHtml(tool.slug)}" data-icon="launch" aria-label="${escapeHtml(`${t("launch")} ${tool.productName}`)}"${disabled}>${escapeHtml(t("launch"))}</button>
       </article>
     `;
   }).join("");

@@ -825,7 +825,7 @@ function renderExamGuard() {
         <input id="examUnlockCode" type="text" spellcheck="false" autocomplete="off"${inputDisabled}>
       </label>
       <div class="button-row compact">
-        <button id="examUnlockButton" class="button primary" type="button" data-icon="✓"${inputDisabled}>${escapeHtml(t("examGuardUnlock"))}</button>
+        <button id="examUnlockButton" class="button primary" type="button" data-icon="unlock"${inputDisabled}>${escapeHtml(t("examGuardUnlock"))}</button>
       </div>
       ${error}
     </section>

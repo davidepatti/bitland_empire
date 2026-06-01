@@ -20,9 +20,9 @@
               <option value="en">English</option>
             </select>
           </label>
-          <button id="tutorialButton" class="button ghost" type="button" data-icon="▶" data-i18n="tutorial">Tutorial</button>
-          <button id="loadExample" class="button ghost" type="button" data-icon="*" data-i18n="example">Esempio</button>
-          <button id="analyzeTop" class="button primary" type="button" data-icon=">" data-i18n="analyze">Analizza</button>
+          <button id="tutorialButton" class="button ghost" type="button" data-icon="tutorial" data-i18n="tutorial">Tutorial</button>
+          <button id="loadExample" class="button ghost" type="button" data-icon="sample" data-i18n="example">Esempio</button>
+          <button id="analyzeTop" class="button primary" type="button" data-icon="analyze" data-i18n="analyze">Analizza</button>
         </div>
       </header>
 
@@ -32,49 +32,49 @@
           <h2 id="tutorialTitle" data-i18n="completeInOrder">Completa l'esercizio in ordine</h2>
         </div>
         <nav class="workflow-rail" aria-label="Sequential circuit completion path">
-          <button class="workflow-step" type="button" data-step-target="setupPanel">
+          <button class="workflow-step" type="button" data-step-target="setupPanel" data-step-icon="structure">
             <span class="step-number">1</span>
             <span class="step-copy">
               <span class="step-title" data-i18n="define">Definisci</span>
               <span class="step-status" data-i18n="structure">Struttura</span>
             </span>
           </button>
-          <button class="workflow-step" type="button" data-step-target="diagramPanel">
+          <button class="workflow-step" type="button" data-step-target="diagramPanel" data-step-icon="state">
             <span class="step-number">2</span>
             <span class="step-copy">
               <span class="step-title" data-i18n="diagram">Diagramma</span>
               <span class="step-status" data-i18n="graph">Grafo</span>
             </span>
           </button>
-          <button class="workflow-step" type="button" data-step-target="stateTablePanel">
+          <button class="workflow-step" type="button" data-step-target="stateTablePanel" data-step-icon="table">
             <span class="step-number">3</span>
             <span class="step-copy">
               <span class="step-title" data-i18n="table">Tabella</span>
               <span class="step-status" data-i18n="stateRows">Righe stato</span>
             </span>
           </button>
-          <button class="workflow-step" type="button" data-step-target="minimizationPanel">
+          <button class="workflow-step" type="button" data-step-target="minimizationPanel" data-step-icon="merge">
             <span class="step-number">4</span>
             <span class="step-copy">
               <span class="step-title" data-i18n="reduce">Riduci</span>
               <span class="step-status">Paull-Unger</span>
             </span>
           </button>
-          <button class="workflow-step" type="button" data-step-target="transitionPanel">
+          <button class="workflow-step" type="button" data-step-target="transitionPanel" data-step-icon="encode">
             <span class="step-number">5</span>
             <span class="step-copy">
               <span class="step-title" data-i18n="encode">Codifica</span>
               <span class="step-status" data-i18n="transitions">Transizioni</span>
             </span>
           </button>
-          <button class="workflow-step" type="button" data-step-target="excitationPanel">
+          <button class="workflow-step" type="button" data-step-target="excitationPanel" data-step-icon="excite">
             <span class="step-number">6</span>
             <span class="step-copy">
               <span class="step-title" data-i18n="excite">Eccita</span>
               <span class="step-status">Flip-flop</span>
             </span>
           </button>
-          <button class="workflow-step" type="button" data-step-target="logicPanel">
+          <button class="workflow-step" type="button" data-step-target="logicPanel" data-step-icon="logic">
             <span class="step-number">7</span>
             <span class="step-copy">
               <span class="step-title" data-i18n="logic">Logica</span>
@@ -92,7 +92,7 @@
               <p class="eyebrow" data-i18n="step1">Passo 1</p>
               <h2 id="setupTitle" data-i18n="machineDefinition">Definizione macchina</h2>
             </div>
-            <button id="applyStructure" class="button" type="button" data-icon="+" data-i18n="applyStructure">Applica struttura</button>
+            <button id="applyStructure" class="button" type="button" data-icon="structure" data-i18n="applyStructure">Applica struttura</button>
           </div>
 
           <div class="config-grid">
@@ -150,13 +150,13 @@
               <h2 id="diagramTitle" data-i18n="stateDiagram">Diagramma degli stati</h2>
             </div>
             <div class="button-row compact graph-toolbar">
-              <button id="graphUndo" class="button ghost icon-only" type="button" data-icon="<" title="Undo" aria-label="Undo"></button>
-              <button id="graphRedo" class="button ghost icon-only" type="button" data-icon=">" title="Redo" aria-label="Redo"></button>
-              <button id="graphAddState" class="button ghost" type="button" data-icon="+" data-i18n="state">Stato</button>
-              <button id="graphAddTransition" class="button ghost" type="button" data-icon="->" data-i18n="transition">Transizione</button>
-              <button id="graphAutoLayout" class="button ghost" type="button" data-icon="o">Layout</button>
-              <button id="graphDelete" class="button ghost" type="button" data-icon="x" data-i18n="delete">Elimina</button>
-              <button id="graphApply" class="button primary" type="button" data-icon="✓" data-i18n="applyGraph">Applica grafo</button>
+              <button id="graphUndo" class="button ghost icon-only" type="button" data-icon="undo" title="Undo" aria-label="Undo"></button>
+              <button id="graphRedo" class="button ghost icon-only" type="button" data-icon="redo" title="Redo" aria-label="Redo"></button>
+              <button id="graphAddState" class="button ghost" type="button" data-icon="state" data-i18n="state">Stato</button>
+              <button id="graphAddTransition" class="button ghost" type="button" data-icon="transition" data-i18n="transition">Transizione</button>
+              <button id="graphAutoLayout" class="button ghost" type="button" data-icon="layout">Layout</button>
+              <button id="graphDelete" class="button ghost" type="button" data-icon="trash" data-i18n="delete">Elimina</button>
+              <button id="graphApply" class="button primary" type="button" data-icon="check" data-i18n="applyGraph">Applica grafo</button>
             </div>
           </div>
           <div id="graphMessage" class="message-box graph-message">Graph draft ready.</div>

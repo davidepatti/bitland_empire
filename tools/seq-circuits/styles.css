@@ -125,7 +125,11 @@ select {
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.82);
+  background:
+    linear-gradient(90deg, rgba(18, 106, 114, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(18, 106, 114, 0.08) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.82);
+  background-size: 34px 34px, 34px 34px, auto;
 }
 
 .tutorial-title {
@@ -280,6 +284,50 @@ select {
   padding: 18px;
   min-width: 0;
   scroll-margin-top: 18px;
+}
+
+#setupPanel {
+  background:
+    linear-gradient(135deg, rgba(18, 106, 114, 0.10), transparent 34%),
+    rgba(255, 255, 255, 0.94);
+}
+
+#diagramPanel {
+  background:
+    linear-gradient(90deg, rgba(18, 106, 114, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(18, 106, 114, 0.08) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.94);
+  background-size: 32px 32px, 32px 32px, auto;
+}
+
+#stateTablePanel,
+#transitionPanel {
+  background:
+    linear-gradient(90deg, rgba(36, 88, 166, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(36, 88, 166, 0.08) 1px, transparent 1px),
+    rgba(255, 255, 255, 0.94);
+  background-size: 30px 30px, 30px 30px, auto;
+}
+
+#minimizationPanel {
+  background:
+    linear-gradient(135deg, rgba(204, 122, 36, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.94);
+}
+
+#excitationPanel {
+  background:
+    linear-gradient(135deg, rgba(204, 122, 36, 0.12), transparent 34%),
+    linear-gradient(315deg, rgba(18, 106, 114, 0.08), transparent 38%),
+    rgba(255, 255, 255, 0.94);
+}
+
+#logicPanel {
+  background:
+    linear-gradient(90deg, rgba(36, 88, 166, 0.07) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(18, 106, 114, 0.08), rgba(36, 88, 166, 0.06)),
+    rgba(255, 255, 255, 0.94);
+  background-size: 36px 36px, auto, auto;
 }
 
 .panel.workflow-current {
@@ -939,6 +987,150 @@ th.center {
 
 body.modal-open {
   overflow: hidden;
+}
+
+.button[data-icon] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.button[data-icon]::before,
+.workflow-step[data-step-icon] .step-copy::before {
+  content: "";
+  width: 1.08rem;
+  height: 1.08rem;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--icon-color, currentColor);
+  opacity: 0.96;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.button.ghost[data-icon]::before,
+.button:not(.primary)[data-icon]::before {
+  --icon-color: var(--accent);
+}
+
+.button.primary[data-icon]::before {
+  --icon-color: currentColor;
+}
+
+.button[data-icon="trash"]::before {
+  --icon-color: var(--bad);
+}
+
+.button.icon-only[data-icon] {
+  font-size: 0;
+}
+
+.button.icon-only[data-icon]::before {
+  width: 18px;
+  height: 18px;
+}
+
+.workflow-step[data-step-icon] .step-copy {
+  position: relative;
+  padding-left: 24px;
+}
+
+.workflow-step[data-step-icon] .step-copy::before {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  --icon-color: var(--accent);
+}
+
+.workflow-step.done .step-copy::before {
+  --icon-color: var(--good);
+}
+
+.workflow-step.current .step-copy::before {
+  --icon-color: var(--accent-2);
+}
+
+.workflow-step.pending .step-copy::before {
+  opacity: 0.48;
+}
+
+[data-icon="tutorial"],
+[data-step-icon="tutorial"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M10 8l6 4-6 4z' fill='black' stroke='none'/%3E%3C/svg%3E");
+}
+
+[data-icon="sample"],
+[data-step-icon="sample"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l2.2 5.2L20 10l-5.8 1.8L12 17l-2.2-5.2L4 10l5.8-1.8z'/%3E%3Cpath d='M19 16v4M17 18h4'/%3E%3C/svg%3E");
+}
+
+[data-icon="analyze"],
+[data-step-icon="analyze"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M16 16l5 5M8 11h6M11 8v6'/%3E%3C/svg%3E");
+}
+
+[data-icon="structure"],
+[data-step-icon="structure"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6h16M4 12h16M4 18h16M8 4v4M14 10v4M18 16v4'/%3E%3C/svg%3E");
+}
+
+[data-icon="state"],
+[data-step-icon="state"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='8' cy='12' r='4'/%3E%3Ccircle cx='17' cy='7' r='3'/%3E%3Ccircle cx='17' cy='17' r='3'/%3E%3Cpath d='M11 10l4-2M11 14l4 2'/%3E%3C/svg%3E");
+}
+
+[data-icon="table"],
+[data-step-icon="table"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4' width='16' height='16' rx='2'/%3E%3Cpath d='M4 10h16M10 4v16M16 4v16'/%3E%3C/svg%3E");
+}
+
+[data-icon="merge"],
+[data-step-icon="merge"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 4v5a6 6 0 0 0 6 6h6'/%3E%3Cpath d='M12 4v3a5 5 0 0 0 5 5h1M15 9l3 3-3 3M15 12l3 3-3 3'/%3E%3C/svg%3E");
+}
+
+[data-icon="encode"],
+[data-step-icon="encode"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 7h3M6 12h3M6 17h3M14 7h4M14 12h4M14 17h4M11 5v14'/%3E%3C/svg%3E");
+}
+
+[data-icon="excite"],
+[data-step-icon="excite"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2L5 14h7l-1 8 8-12h-7z'/%3E%3C/svg%3E");
+}
+
+[data-icon="logic"],
+[data-step-icon="logic"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7h6M4 17h6M10 7c5 0 7 3 7 5s-2 5-7 5M17 12h3'/%3E%3C/svg%3E");
+}
+
+[data-icon="undo"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 7H4v5M4 12a8 8 0 0 0 14 5'/%3E%3C/svg%3E");
+}
+
+[data-icon="redo"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 7h5v5M20 12A8 8 0 0 1 6 17'/%3E%3C/svg%3E");
+}
+
+[data-icon="transition"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='6' cy='12' r='3'/%3E%3Ccircle cx='18' cy='12' r='3'/%3E%3Cpath d='M9 12h6M13 9l3 3-3 3'/%3E%3C/svg%3E");
+}
+
+[data-icon="layout"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4' width='7' height='7' rx='1'/%3E%3Crect x='13' y='4' width='7' height='7' rx='1'/%3E%3Crect x='4' y='13' width='7' height='7' rx='1'/%3E%3Crect x='13' y='13' width='7' height='7' rx='1'/%3E%3C/svg%3E");
+}
+
+[data-icon="trash"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7h16M10 11v6M14 11v6M6 7l1 14h10l1-14M9 7V4h6v3'/%3E%3C/svg%3E");
+}
+
+[data-icon="check"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M8 12l3 3 6-7'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 1040px) {

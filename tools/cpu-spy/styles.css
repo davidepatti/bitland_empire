@@ -358,7 +358,11 @@ h1 {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: white;
+  background:
+    linear-gradient(90deg, rgba(14, 159, 154, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(240, 138, 36, 0.05) 1px, transparent 1px),
+    white;
+  background-size: 34px 34px, 34px 34px, auto;
   box-shadow: var(--shadow);
 }
 
@@ -616,9 +620,20 @@ h1 {
 .phase-panel {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--paper);
+  background:
+    linear-gradient(135deg, rgba(240, 138, 36, 0.12), transparent 34%),
+    linear-gradient(315deg, rgba(14, 159, 154, 0.10), transparent 40%),
+    var(--paper);
   box-shadow: var(--shadow);
   padding: 18px;
+}
+
+.phase-panel section {
+  border: 1px solid rgba(217, 211, 199, 0.8);
+  border-radius: 8px;
+  background: rgba(255, 254, 250, 0.72);
+  padding: 10px;
+  margin-top: 12px;
 }
 
 .phase-name {
@@ -1010,6 +1025,56 @@ h1 {
 
 body.modal-open {
   overflow: hidden;
+}
+
+.mode-toggle[data-icon] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.mode-toggle[data-icon]::before,
+.icon-button[data-icon]::before {
+  content: "";
+  width: 1.08rem;
+  height: 1.08rem;
+  flex: 0 0 auto;
+  background: var(--icon-color, currentColor);
+  opacity: 0.96;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.mode-toggle[data-icon]::before {
+  --icon-color: var(--control);
+}
+
+#quizModeBtn[data-icon]::before,
+.mode-toggle[aria-pressed="true"][data-icon]::before {
+  --icon-color: currentColor;
+}
+
+.icon-button[data-icon] {
+  font-size: 0;
+}
+
+.icon-button[data-icon]::before {
+  width: 22px;
+  height: 22px;
+  --icon-color: currentColor;
+}
+
+[data-icon="quiz"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='4' width='14' height='18' rx='2'/%3E%3Cpath d='M9 4v4h6V4M8 13h8M8 17h5'/%3E%3C/svg%3E");
+}
+
+[data-icon="tutorial"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M10 8l6 4-6 4z' fill='black' stroke='none'/%3E%3C/svg%3E");
+}
+
+[data-icon="info"] {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 10v6M12 7h.01'/%3E%3C/svg%3E");
 }
 
 @media (max-width: 1040px) {

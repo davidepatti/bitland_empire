@@ -21,7 +21,7 @@
               <option value="en">English</option>
             </select>
           </label>
-          <button id="tutorialButton" class="button ghost" type="button" data-icon="▶" data-i18n="tutorial">Tutorial</button>
+          <button id="tutorialButton" class="button ghost" type="button" data-icon="tutorial" data-i18n="tutorial">Tutorial</button>
         </div>
       </header>
 
@@ -52,7 +52,7 @@
               </select>
             </label>
           </div>
-          <button id="newExercise" class="button primary table-button" type="button" data-icon="+" data-i18n="newTable">Nuova tabella</button>
+          <button id="newExercise" class="button primary table-button" type="button" data-icon="table" data-i18n="newTable">Nuova tabella</button>
 
           <section class="problem-card" aria-labelledby="problemTitle">
             <h3 id="problemTitle" data-i18n="task">Compito</h3>
@@ -60,11 +60,11 @@
           </section>
 
           <div class="button-row">
-            <button id="addGroup" class="button primary" type="button" data-icon="+" data-i18n="addGroup">Aggiungi gruppo</button>
-            <button id="clearSelection" class="button ghost" type="button" data-icon="x" data-i18n="clearSelection">Pulisci selezione</button>
+            <button id="addGroup" class="button primary" type="button" data-icon="group" data-i18n="addGroup">Aggiungi gruppo</button>
+            <button id="clearSelection" class="button ghost" type="button" data-icon="eraser" data-i18n="clearSelection">Pulisci selezione</button>
           </div>
 
-          <button id="checkCover" class="button primary check-button" type="button" data-icon="✓" data-i18n="checkGroups">Controlla gruppi</button>
+          <button id="checkCover" class="button primary check-button" type="button" data-icon="check" data-i18n="checkGroups">Controlla gruppi</button>
           <div id="messageBox" class="message-box">Seleziona un gruppo valido di celle a 1, poi aggiungilo.</div>
         </section>
 
@@ -81,24 +81,24 @@
       </section>
 
       <section class="results-grid">
-        <section class="panel" aria-labelledby="groupsTitle">
+        <section class="panel groups-panel" aria-labelledby="groupsTitle">
           <div class="panel-head compact-head">
             <div>
               <p class="eyebrow" data-i18n="grouping">Raggruppamento</p>
               <h2 id="groupsTitle" data-i18n="yourGroups">I tuoi gruppi</h2>
             </div>
-            <button id="clearGroups" class="button ghost" type="button" data-icon="x" data-i18n="clearGroups">Pulisci gruppi</button>
+            <button id="clearGroups" class="button ghost" type="button" data-icon="trash" data-i18n="clearGroups">Pulisci gruppi</button>
           </div>
           <div id="groupList" class="group-list"></div>
         </section>
 
-        <section class="panel" aria-labelledby="expressionTitle">
+        <section class="panel expression-panel" aria-labelledby="expressionTitle">
           <div class="panel-head compact-head">
             <div>
               <p class="eyebrow" data-i18n="result">Risultato</p>
               <h2 id="expressionTitle" data-i18n="coverageCheck">Controllo copertura</h2>
             </div>
-            <button id="revealSolution" class="button ghost" type="button" data-icon="!" data-i18n="revealExample">Mostra esempio</button>
+            <button id="revealSolution" class="button ghost" type="button" data-icon="eye" data-i18n="revealExample">Mostra esempio</button>
           </div>
           <div id="expressionBox" class="expression-box"></div>
         </section>

@@ -648,7 +648,7 @@ function renderGroups() {
         <span class="group-name">${escapeHtml(t("groupName", { index: index + 1 }))}</span>
         <span>${escapeHtml(t("covers", { cells: group.cells.map(cell => `m${cell}`).join(", ") }))}</span>
       </div>
-      <button class="button ghost" type="button" data-remove-group="${index}" data-icon="x">${escapeHtml(t("remove"))}</button>
+      <button class="button ghost" type="button" data-remove-group="${index}" data-icon="trash">${escapeHtml(t("remove"))}</button>
     </div>
   `).join("");
 
