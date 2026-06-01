@@ -10,8 +10,7 @@
   "webAssets": [
     "index.html",
     "styles.css",
-    "app.js",
-    "pipeline_diagram.png"
+    "app.js"
   ],
   "electron": {
     "width": 1360,

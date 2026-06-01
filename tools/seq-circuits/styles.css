@@ -54,6 +54,8 @@ select {
 }
 
 .topbar {
+  position: relative;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -97,6 +99,21 @@ select {
 .topbar-actions {
   justify-content: flex-end;
   flex-wrap: wrap;
+}
+
+.language-field {
+  min-width: 145px;
+}
+
+.language-field select {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 850;
+  padding: 7px 9px;
 }
 
 .tutorial-strip {
@@ -739,6 +756,191 @@ th.center {
   padding: 16px;
 }
 
+.info-modal.hidden {
+  display: none;
+}
+
+.info-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.info-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 33, 43, 0.42);
+}
+
+.info-card {
+  position: relative;
+  z-index: 1;
+  width: min(980px, 100%);
+  max-height: min(82vh, 700px);
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(23, 33, 43, 0.28);
+  padding: 22px;
+}
+
+.info-card h2 {
+  margin: 0 40px 12px 0;
+}
+
+.info-body,
+.tutorial-steps {
+  display: grid;
+  gap: 12px;
+}
+
+.info-body {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.info-body p {
+  margin: 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 850;
+}
+
+.tutorial-step {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.92fr) minmax(260px, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfd;
+}
+
+.tutorial-copy h3 {
+  margin: 0 0 7px;
+  color: var(--ink);
+  font-size: 1.04rem;
+}
+
+.tutorial-screenshot {
+  min-height: 190px;
+  border: 1px solid #cbd8df;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, #eef5f7);
+  padding: 10px;
+  overflow: hidden;
+}
+
+.shot-bar,
+.shot-card,
+.shot-grid,
+.shot-diagram {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.shot-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 32px;
+  padding: 7px 8px;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.shot-card {
+  margin-top: 10px;
+  padding: 9px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.shot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 10px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.shot-grid span,
+.shot-grid b {
+  display: grid;
+  min-height: 28px;
+  place-items: center;
+  background: #fff;
+  font-size: 0.72rem;
+}
+
+.shot-grid b {
+  color: var(--accent);
+}
+
+.shot-diagram {
+  position: relative;
+  min-height: 118px;
+  margin-top: 10px;
+}
+
+.shot-node {
+  position: absolute;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 950;
+}
+
+.shot-node.a {
+  left: 34px;
+  top: 38px;
+}
+
+.shot-node.b {
+  right: 44px;
+  top: 38px;
+}
+
+.shot-edge {
+  position: absolute;
+  left: 82px;
+  right: 92px;
+  top: 58px;
+  height: 2px;
+  background: var(--accent-2);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 @media (max-width: 1040px) {
   .tutorial-strip {
     grid-template-columns: 1fr;
@@ -746,6 +948,10 @@ th.center {
 
   .workflow-rail {
     grid-template-columns: repeat(4, minmax(120px, 1fr));
+  }
+
+  .tutorial-step {
+    grid-template-columns: 1fr;
   }
 
   .workflow-step:not(:last-child)::after {

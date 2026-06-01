@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MIPS64 Hazard Lab</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="title-block">
+          <p class="eyebrow">MIPS64 pipeline</p>
+          <h1>Hazard Lab</h1>
+        </div>
+        <div class="topbar-actions">
+          <label class="field language-field">
+            <span data-i18n="language">Lingua</span>
+            <select id="languageSelect">
+              <option value="it">IT</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+          <button id="quizModeBtn" class="button ghost" type="button" aria-pressed="false" data-i18n="quizMode">Quiz</button>
+          <button id="tutorialButton" class="button ghost" type="button" data-i18n="tutorial">Tutorial</button>
+          <div class="source-chip">CE_ARCH_4_Hazards</div>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <aside class="panel scenario-panel" aria-labelledby="scenarioTitle">
+          <div class="panel-head">
+            <p class="eyebrow" data-i18n="exercise">Esercizio</p>
+            <h2 id="scenarioTitle" data-i18n="caseResolution">Caso e risoluzione</h2>
+          </div>
+
+          <div class="mode-control" aria-label="Risoluzione hazard">
+            <span data-i18n="resolution">Risoluzione</span>
+            <div id="modeButtons" class="segmented"></div>
+          </div>
+
+          <label id="delayToggleWrap" class="delay-toggle hidden">
+            <input id="delaySlotToggle" type="checkbox">
+            <span data-i18n="delaySlot">Branch delay slot utile</span>
+          </label>
+
+          <div id="scenarioMatrix" class="scenario-matrix"></div>
+        </aside>
+
+        <section class="panel timeline-panel" aria-labelledby="timelineTitle">
+          <div class="timeline-head">
+            <div>
+              <p class="eyebrow" id="hazardType">Data hazard</p>
+              <h2 id="timelineTitle">ALU -> ALU</h2>
+            </div>
+            <div id="penaltyMeter" class="penalty-meter"></div>
+          </div>
+
+          <div id="programSnippet" class="program-snippet"></div>
+
+          <div class="pipeline-wrap" aria-label="Diagramma temporale pipeline">
+            <div id="pipelineGrid" class="pipeline-grid"></div>
+          </div>
+
+          <div id="stageRail" class="stage-rail" aria-label="Risorse pipeline"></div>
+
+          <div class="command-deck">
+            <div class="command-title">
+              <p class="eyebrow" data-i18n="cycleCommands">Comandi ciclo</p>
+              <div class="cycle-readout" aria-live="polite">
+                <span data-i18n="clock">Clock</span>
+                <strong id="cycleLabel">1</strong>
+              </div>
+            </div>
+            <div class="cycle-controls" aria-label="Controlli ciclo">
+              <button id="prevCycle" class="icon-button" type="button" aria-label="Ciclo precedente" title="Ciclo precedente">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6"></path>
+                </svg>
+              </button>
+              <button id="nextCycle" class="icon-button primary" type="button" aria-label="Ciclo successivo" title="Ciclo successivo">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6"></path>
+                </svg>
+              </button>
+              <button id="playCycle" class="icon-button" type="button" aria-label="Avvia animazione" title="Avvia animazione">
+                <svg id="playIcon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"></path>
+                </svg>
+              </button>
+              <button id="resetCycle" class="icon-button" type="button" aria-label="Reset" title="Reset">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 12a8 8 0 1 0 2.34-5.66"></path>
+                  <path d="M4 4v6h6"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel inspector-panel" aria-labelledby="inspectorTitle">
+          <div class="panel-head">
+            <p class="eyebrow">Clock story</p>
+            <h2 id="inspectorTitle" data-i18n="cycleDetail">Dettaglio ciclo</h2>
+          </div>
+          <div id="inspector" class="inspector"></div>
+        </aside>
+      </section>
+    </main>
+
+    <div class="info-modal hidden" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+      <div class="info-backdrop" data-modal-close></div>
+      <section class="info-card tutorial-card">
+        <button class="modal-close" type="button" data-modal-close aria-label="Chiudi" data-i18n-attr="aria-label:close">×</button>
+        <h2 id="infoModalTitle"></h2>
+        <div id="infoModalBody" class="info-body"></div>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

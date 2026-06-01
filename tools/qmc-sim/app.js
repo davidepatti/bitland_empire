@@ -488,7 +488,7 @@ function getInitialLanguage() {
   } catch (error) {
     // Local files may block storage in some browser settings.
   }
-  return navigator.language && navigator.language.toLowerCase().startsWith("it") ? "it" : "en";
+  return "it";
 }
 
 function t(key, params = {}) {
@@ -868,7 +868,12 @@ async function activateExamGuard() {
 }
 
 function bindEvents() {
-  els.tutorialButton.addEventListener("click", () => openInfo("tutorial", els.tutorialButton));
+  document.addEventListener("click", event => {
+    const tutorialTrigger = event.target.closest("#tutorialButton");
+    if (!tutorialTrigger) return;
+    event.preventDefault();
+    openInfo("tutorial", tutorialTrigger);
+  });
   els.aboutButton.addEventListener("click", () => openInfo("about", els.aboutButton));
   document.querySelectorAll("[data-help]").forEach(button => {
     button.addEventListener("click", () => openInfo(button.dataset.help, button));

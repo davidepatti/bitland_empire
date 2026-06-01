@@ -5,6 +5,7 @@ Small teaching tools, kept as independent apps under `tools/`.
 ## Tools
 
 - `tools/cpu-spy` - clickable MIPS64 datapath and instruction execution demo.
+- `tools/mips64-hazards` - clickable MIPS64 pipeline hazard visualizer for forwarding and stall comparisons.
 - `tools/qmc-sim` - Quine-McCluskey logic minimization simulator.
 - `tools/karnaugh-tables` - random Karnaugh-map table generator for practicing legal groupings.
 - `tools/seq-circuits` - sequential-circuit exercise builder for FSM tables, Paull-Unger minimization, flip-flop excitation tables, and logic equations.
@@ -78,6 +79,7 @@ Run an app in Electron:
 ```bash
 npm run start:hub
 npm run start:cpu-spy
+npm run start:hazards
 npm run start:qmc-sim
 npm run start:karnaugh
 npm run start:seq-circuits
@@ -101,6 +103,7 @@ Build standalone tool packages for non-exam use:
 
 ```bash
 npm run package:cpu-spy
+npm run package:hazards
 npm run package:qmc-sim
 npm run package:karnaugh
 npm run package:seq-circuits

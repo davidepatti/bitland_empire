@@ -18,6 +18,12 @@
       "accent": "#116a67"
     },
     {
+      "dir": "../tools/mips64-hazards",
+      "shortName": "HAZ",
+      "category": "Computer architecture",
+      "accent": "#7c3aed"
+    },
+    {
       "dir": "../tools/qmc-sim",
       "shortName": "QMC",
       "category": "Logic minimization",

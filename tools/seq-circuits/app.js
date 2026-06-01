@@ -7,6 +7,188 @@ const NODE_RADIUS = 34;
 const GRAPH_HISTORY_LIMIT = 60;
 const languageKey = "seq-circuits-language";
 
+const translations = {
+  it: {
+    appTitle: "Circuiti sequenziali",
+    language: "Lingua",
+    tutorial: "Tutorial",
+    close: "Chiudi",
+    example: "Esempio",
+    analyze: "Analizza",
+    visualTutorial: "Tutorial visuale",
+    completeInOrder: "Completa l'esercizio in ordine",
+    define: "Definisci",
+    structure: "Struttura",
+    diagram: "Diagramma",
+    graph: "Grafo",
+    table: "Tabella",
+    stateRows: "Righe stato",
+    reduce: "Riduci",
+    encode: "Codifica",
+    transitions: "Transizioni",
+    excite: "Eccita",
+    logic: "Logica",
+    equations: "Equazioni",
+    step1: "Passo 1",
+    step2: "Passo 2",
+    step3: "Passo 3",
+    step4: "Passo 4",
+    step5: "Passo 5",
+    step6: "Passo 6",
+    step7: "Passo 7",
+    machineDefinition: "Definizione macchina",
+    applyStructure: "Applica struttura",
+    fsmType: "Tipo FSM",
+    inputBits: "Bit input",
+    outputBits: "Bit output",
+    states: "Stati",
+    mooreOutputTable: "Tabella output Moore",
+    transitionEditorTable: "Tabella editor transizioni",
+    stateDiagram: "Diagramma degli stati",
+    state: "Stato",
+    transition: "Transizione",
+    delete: "Elimina",
+    applyGraph: "Applica grafo",
+    stateTable: "Tabella degli stati",
+    paullUngerTable: "Tabella di implicazione Paull-Unger",
+    transitionTable: "Tabella transizioni",
+    excitationTables: "Tabelle di eccitazione",
+    nextStateLogic: "Logica di stato prossimo e output",
+    tutorialIntro: "Usa questi passaggi per completare una sintesi di macchina sequenziale dall'editor alla logica finale.",
+    tutorialStep1Title: "1. Definisci la macchina",
+    tutorialStep1Body: "Scegli tipo FSM, bit di input/output, flip-flop e stati; poi applica la struttura.",
+    tutorialStep2Title: "2. Disegna il grafo",
+    tutorialStep2Body: "Sposta gli stati, aggiungi transizioni e applica il grafo per aggiornare le tabelle.",
+    tutorialStep3Title: "3. Segui le tabelle",
+    tutorialStep3Body: "Leggi tabella degli stati, Paull-Unger, codifica e transizioni minimizzate in ordine.",
+    tutorialStep4Title: "4. Arriva alle equazioni",
+    tutorialStep4Body: "Controlla le eccitazioni dei flip-flop e le equazioni di stato prossimo e uscita."
+  },
+  en: {
+    appTitle: "Sequential Circuits",
+    language: "Language",
+    tutorial: "Tutorial",
+    close: "Close",
+    example: "Example",
+    analyze: "Analyze",
+    visualTutorial: "Visual tutorial",
+    completeInOrder: "Complete the exercise in order",
+    define: "Define",
+    structure: "Structure",
+    diagram: "Diagram",
+    graph: "Graph",
+    table: "Table",
+    stateRows: "State rows",
+    reduce: "Reduce",
+    encode: "Encode",
+    transitions: "Transitions",
+    excite: "Excite",
+    logic: "Logic",
+    equations: "Equations",
+    step1: "Step 1",
+    step2: "Step 2",
+    step3: "Step 3",
+    step4: "Step 4",
+    step5: "Step 5",
+    step6: "Step 6",
+    step7: "Step 7",
+    machineDefinition: "Machine definition",
+    applyStructure: "Apply structure",
+    fsmType: "FSM type",
+    inputBits: "Input bits",
+    outputBits: "Output bits",
+    states: "States",
+    mooreOutputTable: "Moore output table",
+    transitionEditorTable: "Transition editor table",
+    stateDiagram: "State diagram",
+    state: "State",
+    transition: "Transition",
+    delete: "Delete",
+    applyGraph: "Apply graph",
+    stateTable: "State table",
+    paullUngerTable: "Paull-Unger implication table",
+    transitionTable: "Transition table",
+    excitationTables: "Excitation tables",
+    nextStateLogic: "Next-state and output logic",
+    tutorialIntro: "Use these steps to complete a sequential-machine synthesis from the editor to the final logic.",
+    tutorialStep1Title: "1. Define the machine",
+    tutorialStep1Body: "Choose FSM type, input/output bits, flip-flop, and states; then apply the structure.",
+    tutorialStep2Title: "2. Draw the graph",
+    tutorialStep2Body: "Move states, add transitions, and apply the graph to update the tables.",
+    tutorialStep3Title: "3. Follow the tables",
+    tutorialStep3Body: "Read the state table, Paull-Unger, encoding, and minimized transitions in order.",
+    tutorialStep4Title: "4. Reach the equations",
+    tutorialStep4Body: "Check flip-flop excitations and the next-state and output equations."
+  }
+};
+
+const italianText = {
+  "Applied": "Applicato",
+  "Check values": "Controlla valori",
+  "Structure": "Struttura",
+  "Apply graph": "Applica grafo",
+  "Graph": "Grafo",
+  "Generated": "Generato",
+  "State rows": "Righe stato",
+  "Transitions": "Transizioni",
+  "Flip-flops": "Flip-flop",
+  "Equations": "Equazioni",
+  "Done": "Fatto",
+  "Current": "Corrente",
+  "Waiting": "In attesa",
+  "Next": "Prossimo",
+  "Fix Step 1": "Correggi passo 1",
+  "Apply Step 2": "Applica passo 2",
+  "Sequence complete": "Sequenza completa",
+  "Graph edits are staged. Apply the graph before using the generated tables.": "Le modifiche al grafo sono pronte. Applica il grafo prima di usare le tabelle generate.",
+  "The generated tables and logic now follow the ordered path.": "Le tabelle generate e la logica seguono ora il percorso ordinato.",
+  "Ready.": "Pronto.",
+  "Structure applied.": "Struttura applicata.",
+  "Exercise generated.": "Esercizio generato.",
+  "Reducible Mealy example loaded.": "Esempio Mealy riducibile caricato.",
+  "Graph draft ready.": "Bozza grafo pronta.",
+  "Graph draft matches the applied machine.": "La bozza del grafo coincide con la macchina applicata.",
+  "Graph draft": "Bozza grafo",
+  "Not applied": "Non applicato",
+  "Select a state or transition.": "Seleziona uno stato o una transizione.",
+  "Name": "Nome",
+  "Save state": "Salva stato",
+  "Assign input": "Assegna input",
+  "Graph changes applied.": "Modifiche del grafo applicate.",
+  "Undo applied.": "Annullamento applicato.",
+  "Redo applied.": "Ripristino applicato.",
+  "Transition mode cancelled.": "Modalita transizione annullata.",
+  "Transition mode ready.": "Modalita transizione pronta.",
+  "Layout reset. Apply graph to keep it.": "Layout reimpostato. Applica il grafo per conservarlo.",
+  "State name is required.": "Il nome dello stato e richiesto.",
+  "At least one state is required.": "Serve almeno uno stato.",
+  "No state minimization is possible for this complete machine.": "Non e possibile minimizzare gli stati per questa macchina completa.",
+  "Only one state is present.": "E presente un solo stato.",
+  "No rows.": "Nessuna riga.",
+  "Present state": "Stato presente",
+  "Input": "Input",
+  "Next state": "Stato prossimo",
+  "Output": "Output",
+  "State": "Stato",
+  "Class": "Classe",
+  "Original states": "Stati originali",
+  "Encoding": "Codifica",
+  "Pair": "Coppia",
+  "Result": "Risultato",
+  "Signal": "Segnale",
+  "Variable order": "Ordine variabili",
+  "1-minterms": "Mintermini a 1",
+  "Don't-cares": "Don't-care",
+  "Equation": "Equazione",
+  "Check": "Controllo",
+  "unused": "non usato",
+  "don't care": "don't care",
+  "invalid": "non valido",
+  "OK": "OK",
+  "none": "nessuna",
+  "no pending pair": "nessuna coppia pendente"
+};
+
 const els = {
   fsmType: document.querySelector("#fsmType"),
   inputBits: document.querySelector("#inputBits"),
@@ -16,6 +198,11 @@ const els = {
   applyStructure: document.querySelector("#applyStructure"),
   analyzeTop: document.querySelector("#analyzeTop"),
   loadExample: document.querySelector("#loadExample"),
+  languageSelect: document.querySelector("#languageSelect"),
+  tutorialButton: document.querySelector("#tutorialButton"),
+  infoModal: document.querySelector("#infoModal"),
+  infoModalTitle: document.querySelector("#infoModalTitle"),
+  infoModalBody: document.querySelector("#infoModalBody"),
   mooreOutputSection: document.querySelector("#mooreOutputSection"),
   mooreOutputTable: document.querySelector("#mooreOutputTable"),
   transitionEditorTable: document.querySelector("#transitionEditorTable"),
@@ -45,7 +232,8 @@ const els = {
   workflowPanels: Array.from(document.querySelectorAll("[data-workflow-panel]"))
 };
 
-void languageKey;
+let currentLanguage = getInitialLanguage();
+let lastInfoTrigger = null;
 
 const workflowCopy = {
   setupPanel: {
@@ -80,6 +268,165 @@ const workflowCopy = {
   }
 };
 
+function getInitialLanguage() {
+  try {
+    const saved = localStorage.getItem(languageKey);
+    if (saved === "en" || saved === "it") return saved;
+  } catch (error) {
+    // Local files may block storage in some browser settings.
+  }
+  return "it";
+}
+
+function t(key, params = {}) {
+  const entry = translations[currentLanguage][key] ?? translations.en[key] ?? key;
+  if (typeof entry === "function") return entry(params);
+  return entry.replace(/\{(\w+)\}/g, (_, name) => params[name] ?? "");
+}
+
+function localizeText(value) {
+  const text = String(value ?? "");
+  if (currentLanguage === "en") return text;
+  if (italianText[text]) return italianText[text];
+  let match = text.match(/^Use (\d+) states or fewer\.$/);
+  if (match) return `Usa al massimo ${match[1]} stati.`;
+  match = text.match(/^(.+) states reduce to (.+) equivalent class\(es\)\.$/);
+  if (match) return `${match[1]} stati si riducono a ${match[2]} classi equivalenti.`;
+  match = text.match(/^All valid transitions match the (.+) flip-flop excitation rules\.$/);
+  if (match) return `Tutte le transizioni valide rispettano le regole di eccitazione del flip-flop ${match[1]}.`;
+  match = text.match(/^At least one transition violates the selected flip-flop excitation rules\.$/);
+  if (match) return "Almeno una transizione viola le regole di eccitazione del flip-flop selezionato.";
+  match = text.match(/^State (.+) added\. Apply graph to recompute the tables\.$/);
+  if (match) return `Stato ${match[1]} aggiunto. Applica il grafo per ricalcolare le tabelle.`;
+  match = text.match(/^State (.+) deleted\. Apply graph to recompute the tables\.$/);
+  if (match) return `Stato ${match[1]} eliminato. Applica il grafo per ricalcolare le tabelle.`;
+  match = text.match(/^State (.+) already exists\.$/);
+  if (match) return `Lo stato ${match[1]} esiste gia.`;
+  match = text.match(/^Transition (.+) -> (.+) added\. Apply graph to recompute the tables\.$/);
+  if (match) return `Transizione ${match[1]} -> ${match[2]} aggiunta. Applica il grafo per ricalcolare le tabelle.`;
+  match = text.match(/^Transition (.+) -> (.+) deleted\. Apply graph to recompute the tables\.$/);
+  if (match) return `Transizione ${match[1]} -> ${match[2]} eliminata. Applica il grafo per ricalcolare le tabelle.`;
+  return text;
+}
+
+function applyTranslations() {
+  document.documentElement.lang = currentLanguage;
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+    element.textContent = t(element.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-attr]").forEach(element => {
+    element.dataset.i18nAttr.split(";").forEach(pair => {
+      const [attribute, key] = pair.split(":");
+      if (attribute && key) element.setAttribute(attribute, t(key));
+    });
+  });
+  els.languageSelect.value = currentLanguage;
+}
+
+function setLanguage(language) {
+  if (language !== "en" && language !== "it") return;
+  currentLanguage = language;
+  try {
+    localStorage.setItem(languageKey, language);
+  } catch (error) {
+    // Local files may block storage in some browser settings.
+  }
+  applyTranslations();
+  renderEditor();
+  renderEditorValues(machine);
+  const analysis = analyzeMachine(machine);
+  renderStateTable(analysis.stateRows);
+  renderImplicationSection(analysis);
+  renderTransitionTable(analysis);
+  renderExcitationSection(analysis);
+  renderLogicSection(analysis);
+  renderGraphEditor();
+  updateWorkflowGuide();
+}
+
+function tutorialTopic() {
+  return {
+    title: t("tutorial"),
+    paragraphs: [t("tutorialIntro")],
+    steps: [
+      { visual: "define", title: t("tutorialStep1Title"), body: t("tutorialStep1Body") },
+      { visual: "graph", title: t("tutorialStep2Title"), body: t("tutorialStep2Body") },
+      { visual: "tables", title: t("tutorialStep3Title"), body: t("tutorialStep3Body") },
+      { visual: "logic", title: t("tutorialStep4Title"), body: t("tutorialStep4Body") }
+    ]
+  };
+}
+
+function tutorialVisual(type) {
+  if (type === "define") {
+    return `
+      <div class="shot-bar"><span>${escapeHtml(t("fsmType"))}: Mealy</span><span>D</span></div>
+      <div class="shot-card">${escapeHtml(t("states"))}: A, B, C, D</div>
+      <div class="shot-grid"><b>${escapeHtml(t("inputBits"))}</b><b>${escapeHtml(t("outputBits"))}</b><b>${escapeHtml(t("state"))}</b><b>${escapeHtml(t("transition"))}</b><span>1</span><span>1</span><span>A</span><span>B</span></div>
+    `;
+  }
+
+  if (type === "graph") {
+    return `
+      <div class="shot-bar"><span>${escapeHtml(t("stateDiagram"))}</span><span>${escapeHtml(t("applyGraph"))}</span></div>
+      <div class="shot-diagram"><span class="shot-node a">A</span><span class="shot-edge"></span><span class="shot-node b">B</span></div>
+    `;
+  }
+
+  if (type === "tables") {
+    return `
+      <div class="shot-bar"><span>Paull-Unger</span><span>${escapeHtml(t("transitionTable"))}</span></div>
+      <div class="shot-grid"><b>A,B</b><b>B,C</b><b>Q</b><b>Q+</b><span>OK</span><span>X</span><span>0</span><span>1</span></div>
+    `;
+  }
+
+  return `
+    <div class="shot-bar"><span>${escapeHtml(t("excitationTables"))}</span><span>${escapeHtml(t("equations"))}</span></div>
+    <div class="shot-card">D0 = X'Q0 + XQ1<br>Z = Q1X</div>
+  `;
+}
+
+function openTutorial(trigger) {
+  lastInfoTrigger = trigger;
+  const topic = tutorialTopic();
+  els.infoModalTitle.textContent = topic.title;
+  els.infoModalBody.innerHTML = "";
+  topic.paragraphs.forEach(text => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    els.infoModalBody.appendChild(paragraph);
+  });
+  const steps = document.createElement("div");
+  steps.className = "tutorial-steps";
+  topic.steps.forEach(step => {
+    const article = document.createElement("article");
+    article.className = "tutorial-step";
+    const shot = document.createElement("div");
+    shot.className = `tutorial-screenshot tutorial-screenshot-${step.visual}`;
+    shot.setAttribute("aria-hidden", "true");
+    shot.innerHTML = tutorialVisual(step.visual);
+    const copy = document.createElement("div");
+    copy.className = "tutorial-copy";
+    const title = document.createElement("h3");
+    const body = document.createElement("p");
+    title.textContent = step.title;
+    body.textContent = step.body;
+    copy.append(title, body);
+    article.append(shot, copy);
+    steps.appendChild(article);
+  });
+  els.infoModalBody.appendChild(steps);
+  els.infoModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
+  els.infoModal.querySelector(".modal-close").focus();
+}
+
+function closeInfo() {
+  els.infoModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+  if (lastInfoTrigger) lastInfoTrigger.focus();
+}
+
 let machine = exampleMachine();
 let graphDraft = null;
 let graphSelection = null;
@@ -94,11 +441,28 @@ let suppressNextGraphClick = false;
 init();
 
 function init() {
+  applyTranslations();
   writeControlsFromMachine(machine);
   renderEditor();
   bindWorkflowGuide();
   bindGraphControls();
   analyzeCurrent();
+
+  els.languageSelect.addEventListener("change", () => setLanguage(els.languageSelect.value));
+  document.addEventListener("click", event => {
+    const tutorialTrigger = event.target.closest("#tutorialButton");
+    if (!tutorialTrigger) return;
+    event.preventDefault();
+    openTutorial(tutorialTrigger);
+  });
+  els.infoModal.querySelectorAll("[data-modal-close]").forEach(button => {
+    button.addEventListener("click", closeInfo);
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !els.infoModal.classList.contains("hidden")) {
+      closeInfo();
+    }
+  });
 
   els.applyStructure.addEventListener("click", () => {
     applyStructureFromControls();
@@ -211,16 +575,16 @@ function workflowStepState(target, currentTarget, hasErrors, pendingGraph) {
 
 function workflowStatusText(target, state) {
   const copy = workflowCopy[target] || {};
-  if (state === "done") return copy.complete || "Done";
-  if (state === "current") return copy.current || "Current";
-  return copy.pending || "Waiting";
+  if (state === "done") return localizeText(copy.complete || "Done");
+  if (state === "current") return localizeText(copy.current || "Current");
+  return localizeText(copy.pending || "Waiting");
 }
 
 function renderNextStepCard(title, detail) {
   els.nextStepCard.innerHTML = [
-    `<p class="eyebrow">Next</p>`,
-    `<h3>${escapeHtml(title)}</h3>`,
-    `<p>${escapeHtml(detail)}</p>`
+    `<p class="eyebrow">${escapeHtml(localizeText("Next"))}</p>`,
+    `<h3>${escapeHtml(localizeText(title))}</h3>`,
+    `<p>${escapeHtml(localizeText(detail))}</p>`
   ].join("");
 }
 
@@ -1323,10 +1687,10 @@ function renderGraphInspector() {
   graphSelection = null;
   els.graphInspector.innerHTML = [
     `<div class="inspector-head">`,
-    `<h3>Graph draft</h3>`,
-    graphDirty ? `<span class="draft-badge">Not applied</span>` : `<span class="status-pill good">Applied</span>`,
+    `<h3>${escapeHtml(localizeText("Graph draft"))}</h3>`,
+    graphDirty ? `<span class="draft-badge">${escapeHtml(localizeText("Not applied"))}</span>` : `<span class="status-pill good">${escapeHtml(localizeText("Applied"))}</span>`,
     `</div>`,
-    `<p class="inspector-note">Select a state or transition.</p>`
+    `<p class="inspector-note">${escapeHtml(localizeText("Select a state or transition."))}</p>`
   ].join("");
 }
 
@@ -1347,19 +1711,21 @@ function renderStateInspector(stateName) {
   }).join("");
 
   const outputField = graphDraft.type === "moore"
-    ? `<label class="field"><span>Output</span><input id="graphStateOutput" class="table-input" value="${escapeHtml(state.output)}" maxlength="${graphDraft.outputBits}" spellcheck="false"></label>`
+    ? `<label class="field"><span>${escapeHtml(localizeText("Output"))}</span><input id="graphStateOutput" class="table-input" value="${escapeHtml(state.output)}" maxlength="${graphDraft.outputBits}" spellcheck="false"></label>`
     : "";
-  const transitionHeaders = graphDraft.type === "mealy" ? "<th>Input</th><th>Next state</th><th>Output</th>" : "<th>Input</th><th>Next state</th>";
+  const transitionHeaders = graphDraft.type === "mealy"
+    ? `<th>${escapeHtml(localizeText("Input"))}</th><th>${escapeHtml(localizeText("Next state"))}</th><th>${escapeHtml(localizeText("Output"))}</th>`
+    : `<th>${escapeHtml(localizeText("Input"))}</th><th>${escapeHtml(localizeText("Next state"))}</th>`;
 
   els.graphInspector.innerHTML = [
     `<div class="inspector-head">`,
-    `<h3>State ${escapeHtml(state.name)}</h3>`,
-    graphDirty ? `<span class="draft-badge">Not applied</span>` : `<span class="status-pill good">Applied</span>`,
+    `<h3>${escapeHtml(localizeText("State"))} ${escapeHtml(state.name)}</h3>`,
+    graphDirty ? `<span class="draft-badge">${escapeHtml(localizeText("Not applied"))}</span>` : `<span class="status-pill good">${escapeHtml(localizeText("Applied"))}</span>`,
     `</div>`,
     `<div class="inspector-grid${graphDraft.type === "moore" ? "" : " two"}">`,
-    `<label class="field"><span>Name</span><input id="graphStateName" value="${escapeHtml(state.name)}" maxlength="18" spellcheck="false"></label>`,
+    `<label class="field"><span>${escapeHtml(localizeText("Name"))}</span><input id="graphStateName" value="${escapeHtml(state.name)}" maxlength="18" spellcheck="false"></label>`,
     outputField,
-    `<button id="graphSaveState" class="button" type="button" data-icon="✓">Save state</button>`,
+    `<button id="graphSaveState" class="button" type="button" data-icon="✓">${escapeHtml(localizeText("Save state"))}</button>`,
     `</div>`,
     `<div class="table-wrap">`,
     `<table><thead><tr>${transitionHeaders}</tr></thead><tbody>${transitionRows}</tbody></table>`,
@@ -1376,20 +1742,22 @@ function renderEdgeInspector(from, to) {
       : "";
     return `<tr><td class="mono center">${escapeHtml(input)}</td>${outputCell}</tr>`;
   }).join("");
-  const headers = graphDraft.type === "mealy" ? "<th>Input</th><th>Output</th>" : "<th>Input</th>";
+  const headers = graphDraft.type === "mealy"
+    ? `<th>${escapeHtml(localizeText("Input"))}</th><th>${escapeHtml(localizeText("Output"))}</th>`
+    : `<th>${escapeHtml(localizeText("Input"))}</th>`;
   const assignOutput = graphDraft.type === "mealy"
-    ? `<label class="field"><span>Output</span><input id="edgeOutputValue" class="table-input" value="${zeroVector(graphDraft.outputBits)}" maxlength="${graphDraft.outputBits}" spellcheck="false"></label>`
+    ? `<label class="field"><span>${escapeHtml(localizeText("Output"))}</span><input id="edgeOutputValue" class="table-input" value="${zeroVector(graphDraft.outputBits)}" maxlength="${graphDraft.outputBits}" spellcheck="false"></label>`
     : "";
 
   els.graphInspector.innerHTML = [
     `<div class="inspector-head">`,
     `<h3>${escapeHtml(from)} -> ${escapeHtml(to)}</h3>`,
-    graphDirty ? `<span class="draft-badge">Not applied</span>` : `<span class="status-pill good">Applied</span>`,
+    graphDirty ? `<span class="draft-badge">${escapeHtml(localizeText("Not applied"))}</span>` : `<span class="status-pill good">${escapeHtml(localizeText("Applied"))}</span>`,
     `</div>`,
     `<div class="inspector-grid">`,
-    `<label class="field"><span>Input</span>${inputSelectHtml("edgeInputSelect", inputSymbols(graphDraft.inputBits)[0])}</label>`,
+    `<label class="field"><span>${escapeHtml(localizeText("Input"))}</span>${inputSelectHtml("edgeInputSelect", inputSymbols(graphDraft.inputBits)[0])}</label>`,
     assignOutput,
-    `<button id="edgeAssignInput" class="button" type="button" data-icon="✓">Assign input</button>`,
+    `<button id="edgeAssignInput" class="button" type="button" data-icon="✓">${escapeHtml(localizeText("Assign input"))}</button>`,
     `</div>`,
     `<div class="table-wrap">`,
     `<table><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`,
@@ -2040,10 +2408,10 @@ function renderTable(container, headers, rows) {
 }
 
 function tableHtml(headers, rows) {
-  if (!rows.length) return `<div class="empty">No rows.</div>`;
+  if (!rows.length) return `<div class="empty">${escapeHtml(localizeText("No rows."))}</div>`;
   return [
     `<table>`,
-    `<thead><tr>${headers.map(header => `<th>${escapeHtml(header)}</th>`).join("")}</tr></thead>`,
+    `<thead><tr>${headers.map(header => `<th>${escapeHtml(localizeText(header))}</th>`).join("")}</tr></thead>`,
     `<tbody>`,
     ...rows.map(row => `<tr>${row.map(cellToHtml).join("")}</tr>`),
     `</tbody>`,
@@ -2057,11 +2425,15 @@ function cellToHtml(cell) {
   if (Object.prototype.hasOwnProperty.call(normalized, "html")) {
     return `<td${className}>${normalized.html}</td>`;
   }
-  return `<td${className}>${escapeHtml(normalized.text ?? "")}</td>`;
+  const rawText = normalized.text ?? "";
+  const text = normalized.className && normalized.className.includes("mono")
+    ? rawText
+    : localizeText(rawText);
+  return `<td${className}>${escapeHtml(text)}</td>`;
 }
 
 function setMessage(element, message, tone) {
-  element.textContent = message;
+  element.textContent = localizeText(message);
   element.classList.remove("good", "bad", "warn");
   if (tone) element.classList.add(tone);
 }

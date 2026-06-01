@@ -16,13 +16,22 @@
 
         <div class="instruction-picker">
           <span>
-            Istruzione
+            <span data-i18n="instruction">Istruzione</span>
             <button class="help-button inline" type="button" data-help="instruction" aria-label="Aiuto istruzione" title="Aiuto istruzione">?</button>
           </span>
           <select id="instructionSelect" aria-label="Seleziona istruzione"></select>
         </div>
 
         <div class="cycle-controls" aria-label="Controlli ciclo">
+          <label class="language-field">
+            <span data-i18n="language">Lingua</span>
+            <select id="languageSelect">
+              <option value="it">IT</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+          <button class="mode-toggle" id="quizModeBtn" type="button" aria-pressed="false" data-i18n="quizMode">Quiz</button>
+          <button class="mode-toggle" id="tutorialButton" type="button" data-i18n="tutorial">Tutorial</button>
           <button class="icon-button" id="prevBtn" type="button" aria-label="Ciclo precedente" title="Ciclo precedente">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M15 6l-6 6 6 6" />
@@ -48,7 +57,7 @@
       </header>
 
       <div class="section-head phase-strip-head">
-        <span>Fasi pipeline</span>
+        <span data-i18n="pipelinePhases">Fasi pipeline</span>
         <button class="help-button" type="button" data-help="phases" aria-label="Aiuto fasi pipeline" title="Aiuto fasi pipeline">?</button>
       </div>
       <nav class="phase-strip" id="phaseStrip" aria-label="Fasi pipeline"></nav>
@@ -57,53 +66,217 @@
         <div class="diagram-shell">
           <button class="help-button floating" type="button" data-help="diagram" aria-label="Aiuto datapath" title="Aiuto datapath">?</button>
           <div class="diagram-stage" id="diagramStage" role="group" aria-label="Datapath MIPS64">
-            <img src="pipeline_diagram.png" alt="Schema datapath MIPS64" />
-            <svg class="wire-layer" id="wireLayer" viewBox="0 0 1792 1386" preserveAspectRatio="none" aria-label="Collegamenti del datapath">
+            <svg class="datapath-svg" id="datapathSvg" width="1792" height="1386" viewBox="0 0 1792 1386" preserveAspectRatio="xMidYMid meet" aria-label="Schema datapath MIPS64">
               <defs>
-                <marker id="arrowData" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#f08a24" />
+                <marker id="arrowDataBase" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse">
+                  <path d="M 1.4 1.8 L 8.6 5 L 1.4 8.2 z" fill="#75808c" />
                 </marker>
-                <marker id="arrowControl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#0e9f9a" />
+                <marker id="arrowControlBase" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto-start-reverse">
+                  <path d="M 1.4 1.8 L 8.6 5 L 1.4 8.2 z" fill="#86bac5" />
                 </marker>
-                <marker id="arrowWrite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#6d5bd0" />
+                <marker id="arrowData" viewBox="0 0 10 10" refX="8.7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M 1.2 1.5 L 8.8 5 L 1.2 8.5 z" fill="#f08a24" />
+                </marker>
+                <marker id="arrowControl" viewBox="0 0 10 10" refX="8.7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M 1.2 1.5 L 8.8 5 L 1.2 8.5 z" fill="#0e9f9a" />
+                </marker>
+                <marker id="arrowWrite" viewBox="0 0 10 10" refX="8.7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M 1.2 1.5 L 8.8 5 L 1.2 8.5 z" fill="#6d5bd0" />
                 </marker>
               </defs>
-              <path class="wire data" data-wire="pcToInstructionMemory" d="M118 762 L166 762" />
-              <path class="wire data" data-wire="pcToAdder" d="M118 762 L132 762 L132 124 L257 124" />
-              <path class="wire data" data-wire="adderToPcMux" d="M365 200 L980 200 L980 132 L1440 132" />
-              <path class="wire data" data-wire="pcMuxToPc" d="M1498 202 L1532 202 L1532 24 L28 24 L28 762 L56 762" />
-              <path class="wire data" data-wire="instructionToFields" d="M356 838 L386 838 L386 515 M386 515 L626 515 M386 742 L716 742 M386 834 L716 834 M386 966 L650 966 M386 1173 L820 1173" />
-              <path class="wire data" data-wire="rsToRegisters" d="M386 742 L716 742" />
-              <path class="wire data" data-wire="rtToRegisters" d="M386 834 L716 834" />
-              <path class="wire data" data-wire="rtToRegDstMux" d="M565 834 L565 900 L650 900" />
-              <path class="wire data" data-wire="rdToRegDstMux" d="M386 966 L650 966" />
-              <path class="wire data" data-wire="regDstToWriteRegister" d="M708 948 L718 948" />
-              <path class="wire data" data-wire="functToAluControl" d="M718 1320 L1084 1320 L1084 1194" />
-              <path class="wire data" data-wire="immediateToSignExtend" d="M386 1173 L820 1173" />
-              <path class="wire data" data-wire="signExtendToAluSrc" d="M918 1173 L1018 1173 L1018 1006 L1051 1006" />
-              <path class="wire data" data-wire="signExtendToShift" d="M918 1173 L1022 1173 L1022 360 L1042 360" />
-              <path class="wire data" data-wire="shiftToBranchAdder" d="M1125 360 L1180 360" />
-              <path class="wire data" data-wire="pcPlus4ToBranchAdder" d="M980 200 L980 180 L1180 180" />
-              <path class="wire data" data-wire="branchAdderToPcMux" d="M1354 216 L1440 216" />
-              <path class="wire data" data-wire="readData1ToAlu" d="M972 784 L1154 784" />
-              <path class="wire data" data-wire="readData2ToAluSrc" d="M972 932 L1051 932" />
-              <path class="wire data" data-wire="aluSrcToAlu" d="M1106 932 L1154 932" />
-              <path class="wire data" data-wire="aluResultToMemory" d="M1336 904 L1385 904" />
-              <path class="wire data" data-wire="aluResultToMemToReg" d="M1336 904 L1662 904" />
-              <path class="wire data" data-wire="memToMemToReg" d="M1606 904 L1662 904" />
-              <path class="wire data" data-wire="readData2ToMemory" d="M972 932 L1004 932 L1004 1080 L1385 1080" />
-              <path class="wire write" data-wire="memToRegToRegisters" d="M1719 936 L1740 936 L1740 1346 L686 1346 L686 1005 L718 1005" />
-              <path class="wire control" data-wire="controlToRegDst" d="M450 305 L761 305 L761 397 M400 1031 L669 1031" />
-              <path class="wire control" data-wire="controlToAluSrc" d="M748 624 L1087 624 L1087 834" />
-              <path class="wire control" data-wire="controlToAluOp" d="M761 550 L1004 550 L1004 1194 L1084 1194" />
-              <path class="wire control" data-wire="controlToMemRead" d="M761 473 L1488 473 L1488 814" />
-              <path class="wire control" data-wire="controlToMemWrite" d="M757 585 L1004 585 L1004 1080 L1385 1080" />
-              <path class="wire control" data-wire="controlToMemToReg" d="M763 513 L1688 513 L1688 848" />
-              <path class="wire control" data-wire="controlToRegWrite" d="M727 665 L842 665 L842 696" />
-              <path class="wire control" data-wire="zeroToBranchAnd" d="M1337 840 L1354 840 L1354 432 L1376 432" />
-              <path class="wire control" data-wire="branchToPcSrc" d="M755 435 L1376 435" />
+
+              <rect class="datapath-frame" x="24" y="24" width="1744" height="1338" />
+
+              <g class="diagram-wires">
+                <path class="wire data" data-wire="pcToInstructionMemory" d="M118 762 L166 762" />
+                <path class="wire data" data-wire="pcToAdder" d="M118 762 L132 762 L132 124 L257 124" />
+                <path class="wire data" data-wire="adderToPcMux" d="M365 200 L980 200 L980 132 L1440 132" />
+                <path class="wire data" data-wire="pcMuxToPc" d="M1498 202 L1532 202 L1532 24 L28 24 L28 762 L56 762" />
+                <path class="wire data" data-wire="opcodeToControl" d="M356 838 L386 838 L386 515 L626 515" />
+                <path class="wire data" data-wire="rsToRegisters" d="M386 742 L716 742" />
+                <path class="wire data" data-wire="rtToRegisters" d="M386 834 L716 834" />
+                <path class="wire data" data-wire="rtToRegDstMux" d="M565 834 L565 900 L650 900" />
+                <path class="wire data" data-wire="rdToRegDstMux" d="M386 966 L650 966" />
+                <path class="wire data" data-wire="regDstToWriteRegister" d="M708 948 L718 948" />
+                <path class="wire data" data-wire="functToAluControl" d="M718 1320 L1084 1320 L1084 1194" />
+                <path class="wire data" data-wire="immediateToSignExtend" d="M386 1173 L820 1173" />
+                <path class="wire data" data-wire="signExtendToAluSrc" d="M918 1173 L1018 1173 L1018 1006 L1051 1006" />
+                <path class="wire data" data-wire="signExtendToShift" d="M918 1173 L1022 1173 L1022 360 L1042 360" />
+                <path class="wire data" data-wire="shiftToBranchAdder" d="M1125 360 L1180 360" />
+                <path class="wire data" data-wire="pcPlus4ToBranchAdder" d="M980 200 L980 180 L1180 180" />
+                <path class="wire data" data-wire="branchAdderToPcMux" d="M1354 216 L1440 216" />
+                <path class="wire data" data-wire="readData1ToAlu" d="M972 784 L1154 784" />
+                <path class="wire data" data-wire="readData2ToAluSrc" d="M972 932 L1051 932" />
+                <path class="wire data" data-wire="aluSrcToAlu" d="M1106 932 L1154 932" />
+                <path class="wire data" data-wire="aluResultToMemory" d="M1336 904 L1385 904" />
+                <path class="wire data" data-wire="aluResultToMemToReg" d="M1336 904 L1354 904 L1354 1136 L1626 1136 L1626 1004 L1662 1004" />
+                <path class="wire data" data-wire="memToMemToReg" d="M1606 904 L1662 904" />
+                <path class="wire write" data-wire="readData2ToMemory" d="M972 932 L1004 932 L1004 1080 L1385 1080" />
+                <path class="wire write" data-wire="memToRegToRegisters" d="M1719 936 L1740 936 L1740 1346 L686 1346 L686 1005 L718 1005" />
+                <path class="wire control" data-wire="controlToRegDst" d="M780 376 L762 376 L762 305 L368 305 L368 1031 L669 1031" />
+                <path class="wire control" data-wire="controlToAluSrc" d="M920 624 L1087 624 L1087 834" />
+                <path class="wire control" data-wire="controlToAluOp" d="M904 550 L1004 550 L1004 1194 L1084 1194" />
+                <path class="wire control" data-wire="controlToMemRead" d="M932 473 L1488 473 L1488 814" />
+                <path class="wire control" data-wire="controlToMemWrite" d="M940 585 L1532 585 L1532 814" />
+                <path class="wire control" data-wire="controlToMemToReg" d="M946 513 L1688 513 L1688 848" />
+                <path class="wire control" data-wire="controlToRegWrite" d="M932 666 L952 666 L952 696 L842 696" />
+                <path class="wire control" data-wire="zeroToBranchAnd" d="M1268 796 L1354 796 L1354 432 L1376 432" />
+                <path class="wire control" data-wire="branchToPcSrc" d="M906 435 L1376 435" />
+              </g>
+
+              <g class="diagram-elements">
+                <g class="diagram-element" data-element="pc">
+                  <rect class="shape" x="56" y="665" width="66" height="196" />
+                  <text class="svg-label" x="89" y="763">PC</text>
+                </g>
+
+                <g class="diagram-element" data-element="instructionMemory">
+                  <rect class="shape" x="166" y="722" width="192" height="274" />
+                  <text class="svg-copy" x="262" y="755">Indirizzo</text>
+                  <text class="svg-copy" x="262" y="789">istruzione</text>
+                  <text class="svg-copy" x="262" y="875">Istruzione</text>
+                  <text class="svg-copy" x="262" y="916">[31-0]</text>
+                  <text class="svg-label" x="262" y="954">Memoria</text>
+                  <text class="svg-label" x="262" y="988">istruzioni</text>
+                </g>
+
+                <g class="diagram-element" data-element="pcAdder">
+                  <path class="shape" d="M258 80 L366 150 L366 258 L258 328 L258 246 L290 204 L258 164 Z" />
+                  <text class="svg-label" x="313" y="204">Add</text>
+                  <text class="svg-copy" x="212" y="278">4</text>
+                </g>
+
+                <g class="diagram-element" data-element="pcSrcMux">
+                  <rect class="shape mux-shape" x="1444" y="104" width="58" height="200" rx="29" />
+                  <text class="svg-copy" x="1473" y="135">0</text>
+                  <text class="svg-label vertical" x="1473" y="187">M</text>
+                  <text class="svg-label vertical" x="1473" y="222">u</text>
+                  <text class="svg-label vertical" x="1473" y="257">x</text>
+                  <text class="svg-copy" x="1473" y="289">1</text>
+                </g>
+
+                <g class="diagram-element control-block" data-element="controlUnit">
+                  <ellipse class="shape control-shape" cx="695" cy="517" rx="69" ry="167" />
+                  <text class="svg-label" x="695" y="486">Unita</text>
+                  <text class="svg-label" x="695" y="527">di con-</text>
+                  <text class="svg-label" x="695" y="568">trollo</text>
+                </g>
+
+                <g class="diagram-element" data-element="registers">
+                  <rect class="shape" x="718" y="698" width="253" height="370" />
+                  <text class="svg-copy start" x="740" y="746">Registro</text>
+                  <text class="svg-copy start" x="740" y="784">di lettura 1</text>
+                  <text class="svg-copy start" x="740" y="834">Registro</text>
+                  <text class="svg-copy start" x="740" y="872">di lettura 2</text>
+                  <text class="svg-copy start" x="740" y="928">Registro</text>
+                  <text class="svg-copy start" x="740" y="966">di scrittura</text>
+                  <text class="svg-copy start" x="740" y="1030">Dato da</text>
+                  <text class="svg-copy start" x="740" y="1064">scrivere</text>
+                  <text class="svg-copy" x="926" y="783">Dato</text>
+                  <text class="svg-copy" x="926" y="822">letto 1</text>
+                  <text class="svg-copy" x="926" y="928">Dato</text>
+                  <text class="svg-copy" x="926" y="967">letto 2</text>
+                  <text class="svg-label" x="904" y="1060">Registri</text>
+                </g>
+
+                <g class="diagram-element" data-element="regDstMux">
+                  <rect class="shape mux-shape" x="650" y="844" width="60" height="184" rx="30" />
+                  <text class="svg-copy" x="680" y="875">0</text>
+                  <text class="svg-label vertical" x="680" y="923">M</text>
+                  <text class="svg-label vertical" x="680" y="958">u</text>
+                  <text class="svg-label vertical" x="680" y="993">x</text>
+                  <text class="svg-copy" x="680" y="1018">1</text>
+                </g>
+
+                <g class="diagram-element" data-element="aluSrcMux">
+                  <rect class="shape mux-shape" x="1052" y="846" width="58" height="184" rx="29" />
+                  <text class="svg-copy" x="1081" y="876">0</text>
+                  <text class="svg-label vertical" x="1081" y="924">M</text>
+                  <text class="svg-label vertical" x="1081" y="959">u</text>
+                  <text class="svg-label vertical" x="1081" y="994">x</text>
+                  <text class="svg-copy" x="1081" y="1018">1</text>
+                </g>
+
+                <g class="diagram-element" data-element="memToRegMux">
+                  <rect class="shape mux-shape" x="1664" y="846" width="58" height="184" rx="29" />
+                  <text class="svg-copy" x="1693" y="876">1</text>
+                  <text class="svg-label vertical" x="1693" y="924">M</text>
+                  <text class="svg-label vertical" x="1693" y="959">u</text>
+                  <text class="svg-label vertical" x="1693" y="994">x</text>
+                  <text class="svg-copy" x="1693" y="1018">0</text>
+                </g>
+
+                <g class="diagram-element" data-element="signExtend">
+                  <ellipse class="shape" cx="875" cy="1176" rx="63" ry="92" />
+                  <text class="svg-label" x="875" y="1136">Esten-</text>
+                  <text class="svg-label" x="875" y="1178">sione</text>
+                  <text class="svg-label" x="875" y="1220">segno</text>
+                  <text class="svg-copy" x="760" y="1174">16</text>
+                  <text class="svg-copy" x="970" y="1174">32</text>
+                </g>
+
+                <g class="diagram-element control-block" data-element="aluControl">
+                  <ellipse class="shape control-shape" cx="1149" cy="1199" rx="69" ry="101" />
+                  <text class="svg-label" x="1149" y="1162">Con-</text>
+                  <text class="svg-label" x="1149" y="1204">trollore</text>
+                  <text class="svg-label" x="1149" y="1246">ALU</text>
+                </g>
+
+                <g class="diagram-element" data-element="alu">
+                  <path class="shape alu-shape" d="M1154 758 L1338 836 L1338 924 L1154 1002 L1192 930 L1154 884 Z" />
+                  <text class="svg-label" x="1226" y="870">ALU</text>
+                  <text class="svg-copy" x="1255" y="918">Risultato</text>
+                  <text class="svg-copy" x="1265" y="958">ALU</text>
+                </g>
+
+                <g class="diagram-element" data-element="dataMemory">
+                  <rect class="shape" x="1385" y="812" width="224" height="324" />
+                  <text class="svg-copy start" x="1404" y="894">Indirizzo</text>
+                  <text class="svg-copy start" x="1404" y="934">dato</text>
+                  <text class="svg-copy" x="1540" y="894">Dato</text>
+                  <text class="svg-copy" x="1540" y="934">letto</text>
+                  <text class="svg-label" x="1497" y="1026">Memoria</text>
+                  <text class="svg-label" x="1497" y="1064">dati</text>
+                  <text class="svg-copy start" x="1404" y="1082">Dato</text>
+                  <text class="svg-copy start" x="1404" y="1120">scritto</text>
+                </g>
+
+                <g class="diagram-element" data-element="branchAdder">
+                  <path class="shape" d="M1180 154 L1360 224 L1360 332 L1180 402 L1180 320 L1214 278 L1180 236 Z" />
+                  <text class="svg-copy" x="1288" y="238">Risultato</text>
+                  <text class="svg-copy" x="1298" y="278">ALU</text>
+                  <text class="svg-label" x="1260" y="355">Add</text>
+                </g>
+
+                <g class="diagram-element" data-element="shiftLeft">
+                  <ellipse class="shape" cx="1103" cy="359" rx="51" ry="67" />
+                  <text class="svg-label" x="1103" y="324">Shift</text>
+                  <text class="svg-label" x="1103" y="362">sinistra</text>
+                  <text class="svg-label" x="1103" y="402">2</text>
+                </g>
+
+                <g class="diagram-element control-block" data-element="branchAnd">
+                  <path class="shape control-shape" d="M1375 360 L1418 360 C1476 360 1476 454 1418 454 L1375 454 Z" />
+                </g>
+
+                <g class="diagram-element label control-label" data-element="regDstSignal"><text class="svg-signal" x="780" y="377">RegDst</text></g>
+                <g class="diagram-element label control-label" data-element="branchSignal"><text class="svg-signal" x="780" y="419">Branch</text></g>
+                <g class="diagram-element label control-label" data-element="memReadSignal"><text class="svg-signal" x="780" y="461">MemRead</text></g>
+                <g class="diagram-element label control-label" data-element="memToRegSignal"><text class="svg-signal" x="780" y="503">MemtoReg</text></g>
+                <g class="diagram-element label control-label" data-element="aluOpSignal"><text class="svg-signal" x="780" y="545">ALUOp</text></g>
+                <g class="diagram-element label control-label" data-element="memWriteSignal"><text class="svg-signal" x="780" y="587">MemWrite</text></g>
+                <g class="diagram-element label control-label" data-element="aluSrcSignal"><text class="svg-signal" x="780" y="629">ALUSrc</text></g>
+                <g class="diagram-element label control-label" data-element="regWriteSignal"><text class="svg-signal" x="780" y="671">RegWrite</text></g>
+                <g class="diagram-element label control-label" data-element="pcSrcSignal"><text class="svg-signal" x="1490" y="338">PCSrc</text></g>
+                <g class="diagram-element label control-label" data-element="zeroSignal"><text class="svg-signal" x="1250" y="804">Zero</text></g>
+
+                <g class="diagram-element label field-label" data-element="opcodeField"><text class="svg-copy start" x="388" y="498">Istruzione [31-26]</text></g>
+                <g class="diagram-element label field-label" data-element="rsField"><text class="svg-copy start" x="388" y="727">Istruzione [25-21]</text></g>
+                <g class="diagram-element label field-label" data-element="rtField"><text class="svg-copy start" x="388" y="818">Istruzione [20-16]</text></g>
+                <g class="diagram-element label field-label" data-element="rdField"><text class="svg-copy start" x="388" y="950">Istruzione [15-11]</text></g>
+                <g class="diagram-element label field-label" data-element="immediateField"><text class="svg-copy start" x="388" y="1150">Istruzione [15-0]</text></g>
+                <g class="diagram-element label field-label" data-element="functField"><text class="svg-copy start" x="735" y="1308">Istruzione [5-0]</text></g>
+              </g>
             </svg>
             <svg class="hotspot-layer" id="hotspotLayer" viewBox="0 0 1792 1386" preserveAspectRatio="none" aria-hidden="false"></svg>
             <div class="value-layer" id="valueLayer"></div>
@@ -119,25 +292,26 @@
             <button class="help-button" type="button" data-help="phasePanel" aria-label="Aiuto fase corrente" title="Aiuto fase corrente">?</button>
           </div>
           <p class="phase-description" id="phaseDescription"></p>
+          <div id="phaseQuiz" class="phase-quiz hidden" aria-live="polite"></div>
 
           <div class="microstate">
             <div>
-              <span>Istruzione</span>
+              <span data-i18n="instruction">Istruzione</span>
               <strong id="encodingValue">0x0043082C</strong>
             </div>
             <div>
-              <span>Formato</span>
+              <span data-i18n="format">Formato</span>
               <strong id="formatValue">R-type</strong>
             </div>
             <div>
-              <span>Valori iniziali</span>
+              <span data-i18n="initialValues">Valori iniziali</span>
               <strong id="initialValue">R2 = 0x0000000000000007, R3 = 0x0000000000000005</strong>
             </div>
           </div>
 
           <section>
             <div class="section-title-row">
-              <h3>Segnali</h3>
+              <h3 data-i18n="signals">Segnali</h3>
               <button class="help-button" type="button" data-help="signals" aria-label="Aiuto segnali" title="Aiuto segnali">?</button>
             </div>
             <div class="signal-list" id="signalList"></div>
@@ -145,7 +319,7 @@
 
           <section>
             <div class="section-title-row">
-              <h3>Micro-operazioni</h3>
+              <h3 data-i18n="microOperations">Micro-operazioni</h3>
               <button class="help-button" type="button" data-help="trace" aria-label="Aiuto micro-operazioni" title="Aiuto micro-operazioni">?</button>
             </div>
             <ol class="trace-list" id="traceList"></ol>
@@ -153,7 +327,7 @@
 
           <section class="inspection">
             <div class="section-title-row">
-              <h3>Elemento</h3>
+              <h3 data-i18n="element">Elemento</h3>
               <button class="help-button" type="button" data-help="inspection" aria-label="Aiuto elemento" title="Aiuto elemento">?</button>
             </div>
             <p class="inspect-title" id="inspectTitle">Panoramica fase</p>
@@ -167,7 +341,7 @@
     <div class="info-modal hidden" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
       <div class="info-backdrop" data-modal-close></div>
       <section class="info-card">
-        <button class="modal-close" type="button" data-modal-close aria-label="Chiudi">×</button>
+        <button class="modal-close" type="button" data-modal-close aria-label="Chiudi" data-i18n-attr="aria-label:close">×</button>
         <h2 id="infoModalTitle"></h2>
         <div id="infoModalBody" class="info-body"></div>
       </section>

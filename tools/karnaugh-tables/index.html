@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,12 +10,18 @@
     <main class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Logic minimization</p>
-          <h1>Karnaugh Tables</h1>
+          <p class="eyebrow" data-i18n="logicMinimization">Minimizzazione logica</p>
+          <h1 data-i18n="appTitle">Tabelle di Karnaugh</h1>
         </div>
         <div class="topbar-actions">
-          <button id="newExercise" class="button primary" type="button" data-icon="+">New table</button>
-          <button id="revealSolution" class="button ghost" type="button" data-icon="!">Reveal</button>
+          <label class="field language-field">
+            <span data-i18n="language">Lingua</span>
+            <select id="languageSelect">
+              <option value="it">Italiano</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+          <button id="tutorialButton" class="button ghost" type="button" data-icon="▶" data-i18n="tutorial">Tutorial</button>
         </div>
       </header>
 
@@ -23,14 +29,14 @@
         <section class="panel setup-panel" aria-labelledby="setupTitle">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Exercise</p>
-              <h2 id="setupTitle">Random table</h2>
+              <p class="eyebrow" data-i18n="exercise">Esercizio</p>
+              <h2 id="setupTitle" data-i18n="randomTable">Tabella casuale</h2>
             </div>
           </div>
 
           <div class="config-grid">
             <label class="field">
-              <span>Variables</span>
+              <span data-i18n="variables">Variabili</span>
               <select id="variableCount">
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -38,34 +44,35 @@
               </select>
             </label>
             <label class="field">
-              <span>Difficulty</span>
+              <span data-i18n="difficulty">Difficolta</span>
               <select id="difficulty">
-                <option value="easy">Easy</option>
-                <option value="medium" selected>Medium</option>
-                <option value="hard">Hard</option>
+                <option value="easy" data-i18n="easy">Facile</option>
+                <option value="medium" selected data-i18n="medium">Media</option>
+                <option value="hard" data-i18n="hard">Difficile</option>
               </select>
             </label>
           </div>
+          <button id="newExercise" class="button primary table-button" type="button" data-icon="+" data-i18n="newTable">Nuova tabella</button>
 
           <section class="problem-card" aria-labelledby="problemTitle">
-            <h3 id="problemTitle">Task</h3>
+            <h3 id="problemTitle" data-i18n="task">Compito</h3>
             <p id="problemText" class="problem-text"></p>
           </section>
 
           <div class="button-row">
-            <button id="addGroup" class="button primary" type="button" data-icon="+">Add group</button>
-            <button id="clearSelection" class="button ghost" type="button" data-icon="x">Clear selection</button>
-            <button id="checkCover" class="button" type="button" data-icon="✓">Check groups</button>
+            <button id="addGroup" class="button primary" type="button" data-icon="+" data-i18n="addGroup">Aggiungi gruppo</button>
+            <button id="clearSelection" class="button ghost" type="button" data-icon="x" data-i18n="clearSelection">Pulisci selezione</button>
           </div>
 
-          <div id="messageBox" class="message-box">Select a legal group of 1 cells, then add it.</div>
+          <button id="checkCover" class="button primary check-button" type="button" data-icon="✓" data-i18n="checkGroups">Controlla gruppi</button>
+          <div id="messageBox" class="message-box">Seleziona un gruppo valido di celle a 1, poi aggiungilo.</div>
         </section>
 
         <section class="panel map-panel" aria-labelledby="mapTitle">
           <div class="panel-head">
             <div>
-              <p class="eyebrow">K-map</p>
-              <h2 id="mapTitle">Generated table</h2>
+              <p class="eyebrow" data-i18n="kmap">K-map</p>
+              <h2 id="mapTitle" data-i18n="generatedTable">Tabella generata</h2>
             </div>
             <div id="mapLegend" class="map-legend"></div>
           </div>
@@ -77,10 +84,10 @@
         <section class="panel" aria-labelledby="groupsTitle">
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Grouping</p>
-              <h2 id="groupsTitle">Your groups</h2>
+              <p class="eyebrow" data-i18n="grouping">Raggruppamento</p>
+              <h2 id="groupsTitle" data-i18n="yourGroups">I tuoi gruppi</h2>
             </div>
-            <button id="clearGroups" class="button ghost" type="button" data-icon="x">Clear groups</button>
+            <button id="clearGroups" class="button ghost" type="button" data-icon="x" data-i18n="clearGroups">Pulisci gruppi</button>
           </div>
           <div id="groupList" class="group-list"></div>
         </section>
@@ -88,14 +95,24 @@
         <section class="panel" aria-labelledby="expressionTitle">
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Result</p>
-              <h2 id="expressionTitle">Coverage check</h2>
+              <p class="eyebrow" data-i18n="result">Risultato</p>
+              <h2 id="expressionTitle" data-i18n="coverageCheck">Controllo copertura</h2>
             </div>
+            <button id="revealSolution" class="button ghost" type="button" data-icon="!" data-i18n="revealExample">Mostra esempio</button>
           </div>
           <div id="expressionBox" class="expression-box"></div>
         </section>
       </section>
     </main>
+
+    <div class="info-modal hidden" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+      <div class="info-backdrop" data-modal-close></div>
+      <section class="info-card tutorial-card">
+        <button class="modal-close" type="button" data-modal-close aria-label="Chiudi" data-i18n-attr="aria-label:close">×</button>
+        <h2 id="infoModalTitle"></h2>
+        <div id="infoModalBody" class="info-body"></div>
+      </section>
+    </div>
 
     <script src="app.js"></script>
   </body>

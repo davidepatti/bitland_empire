@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="it">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,67 +10,75 @@
     <main class="app-shell">
       <header class="topbar">
         <div>
-          <h1>Sequential Circuits</h1>
+          <h1 data-i18n="appTitle">Circuiti sequenziali</h1>
         </div>
         <div class="topbar-actions">
-          <button id="loadExample" class="button ghost" type="button" data-icon="*">Example</button>
-          <button id="analyzeTop" class="button primary" type="button" data-icon=">">Analyze</button>
+          <label class="field language-field">
+            <span data-i18n="language">Lingua</span>
+            <select id="languageSelect">
+              <option value="it">Italiano</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+          <button id="tutorialButton" class="button ghost" type="button" data-icon="▶" data-i18n="tutorial">Tutorial</button>
+          <button id="loadExample" class="button ghost" type="button" data-icon="*" data-i18n="example">Esempio</button>
+          <button id="analyzeTop" class="button primary" type="button" data-icon=">" data-i18n="analyze">Analizza</button>
         </div>
       </header>
 
       <section class="tutorial-strip" aria-labelledby="tutorialTitle">
         <div class="tutorial-title">
-          <p class="eyebrow">Visual tutorial</p>
-          <h2 id="tutorialTitle">Complete the exercise in order</h2>
+          <p class="eyebrow" data-i18n="visualTutorial">Tutorial visuale</p>
+          <h2 id="tutorialTitle" data-i18n="completeInOrder">Completa l'esercizio in ordine</h2>
         </div>
         <nav class="workflow-rail" aria-label="Sequential circuit completion path">
           <button class="workflow-step" type="button" data-step-target="setupPanel">
             <span class="step-number">1</span>
             <span class="step-copy">
-              <span class="step-title">Define</span>
-              <span class="step-status">Structure</span>
+              <span class="step-title" data-i18n="define">Definisci</span>
+              <span class="step-status" data-i18n="structure">Struttura</span>
             </span>
           </button>
           <button class="workflow-step" type="button" data-step-target="diagramPanel">
             <span class="step-number">2</span>
             <span class="step-copy">
-              <span class="step-title">Diagram</span>
-              <span class="step-status">Graph</span>
+              <span class="step-title" data-i18n="diagram">Diagramma</span>
+              <span class="step-status" data-i18n="graph">Grafo</span>
             </span>
           </button>
           <button class="workflow-step" type="button" data-step-target="stateTablePanel">
             <span class="step-number">3</span>
             <span class="step-copy">
-              <span class="step-title">Table</span>
-              <span class="step-status">State rows</span>
+              <span class="step-title" data-i18n="table">Tabella</span>
+              <span class="step-status" data-i18n="stateRows">Righe stato</span>
             </span>
           </button>
           <button class="workflow-step" type="button" data-step-target="minimizationPanel">
             <span class="step-number">4</span>
             <span class="step-copy">
-              <span class="step-title">Reduce</span>
+              <span class="step-title" data-i18n="reduce">Riduci</span>
               <span class="step-status">Paull-Unger</span>
             </span>
           </button>
           <button class="workflow-step" type="button" data-step-target="transitionPanel">
             <span class="step-number">5</span>
             <span class="step-copy">
-              <span class="step-title">Encode</span>
-              <span class="step-status">Transitions</span>
+              <span class="step-title" data-i18n="encode">Codifica</span>
+              <span class="step-status" data-i18n="transitions">Transizioni</span>
             </span>
           </button>
           <button class="workflow-step" type="button" data-step-target="excitationPanel">
             <span class="step-number">6</span>
             <span class="step-copy">
-              <span class="step-title">Excite</span>
-              <span class="step-status">Flip-flops</span>
+              <span class="step-title" data-i18n="excite">Eccita</span>
+              <span class="step-status">Flip-flop</span>
             </span>
           </button>
           <button class="workflow-step" type="button" data-step-target="logicPanel">
             <span class="step-number">7</span>
             <span class="step-copy">
-              <span class="step-title">Logic</span>
-              <span class="step-status">Equations</span>
+              <span class="step-title" data-i18n="logic">Logica</span>
+              <span class="step-status" data-i18n="equations">Equazioni</span>
             </span>
           </button>
         </nav>
@@ -81,26 +89,26 @@
         <section id="setupPanel" class="panel setup-panel" aria-labelledby="setupTitle" data-workflow-panel>
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Step 1</p>
-              <h2 id="setupTitle">Machine definition</h2>
+              <p class="eyebrow" data-i18n="step1">Passo 1</p>
+              <h2 id="setupTitle" data-i18n="machineDefinition">Definizione macchina</h2>
             </div>
-            <button id="applyStructure" class="button" type="button" data-icon="+">Apply structure</button>
+            <button id="applyStructure" class="button" type="button" data-icon="+" data-i18n="applyStructure">Applica struttura</button>
           </div>
 
           <div class="config-grid">
             <label class="field">
-              <span>FSM type</span>
+              <span data-i18n="fsmType">Tipo FSM</span>
               <select id="fsmType">
                 <option value="mealy">Mealy</option>
                 <option value="moore">Moore</option>
               </select>
             </label>
             <label class="field">
-              <span>Input bits</span>
+              <span data-i18n="inputBits">Bit input</span>
               <input id="inputBits" type="number" min="1" max="3" value="1">
             </label>
             <label class="field">
-              <span>Output bits</span>
+              <span data-i18n="outputBits">Bit output</span>
               <input id="outputBits" type="number" min="1" max="3" value="1">
             </label>
             <label class="field">
@@ -113,21 +121,21 @@
               </select>
             </label>
             <label class="field wide">
-              <span>States</span>
+              <span data-i18n="states">Stati</span>
               <input id="stateList" type="text" spellcheck="false" value="A, B, C, D">
             </label>
           </div>
 
           <section id="mooreOutputSection" class="subsection hidden" aria-labelledby="mooreOutputTitle">
             <div class="subsection-head">
-              <h3 id="mooreOutputTitle">Moore output table</h3>
+              <h3 id="mooreOutputTitle" data-i18n="mooreOutputTable">Tabella output Moore</h3>
             </div>
             <div id="mooreOutputTable" class="table-wrap"></div>
           </section>
 
           <section class="subsection" aria-labelledby="transitionEditorTitle">
             <div class="subsection-head">
-              <h3 id="transitionEditorTitle">Transition editor table</h3>
+              <h3 id="transitionEditorTitle" data-i18n="transitionEditorTable">Tabella editor transizioni</h3>
             </div>
             <div id="transitionEditorTable" class="table-wrap"></div>
           </section>
@@ -138,17 +146,17 @@
         <section id="diagramPanel" class="panel diagram-panel" aria-labelledby="diagramTitle" data-workflow-panel>
           <div class="panel-head">
             <div>
-              <p class="eyebrow">Step 2</p>
-              <h2 id="diagramTitle">State diagram</h2>
+              <p class="eyebrow" data-i18n="step2">Passo 2</p>
+              <h2 id="diagramTitle" data-i18n="stateDiagram">Diagramma degli stati</h2>
             </div>
             <div class="button-row compact graph-toolbar">
               <button id="graphUndo" class="button ghost icon-only" type="button" data-icon="<" title="Undo" aria-label="Undo"></button>
               <button id="graphRedo" class="button ghost icon-only" type="button" data-icon=">" title="Redo" aria-label="Redo"></button>
-              <button id="graphAddState" class="button ghost" type="button" data-icon="+">State</button>
-              <button id="graphAddTransition" class="button ghost" type="button" data-icon="->">Transition</button>
+              <button id="graphAddState" class="button ghost" type="button" data-icon="+" data-i18n="state">Stato</button>
+              <button id="graphAddTransition" class="button ghost" type="button" data-icon="->" data-i18n="transition">Transizione</button>
               <button id="graphAutoLayout" class="button ghost" type="button" data-icon="o">Layout</button>
-              <button id="graphDelete" class="button ghost" type="button" data-icon="x">Delete</button>
-              <button id="graphApply" class="button primary" type="button" data-icon="✓">Apply graph</button>
+              <button id="graphDelete" class="button ghost" type="button" data-icon="x" data-i18n="delete">Elimina</button>
+              <button id="graphApply" class="button primary" type="button" data-icon="✓" data-i18n="applyGraph">Applica grafo</button>
             </div>
           </div>
           <div id="graphMessage" class="message-box graph-message">Graph draft ready.</div>
@@ -161,8 +169,8 @@
         <section id="stateTablePanel" class="panel step-panel" aria-labelledby="stateTableTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 3</p>
-              <h2 id="stateTableTitle">State table</h2>
+              <p class="eyebrow" data-i18n="step3">Passo 3</p>
+              <h2 id="stateTableTitle" data-i18n="stateTable">Tabella degli stati</h2>
             </div>
           </div>
           <div id="stateTable" class="table-wrap"></div>
@@ -171,8 +179,8 @@
         <section id="minimizationPanel" class="panel step-panel" aria-labelledby="minimizationTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 4</p>
-              <h2 id="minimizationTitle">Paull-Unger implication table</h2>
+              <p class="eyebrow" data-i18n="step4">Passo 4</p>
+              <h2 id="minimizationTitle" data-i18n="paullUngerTable">Tabella di implicazione Paull-Unger</h2>
             </div>
           </div>
           <div id="implicationSummary" class="message-box"></div>
@@ -183,8 +191,8 @@
         <section id="transitionPanel" class="panel step-panel" aria-labelledby="transitionTableTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 5</p>
-              <h2 id="transitionTableTitle">Transition table</h2>
+              <p class="eyebrow" data-i18n="step5">Passo 5</p>
+              <h2 id="transitionTableTitle" data-i18n="transitionTable">Tabella transizioni</h2>
             </div>
           </div>
           <div id="transitionTable" class="table-wrap"></div>
@@ -193,8 +201,8 @@
         <section id="excitationPanel" class="panel step-panel" aria-labelledby="excitationTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 6</p>
-              <h2 id="excitationTitle">Excitation tables</h2>
+              <p class="eyebrow" data-i18n="step6">Passo 6</p>
+              <h2 id="excitationTitle" data-i18n="excitationTables">Tabelle di eccitazione</h2>
             </div>
           </div>
           <div id="excitationStatus" class="message-box"></div>
@@ -205,8 +213,8 @@
         <section id="logicPanel" class="panel step-panel full-span" aria-labelledby="logicTitle" data-workflow-panel>
           <div class="panel-head compact-head">
             <div>
-              <p class="eyebrow">Step 7</p>
-              <h2 id="logicTitle">Next-state and output logic</h2>
+              <p class="eyebrow" data-i18n="step7">Passo 7</p>
+              <h2 id="logicTitle" data-i18n="nextStateLogic">Logica di stato prossimo e output</h2>
             </div>
           </div>
           <div id="logicEquations" class="equation-grid"></div>
@@ -214,6 +222,15 @@
         </section>
       </section>
     </main>
+
+    <div class="info-modal hidden" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+      <div class="info-backdrop" data-modal-close></div>
+      <section class="info-card tutorial-card">
+        <button class="modal-close" type="button" data-modal-close aria-label="Chiudi" data-i18n-attr="aria-label:close">×</button>
+        <h2 id="infoModalTitle"></h2>
+        <div id="infoModalBody" class="info-body"></div>
+      </section>
+    </div>
 
     <script src="app.js"></script>
   </body>

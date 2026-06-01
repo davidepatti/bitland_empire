@@ -1,0 +1,24 @@
+{
+  "slug": "mips64-hazards",
+  "version": "1.0.0",
+  "productName": "MIPS64 Hazard Lab",
+  "appId": "it.bitland.mips64hazards",
+  "description": "Clickable MIPS64 pipeline hazard visualizer for instruction-pair combinations with and without forwarding.",
+  "author": "PIPELINESIM",
+  "license": "MIT",
+  "entry": "index.html",
+  "webAssets": [
+    "index.html",
+    "styles.css",
+    "app.js"
+  ],
+  "electron": {
+    "width": 1440,
+    "height": 900,
+    "minWidth": 1040,
+    "minHeight": 720,
+    "backgroundColor": "#f5f2ea",
+    "macCategory": "public.app-category.education",
+    "linuxCategory": "Education"
+  }
+}
