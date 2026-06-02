@@ -2,6 +2,8 @@
 
 Small teaching tools, kept as independent apps under `tools/`.
 
+Download the current packaged hub from the [latest Bitland Empire release](https://github.com/davidepatti/bitland_empire/releases/latest).
+
 ## Tools
 
 - `tools/cpu-spy` - clickable MIPS64 datapath and instruction execution demo.
