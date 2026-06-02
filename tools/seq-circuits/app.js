@@ -145,6 +145,7 @@ const italianText = {
   "Ready.": "Pronto.",
   "Structure applied.": "Struttura applicata.",
   "Exercise generated.": "Esercizio generato.",
+  "Analysis updated.": "Analisi aggiornata.",
   "Reducible Mealy example loaded.": "Esempio Mealy riducibile caricato.",
   "Graph draft ready.": "Bozza grafo pronta.",
   "Graph draft matches the applied machine.": "La bozza del grafo coincide con la macchina applicata.",
@@ -469,7 +470,7 @@ function init() {
   });
 
   els.analyzeTop.addEventListener("click", () => {
-    applyStructureFromControls();
+    analyzeFromTopBar();
   });
 
   els.loadExample.addEventListener("click", () => {
@@ -561,7 +562,7 @@ function updateWorkflowGuide() {
     return;
   }
 
-  renderNextStepCard("Sequence complete", "The generated tables and logic now follow the ordered path.");
+  els.nextStepCard.classList.add("hidden");
 }
 
 function workflowStepState(target, currentTarget, hasErrors, pendingGraph) {
@@ -581,6 +582,7 @@ function workflowStatusText(target, state) {
 }
 
 function renderNextStepCard(title, detail) {
+  els.nextStepCard.classList.remove("hidden");
   els.nextStepCard.innerHTML = [
     `<p class="eyebrow">${escapeHtml(localizeText("Next"))}</p>`,
     `<h3>${escapeHtml(localizeText(title))}</h3>`,
@@ -637,12 +639,25 @@ function writeControlsFromMachine(value) {
   els.stateList.value = value.states.map(state => state.name).join(", ");
 }
 
-function applyStructureFromControls() {
+function applyStructureFromControls(message = "Structure applied.") {
   const previous = readEditorLenient();
   machine = buildMachineFromControls(previous);
   writeControlsFromMachine(machine);
   renderEditor();
-  analyzeCurrent("Structure applied.");
+  return analyzeCurrent(message);
+}
+
+function analyzeFromTopBar() {
+  if (graphDirty) {
+    setGraphMessage("Graph edits are staged. Apply the graph before using the generated tables.", "warn");
+    updateWorkflowGuide();
+    document.getElementById("diagramPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  const ok = applyStructureFromControls("Analysis updated.");
+  const target = document.getElementById(ok ? "stateTablePanel" : "setupPanel");
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function buildMachineFromControls(previous) {
@@ -812,7 +827,7 @@ function analyzeCurrent(message = "Exercise generated.") {
   if (strict.errors.length) {
     setMessage(els.inputMessage, strict.errors[0], "bad");
     updateWorkflowGuide();
-    return;
+    return false;
   }
 
   machine = strict.value;
@@ -827,6 +842,7 @@ function analyzeCurrent(message = "Exercise generated.") {
   renderLogicSection(analysis);
   setMessage(els.inputMessage, message, "good");
   updateWorkflowGuide();
+  return true;
 }
 
 function renderEditor() {

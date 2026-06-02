@@ -14,9 +14,36 @@ Download the current packaged hub from the [latest Bitland Empire release](https
 
 Each tool owns its web files and declares desktop packaging metadata in `tool.json`. Shared Electron development and packaging live under `scripts/electron/`.
 
+### Tool previews
+
+Click any preview to open the full-size screenshot.
+
+#### Karnaugh tables
+
+[![Karnaugh table grouping exercise](docs/screenshots/thumbs/karnaugh-tables.png)](docs/screenshots/karnaugh-tables.png)
+
+#### qmc-sim
+
+[![Quine-McCluskey simulator progression view](docs/screenshots/thumbs/qmc-sim.png)](docs/screenshots/qmc-sim.png)
+
+#### Sequential circuits
+
+[![Sequential circuits state diagram editor](docs/screenshots/thumbs/seq-circuits-diagram.png)](docs/screenshots/seq-circuits-diagram.png)
+[![Sequential circuits generated analysis tables](docs/screenshots/thumbs/seq-circuits-analysis.png)](docs/screenshots/seq-circuits-analysis.png)
+
+#### CPU Spy
+
+[![CPU Spy MIPS64 datapath instruction fetch view](docs/screenshots/thumbs/cpu-spy.png)](docs/screenshots/cpu-spy.png)
+
+#### MIPS64 Hazard Lab
+
+[![MIPS64 Hazard Lab clock-cycle pipeline view](docs/screenshots/thumbs/mips64-hazard-lab.png)](docs/screenshots/mips64-hazard-lab.png)
+
 ## Unified hub
 
 Bitland Empire is the guarded exam-use package. It opens a visual hub first, then launches each tool in its own Electron window after the hub is unlocked:
+
+[![Bitland Empire quick-launch hub](docs/screenshots/thumbs/bitland-hub-tools.png)](docs/screenshots/bitland-hub-tools.png)
 
 ```bash
 npm run start:hub
@@ -61,6 +88,8 @@ npm run package:hub
 ```
 
 When a student opens Bitland Empire, ask for the displayed `BIT-...` computer code and issue an unlock code:
+
+[![Bitland Empire exam unlock prompt with computer code and unlock code field](docs/screenshots/thumbs/bitland-hub-unlock-code.png)](docs/screenshots/bitland-hub-unlock-code.png)
 
 ```bash
 ./unlock <BIT-...>
